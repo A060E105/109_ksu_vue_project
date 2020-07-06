@@ -40,4 +40,5 @@ Closes OR-xxxx
 
 #### \<Footer\>
 如果是要關閉特定 Issue 或 Bug. 可以使用 Closes PROJECT-1 or Resolves PROJECT-1 or Fixes PROJECT-1
+
 具體清參考 https://docs.gitlab.com/ee/user/project/integrations/jira.html
