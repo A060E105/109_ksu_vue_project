@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+	<title>JS Bin</title>
+</head>
+<body>
+  <div id="app">
+	  {{message}}, {{name}}
+	  <br/>
+	<input v-model="name"/>
+    <ul>
+      <li v-for="color in colors" @click="mycolor(color)">{{color}}</li>
+    </ul>
+
+	<h1>{{score}}</h1>
+	<button @click="add()">add</button>
+	<button @click="del()">del</button>
+  </div>
+
+  
+<script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+<script>
+	var app = new Vue({
+		el: "#app",
+		data:{
+			name: '',
+			message: "Hello",
+			colors:['red', 'blue', 'green'],
+			score: 0
+		},
+		methods: {
+			add: function() {
+				this.score += 1;
+			},
+			del: function() {
+				this.score -= 1;
+			},
+			mycolor: function(color) {
+				console.log(color);
+				// alert(color);
+			}
+		}
+	});	
+</script>
+</body>
+</html>
