@@ -3,25 +3,50 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-	<title>JS Bin</title>
+	<title>test</title>
 </head>
 <body>
 
 	<div id='app'>
-		<input type='text' v-model='newtodo' @keyup.enter='addtodo()'/>
-		<br/>
-		<ul>
-			<li v-for='todo in todolist'>
-				{{ todo.todo }}
-				--
-				<button @click='toggle(todo)'>complete</button>
-				<button @click='removetodo(todo)'>delete</button>
-			</li>
-		</ul>
+		<input type='text' v-model='newtodo' @keyup.enter='addtodo()'>
+		<todo-list
+			v-for='(todoitem, index) in todolist'
+			:todo='todoitem'
+			@toggle='toggleComplete(todoitem)'
+			@removetodo='removetodo(index)'
+			:key='todoitem.title'
+		></todo-list>
 	</div>
+
   
 <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
 <script>
+
+
+	Vue.component('todo-list', {
+		props: {
+			todo: {}
+		},
+		template: `
+			<ul>
+				<li v-if='!todo.complete'>
+					{{ todo.title }}
+					--
+					<button @click="$emit('toggle')">complete</button>
+					<button @click="$emit('removetodo')">delete</button>
+				</li>
+				<li v-else>
+					<del>
+						{{ todo.title }}
+					</del>
+					--
+					<button @click="$emit('toggle')">complete</button>
+					<button @click="$emit('removetodo')">delete</button>
+				</li>
+			</ul>
+		`
+	});
+
 	var app = new Vue({
 		el: '#app',
 		data: {
@@ -30,14 +55,13 @@
 		},
 		methods: {
 			addtodo: function() {
-				this.todolist.push({todo: this.newtodo, complete: false});
+				this.todolist.push({title: this.newtodo, complete: false});
 			},
-			removetodo: function(todo) {
-				this.todolist.splice(this.todolist.indexOf(todo), 1);
+			removetodo: function(index) {
+				this.todolist.splice(index, 1);
 			},
-			toggle: function(todo) {
-				this.todolist[this.todolist.indexOf(todo)].complete = !todo.complete;
-				// console.log(todo.complete);
+			toggleComplete: function(todo) {
+				todo.complete = !todo.complete;
 			}
 		}
 	});
