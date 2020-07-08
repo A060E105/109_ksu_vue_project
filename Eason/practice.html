@@ -1,40 +1,34 @@
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-	<title>JS Bin</title>
-</head>
-<body>
 
-	<div id="app"><input type="text"> 
-	<br>
-	<ul></ul>
+<HTML>
+　<HEAD>
+　　<TITLE>網頁</TITLE>
+　　<Meta>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+　</HEAD>
+　<BODY>
+<style type="text/css">
+
+</style>
+	<div id="vue_det">
+    <h1>site : {{site}}</h1>
+    <h1>url : {{url}}</h1>
+    <h1>{{details()}}</h1>
 </div>
-  
-<script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-<script>
 
-	var app = new Vue({
-		el: '#app',
-		data: {
-			newtodo: '',
-			todolist: []
-		},
-		methods: {
-			addtodo: function() {
-				this.todolist.push({todo: this.newtodo, complete: false});
-			},
-			removetodo: function(todo) {
-				this.todolist.splice(this.todolist.indexOf(todo), 1);
-			},
-			toggle: function(todo) {
-				this.todolist[this.todolist.indexOf(todo)].complete = !todo.complete;
-				// console.log(todo.complete);
-			}
-		}
-	});
+<script type="text/javascript">
+    var vm = new Vue({
+        el: '#vue_det',
+        data: {
+            site: "練習1",
+            url: "練習2",
+            alexa: "練習3"
+        },
+        methods: {
+            details: function() {
+                return    "練習4";
+            }
+        }
+    })
 </script>
-
-
-</body>
-</html>
+　</BODY>
+</HTML>
