@@ -1,0 +1,40 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>新增刪除</title>
+</head>
+<body>
+<div id="app">
+  <input v-model="newRow" v-on:keyup.enter="addRow">
+  <ul>
+  <li v-for="(row,index) in rows">
+  <span>{{ row.text }}</span>
+  <button v-on:click="removeRow(index)">刪除</button>
+  </li>
+  </ul>
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            newRow: '',
+            rows: [{}]
+        },
+        methods: {
+            addRow: function () {
+                var text = this.newRow.trim()
+                if (text) {
+                    this.rows.push({text:text })
+                    this.newRow = ''
+                }
+            },
+            removeRow: function (index) {
+                this.rows.splice(index, 1)
+            }
+        }
+    })
+</script>
+</html>
+
