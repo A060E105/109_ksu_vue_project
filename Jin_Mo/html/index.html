@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+	<title>JS Bin</title>
+</head>
+<body>
+
+	<div id='app'>
+		<input type='text' v-model='newtodo' @keyup.enter='addtodo()'/>
+		<br/>
+		<ul>
+			<li v-for='todo in todolist'>
+				{{ todo.todo }}
+				--
+				<button @click='toggle(todo)'>complete</button>
+				<button @click='removetodo(todo)'>delete</button>
+			</li>
+		</ul>
+	</div>
+  
+<script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+<script>
+	var app = new Vue({
+		el: '#app',
+		data: {
+			newtodo: '',
+			todolist: []
+		},
+		methods: {
+			addtodo: function() {
+				this.todolist.push({todo: this.newtodo, complete: false});
+			},
+			removetodo: function(todo) {
+				this.todolist.splice(this.todolist.indexOf(todo), 1);
+			},
+			toggle: function(todo) {
+				this.todolist[this.todolist.indexOf(todo)].complete = !todo.complete;
+				// console.log(todo.complete);
+			}
+		}
+	});
+</script>
+</body>
+</html>
