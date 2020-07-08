@@ -1,0 +1,42 @@
+<html>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<body>
+
+<div id="app">
+  <input type="text" v-model="newAddText" placeholder="請輸入文字">
+  <button v-on:click='addNewList'>新增</button>
+
+  <ul>
+        <li v-for='(list,index) in lists' v-bind:key='list.id'>
+            <input type="checkbox">
+            {{list.title}} <button v-on:click='lists.splice(index, 1)'>刪除</button>
+        </li>
+  </ul>
+</div>
+
+<script>
+var app = new Vue({
+    el:'#app',
+    data:{
+        newAddText:'',
+             lists:[
+
+
+             ],
+             nextTodoId: 0
+         },
+    methods:{
+     addNewList:function(){
+         this.lists.push({
+             id:this.nextTodoId++,
+             title:this.newAddText
+         })
+         this.newAddText=''
+    }
+ } 
+    });
+    
+</script>
+
+</body>
+</html>
