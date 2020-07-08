@@ -7,16 +7,21 @@
 　</HEAD>
 　<BODY>
 <style type="text/css">
-
+h1 {											/*對應下面的h，會有所改變*/
+  color:red;
+}
+p { color: #00FF00; }  							/*對應下面的p，會有所改變*/
+strong { font-size:20px; }
 </style>
+<p>原本是這樣 <strong>我變不一樣</strong></p>    <!-- 對應上面的p，會有所改變 --> <!-- 有strong會變不一樣 -->
 	<div id="vue_det">
-    <h1>site : {{site}}</h1>
+    <h1>site : {{site}}</h1>					<!-- 對應上面的h，會有所改變 -->
     <h1>url : {{url}}</h1>
     <h1>{{details()}}</h1>
 </div>
 
 <script type="text/javascript">
-    var vm = new Vue({
+    var vm = new Vue({						
         el: '#vue_det',
         data: {
             site: "練習1",
@@ -25,7 +30,7 @@
         },
         methods: {
             details: function() {
-                return    "練習4";
+                return  this.alexa + "練習4";
             }
         }
     })
