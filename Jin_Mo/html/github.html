@@ -14,8 +14,9 @@
 				   v-model="currentBranch">
 			{{ branch }}
 		</template>
+		<p>A060E105/109_ksu_vue_project@{{ currentBranch }}</p>
 		<ul>
-			<li v-for='(record, index) in commits'>
+			<li v-for="record in commits">
 				{{ record.commit.message }}
 			</li>
 		</ul>
@@ -32,8 +33,9 @@
 				currentBranch: 'master',
 				commits: null
 			},
-			updated: function() {
+			created: function() {
 				this.fetchData();
+				console.log("created");
 			},
 			watch: {
 				currentBranch: 'fetchData'
@@ -41,11 +43,12 @@
 			methods: {
 				fetchData() {
 					var xmlhttp = new XMLHttpRequest();
-					xmlhttp.open("GET", apiURL + this.currentBranch);
+					var self = this;
+					xmlhttp.open("GET", apiURL + self.currentBranch);
 					xmlhttp.onload = function () {
-						this.commits = JSON.parse(xmlhttp.responseText);
-						console.log(this.commits);
-						console.log(this.commits[0].commit.message);
+						self.commits = JSON.parse(xmlhttp.responseText);
+						console.log(self.commits);
+						console.log(self.commits[0].commit.message);
 					}
 					xmlhttp.send();
 				}
