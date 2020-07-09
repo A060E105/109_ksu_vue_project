@@ -8,61 +8,31 @@
 <body>
 
 	<div id='app'>
-		<input type='text' v-model='newtodo' @keyup.enter='addtodo()'>
-		<todo-list
-			v-for='(todoitem, index) in todolist'
-			:todo='todoitem'
-			@toggle='toggleComplete(todoitem)'
-			@removetodo='removetodo(index)'
-			:key='todoitem.title'
-		></todo-list>
+		<button-demo title='This is button one.'></button-demo>
+		<button-demo title='This is button two.'></button-demo>
+		<button-demo title='This is button three.'></button-demo>
 	</div>
 
   
 <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+<script src="https://unpkg.com/vuex@2.0.0"></script>
 <script>
-
-
-	Vue.component('todo-list', {
-		props: {
-			todo: {}
+	var buttonDemo = {
+		props: [ 'title' ],
+		data() {
+			return {
+				count: 0
+			}
 		},
 		template: `
-			<ul>
-				<li v-if='!todo.complete'>
-					{{ todo.title }}
-					--
-					<button @click="$emit('toggle')">complete</button>
-					<button @click="$emit('removetodo')">delete</button>
-				</li>
-				<li v-else>
-					<del>
-						{{ todo.title }}
-					</del>
-					--
-					<button @click="$emit('toggle')">complete</button>
-					<button @click="$emit('removetodo')">delete</button>
-				</li>
-			</ul>
+			<button type='button' @click='count++'>{{ title }}  count is {{ count }}</button>
 		`
-	});
+	};
 
 	var app = new Vue({
 		el: '#app',
-		data: {
-			newtodo: '',
-			todolist: []
-		},
-		methods: {
-			addtodo: function() {
-				this.todolist.push({title: this.newtodo, complete: false});
-			},
-			removetodo: function(index) {
-				this.todolist.splice(index, 1);
-			},
-			toggleComplete: function(todo) {
-				todo.complete = !todo.complete;
-			}
+		components: {
+			'button-demo': buttonDemo
 		}
 	});
 </script>
