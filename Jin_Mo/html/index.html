@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+	<title>test</title>
+</head>
+<body>
+
+	<div id='app'>
+		<button-demo title='This is button one.'></button-demo>
+		<button-demo title='This is button two.'></button-demo>
+		<button-demo title='This is button three.'></button-demo>
+	</div>
+
+  
+<script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+<script src="https://unpkg.com/vuex@2.0.0"></script>
+<script>
+	var buttonDemo = {
+		props: [ 'title' ],
+		data() {
+			return {
+				count: 0
+			}
+		},
+		template: `
+			<button type='button' @click='count++'>{{ title }}  count is {{ count }}</button>
+		`
+	};
+
+	var app = new Vue({
+		el: '#app',
+		components: {
+			'button-demo': buttonDemo
+		}
+	});
+</script>
+</body>
+</html>
