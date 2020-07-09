@@ -8,11 +8,8 @@
 <body>
 
 	<div id='app'>
-		<p>{{ count }}</p>
-		<p>
-			<button @click='increment'>increment</button>
-			<button @click='decrease'>decrease</button>
-		</p>
+		<input type='text' v-model='newname' @keyup.enter='changename()'>
+		<p>your name is {{ username }}.</p>
 	</div>
 
   
@@ -21,14 +18,11 @@
 <script>
 	const store = new Vuex.Store({
 		state: {
-			count: 0
+			name: 'john'
 		},
 		mutations: {
-			increment (state) {
-				state.count++;
-			},
-			decrease (state) {
-				state.count--;
+			changename(state, newname) {
+				state.name = newname;
 			}
 		}
 	});
@@ -36,19 +30,18 @@
 	var app = new Vue({
 		el: '#app',
 		store: store,
+		data: {
+			newname: ''
+		},
 		computed: {
-			count() {
-				return this.$store.state.count;
+			username() {
+				return store.state.name;
 			}
 		},
 		methods: {
-			increment() {
-				this.$store.commit('increment');
-				console.log(this.$store.state.count);
-			},
-			decrease() {
-				this.$store.commit('decrease');
-				console.log(this.$store.state.count);
+			changename() {
+				store.commit('changename', this.newname);
+				console.log("store", this.$store.state.name);
 			}
 		}
 	});
