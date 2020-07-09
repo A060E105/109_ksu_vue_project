@@ -8,9 +8,32 @@
 <body>
 
 	<div id='app'>
-		<input type='text' v-model='newname' @keyup.enter='changename()'>
-		<p>your name is {{ username }}.</p>
+		<input type='text' v-model='newtodo' @keyup.enter='addTodo()'>
+		<todo-list
+			v-for='(todoitem, index) in this.$store.state.todolist'
+			:key='index'
+			:todo='todoitem'
+			@toggledone='toggleDone(todoitem)'
+			@removetodo='removeTodo(index)'
+		></todo-list>
 	</div>
+
+	<template id="todo-list">
+		<ul>
+			<li v-if='!todo.done'>
+				{{ todo.text }}
+				--
+				<button @click=$emit('toggledone')>done</button>
+				<button @click=$emit('removetodo')>delete</button>
+			</li>
+			<li v-else>
+				<del> {{ todo.text }} </del>
+				--
+				<button @click=$emit('toggledone')>undone</button>
+				<button @click=$emit('removetodo')>delete</button>
+			</li>
+		</ul>
+	</template>
 
   
 <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
@@ -18,30 +41,53 @@
 <script>
 	const store = new Vuex.Store({
 		state: {
-			name: 'john'
+			todolist: [ {
+				text: 'go to sleep',
+				done: true
+			},
+			{
+				text: 'go home',
+				done: false
+			}]
 		},
 		mutations: {
-			changename(state, newname) {
-				state.name = newname;
+			addTodo(state, newtodo) {
+				state.todolist.push(newtodo);
+			},
+			removeTodo(state, index) {
+				state.todolist.splice(index, 1);
 			}
 		}
+	});
+
+	Vue.component('todo-list', {
+		props: {
+			todo: Object
+		},
+		template: '#todo-list'
 	});
 
 	var app = new Vue({
 		el: '#app',
 		store: store,
 		data: {
-			newname: ''
-		},
-		computed: {
-			username() {
-				return store.state.name;
-			}
+			newtodo: ''
 		},
 		methods: {
-			changename() {
-				store.commit('changename', this.newname);
-				console.log("store", this.$store.state.name);
+			addTodo() {
+				store.commit('addTodo', {
+					text: this.newtodo,
+					done: false
+				});
+				console.log("addTodo");
+			},
+			removeTodo(index) {
+				store.commit('removeTodo', index);
+				console.log("removeTodo");
+			},
+			toggleDone(todo) {
+				todo.done = !todo.done;
+				console.log(todo.done);
 			}
 		}
 	});
