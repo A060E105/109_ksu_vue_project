@@ -9,8 +9,10 @@
 
 	<div id='app'>
 		<input type='text' v-model='newtodo' @keyup.enter='addTodo()'>
+		<!-- 資料存放與 store.state 中 -->
+		<!-- 取用可以使用 this.store.state.todolist 或是 $store.state.todolist -->
 		<todo-list
-			v-for='(todoitem, index) in this.$store.state.todolist'
+			v-for='(todoitem, index) in $store.state.todolist'
 			:key='index'
 			:todo='todoitem'
 			@toggledone='toggleDone(todoitem)'

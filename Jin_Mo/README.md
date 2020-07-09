@@ -11,5 +11,17 @@ new Vue({
 	methods,		// 定義可以在元件或樣板內使用的方法
 	propaData,		// 存放預設的 propss 內容，方便測試用
 	replace			// 要不要用 template 取代 el 指向的 DOM Element ，預設為 true
-})
+});
+
+// Vuex 基本架構
+new Vuex.Store({
+	state: {
+		// 存放資料的地方
+		name: 'Jin'
+	},
+	mutations: {
+		// 更改Vuex的store中的狀態的唯一方法是提交mutation
+		// 可以通過 this.$store.state.name 的方式訪問
+	}
+});
 ```
