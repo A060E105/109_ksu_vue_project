@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<head>
+	<meta charset='utf-8'>
+	<title>Vue slot</title>
+</head>
+<body>
+
+	<p><h1>Vue slot</h1></p>
+
+	<div id='app'>
+		<slot-demo>
+			hello
+			<div slot='title'>
+				world
+			</div>
+		</slot-demo>
+	</div>
+
+	<template id='slot-demo'>
+		<div>
+			<p><h1>vue slot test</h1></p>
+			<slot>default</slot>
+			<slot name='title'>default title</slot>
+		</div>
+	</template>
+
+	<script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+	<script>
+		Vue.component('slot-demo', {
+			template: '#slot-demo'
+		});
+
+		var app = new Vue({
+			el: '#app'
+		});
+	</script>
+</body>
+</html>
