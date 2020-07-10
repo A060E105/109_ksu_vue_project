@@ -17,6 +17,10 @@
 		<p>A060E105/109_ksu_vue_project@{{ currentBranch }}</p>
 		<ul>
 			<li v-for="record in commits">
+				{{ record.commit.author.name }}
+				--
+				{{ record.commit.author.date }}
+				--
 				{{ record.commit.message }}
 			</li>
 		</ul>
