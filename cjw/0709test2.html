@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style>
+		body{
+			background-color: #7894B9;
+			font-family: Microsoft JhengHei;
+		}
+		#root{
+			position: absolute;
+			width: 400px;
+			top:3%;
+			left:5%;
+			background-color: #9B98A8;
+			background: center;
+		}
+		#root button{
+			width:50px;
+			height:30px;
+			color: #AA8E99;
+			//background-color: #FFF5F4;
+			border-radius:25px;
+			//box-shadow: 5px 10px 10px gray;
+			border-style:dashed;
+			border-color: #7894B9;
+			font-family: Microsoft JhengHei;
+			margin:3px;
+		}
+        #root input{
+        	width:160px;height:30px;
+        	border-radius:30px;
+        	border-style:none;
+        	text-align:center;
+        	font-family: Microsoft JhengHei;
+        	margin:4px;
+        }
+        //.placeholder{
+        	text-align:center;
+        }
+        .list{
+        	font-size: 25px;
+        	//text-decoration: line-through;
+        }
+
+       /* #text1{
+        	position: absolute;
+        	font-size: 28px;
+        	color: #4B4850;
+        	top:3%;
+        	left:22%;
+        	//background-color: #EDEFFB;
+        	//border-radius:25px;
+        }
+        text-decoration line-through*/P
+	</style>
+</head>
+<body>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <!--<h1 id="text1">共有  件</h1>-->
+<div id="root">
+        <input v-model="work" placeholder="輸入文字" @keyup.enter="handleSubmit"  >    </input>
+        <button @click="handleSubmit" >新增</button>
+        <button @click="handleDelete" >刪除</button>
+        <div></div>
+        <ul>
+            <!-- 子組件 -->
+            <todo-item v-for="(item,index) of list"
+            :key="index"
+            :content="item"
+            :index="index"
+            @delete="handleDelete(index)"
+            >
+            </todo-item>            
+        </ul>
+      </div>
+      <script>
+        // 全局組件
+        Vue.component('todo-item',{
+            // 傳入參數
+            props: ['content','index'],
+            template: '<li @click="handleClick">{{content}}</li>',
+            methods: {
+                handleClick: function() {
+                    // 子組件自已，發射訊息給父組件
+                    this.$emit('delete', this.index)
+                }
+            }
+        })
+        new Vue({
+            el: "#root",
+            data: {
+                 work: '',
+                //new JCheckBox: '',
+                list: [],
+            },
+   
+            methods: {
+                handleSubmit: function() {
+                     this.list.push(this.work)
+                     this.work = ''
+                },
+                handleDelete: function(index) {
+                    this.list.splice(index,1)
+                }
+            }
+        })
+        
+      </script>
+
+
+</body>
+</html>
