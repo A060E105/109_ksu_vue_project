@@ -10,9 +10,9 @@
  <input v-model="newAddText" placeholder="請輸入要新增的內容" />
     <button @click='addNewList'>新增</button>
     <ul>
-        <li v-for='(list,index) in lists' v-bind:key='list.id'>
+        <li v-for='(AAAA,index) in lists' v-bind:key='AAAA.id'>
           <input type="checkbox">
-            {{list.title}} <button v-on:click='lists.splice(index, 1)'>刪除</button>
+            {{AAAA.title}} <button v-on:click='lists.splice(index, 1)'>刪除</button>
         </li>
     </ul>
 </div>
