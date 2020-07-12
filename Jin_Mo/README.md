@@ -10,6 +10,35 @@ new Vue({
 	components,		// 定義子元件，可用 ES6 簡寫法，例如 { MyHeader }
 	methods,		// 定義可以在元件或樣板內使用的方法
 	propaData,		// 存放預設的 propss 內容，方便測試用
-	replace			// 要不要用 template 取代 el 指向的 DOM Element ，預設為 true
-})
+	replace,		// 要不要用 template 取代 el 指向的 DOM Element ，預設為 true
+	// ===============
+	// 生命週期 
+	// ===============
+	beforeCreate,
+	created,
+	beforeMount,
+	mounted,
+	beforeUpdate,
+	updated,
+	activated,
+	deactivated,
+	beforeDestroy,
+	destroyed
+});
+
+
+
+// Vuex 基本架構
+new Vuex.Store({
+	state: {
+		// 存放資料的地方
+		name: 'Jin'
+	},
+	mutations: {
+		// 更改Vuex的store中的狀態的唯一方法是提交mutation
+		// 可以通過 this.$store.state.name 的方式訪問
+	}
+});
 ```
+
+![lifecycle](https://cn.vuejs.org/images/lifecycle.png)

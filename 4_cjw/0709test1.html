@@ -23,6 +23,7 @@
 			border-radius:25px;
 			//box-shadow: 5px 10px 10px gray;
 			border-style:dashed;
+			border-color: #7894B9;
 			font-family: Microsoft JhengHei;
 			margin:3px;
 		}
@@ -39,8 +40,9 @@
         }
         .list{
         	font-size: 25px;
-        	text-decoration: line-through;
+        	//text-decoration: line-through;
         }
+
        /* #text1{
         	position: absolute;
         	font-size: 28px;
@@ -50,17 +52,22 @@
         	//background-color: #EDEFFB;
         	//border-radius:25px;
         }
-        text-decoration line-through*/
+        text-decoration line-through*/P
 	</style>
 </head>
 <body>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
         <!--<h1 id="text1">共有  件</h1>-->
 <div id="root">
+    searchText = {{searchText}}
+    <br>
+    <!-- <input v-model="searchText"> -->
+    <input id="fname" v-bind:value="searchText" v-on:input="searchText = $event.target.id">
+
         <input v-model="work" placeholder="輸入文字" @keyup.enter="handleSubmit"  >    </input>
         <button @click="handleSubmit" >新增</button>
         <button @click="handleDelete" >刪除</button>
-        <div>{{work}}</div>
+        
         <ul>
             <!-- 子組件 -->
             <todo-item v-for="(item,index) of list"
@@ -77,10 +84,14 @@
         Vue.component('todo-item',{
             // 傳入參數
             props: ['content','index'],
-            template: '<li @click="handleClick">{{content}}</li>',
+            template: `<li @click="handleClick">{{content}}</li>`,
+            // template: '<li @click="$emit(\'delete\',this.index)">{{content}}</li>',
+            // template: '<li @click="$emit(\'delete\',this.index)">{{content}}</li>',
             methods: {
                 handleClick: function() {
+
                     // 子組件自已，發射訊息給父組件
+                    console.log('enter handleClick')
                     this.$emit('delete', this.index)
                 }
             }
@@ -88,7 +99,8 @@
         new Vue({
             el: "#root",
             data: {
-                //work: '',
+                searchText :'',                
+                work: '',
                 //new JCheckBox: '',
                 list: [],
             },
@@ -99,6 +111,7 @@
                      this.work = ''
                 },
                 handleDelete: function(index) {
+                    // this.searchText = 'searchText'
                     this.list.splice(index,1)
                 }
             }

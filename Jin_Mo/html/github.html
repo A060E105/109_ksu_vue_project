@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<head>
+	<meta charset='utf-8'/>
+	<title>vue project</title>
+</head>
+<body>
+
+	<p><h1>109_ksu_vue_project</h1></p>
+	<div id='app'>
+		<button @click='fetchData()'>touch me</button>
+		<template v-for="branch in branches">
+			<input type="radio"
+				   :value="branch"
+				   v-model="currentBranch">
+			{{ branch }}
+		</template>
+		<p>A060E105/109_ksu_vue_project@{{ currentBranch }}</p>
+		<ul>
+			<li v-for="record in commits">
+				{{ record.commit.author.name }}
+				--
+				{{ record.commit.author.date }}
+				--
+				{{ record.commit.message }}
+			</li>
+		</ul>
+	</div>
+
+	<script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+	<script>
+		var apiURL = 'https://api.github.com/repos/A060E105/109_ksu_vue_project/commits?per_page=3&sha=';
+
+		var app = new Vue({
+			el: '#app',
+			data: {
+				branches: ['master', 'front_end', 'back_end', 'exercise'],
+				currentBranch: 'master',
+				commits: null
+			},
+			created: function() {
+				this.fetchData();
+				console.log("created");
+			},
+			watch: {
+				currentBranch: 'fetchData'
+			},
+			methods: {
+				fetchData() {
+					var xmlhttp = new XMLHttpRequest();
+					var self = this;
+					xmlhttp.open("GET", apiURL + self.currentBranch);
+					xmlhttp.onload = function () {
+						self.commits = JSON.parse(xmlhttp.responseText);
+						console.log(self.commits);
+						console.log(self.commits[0].commit.message);
+					}
+					xmlhttp.send();
+				}
+			}
+		});
+	</script>
+</body>
+</html>

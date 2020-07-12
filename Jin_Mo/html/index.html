@@ -9,28 +9,30 @@
 
 	<div id='app'>
 		<input type='text' v-model='newtodo' @keyup.enter='addTodo()'>
-		<todo-list
-			v-for='(todoitem, index) in this.$store.state.todolist'
-			:key='index'
-			:todo='todoitem'
-			@toggledone='toggleDone(todoitem)'
-			@removetodo='removeTodo(index)'
-		></todo-list>
+		<!-- 資料存放與 store.state 中 -->
+		<!-- 取用可以使用 this.store.state.todolist 或是 $store.state.todolist -->
+		<todo-list></todo-list>
+		<hr/>
+		<todo-list></todo-list>
+		<hr/>
+		<todo-list></todo-list>
 	</div>
+
 
 	<template id="todo-list">
 		<ul>
-			<li v-if='!todo.done'>
-				{{ todo.text }}
-				--
-				<button @click=$emit('toggledone')>done</button>
-				<button @click=$emit('removetodo')>delete</button>
-			</li>
-			<li v-else>
-				<del> {{ todo.text }} </del>
-				--
-				<button @click=$emit('toggledone')>undone</button>
-				<button @click=$emit('removetodo')>delete</button>
+			<li v-for='(todo, index) in $store.state.todolist' :key='index' >
+				<span v-if='!todo.done'>
+					{{ todo.text }}
+					--
+					<button @click='toggleDone(todo)'>done</button>
+				</span>
+				<span v-else>
+					<del> {{ todo.text }} </del>
+					--
+					<button @click='toggleDone(todo)'>undone</button>
+				</span>
+				<button @click=removeTodo(index)>delete</button>
 			</li>
 		</ul>
 	</template>
@@ -64,7 +66,18 @@
 		props: {
 			todo: Object
 		},
-		template: '#todo-list'
+		template: '#todo-list',
+		methods: {
+			removeTodo(index) {
+				store.commit('removeTodo', index);
+				console.log("component", "removeTodo");
+			},
+			toggleDone(todo) {
+				todo.done = !todo.done;
+				console.log("component", todo.done);
+			}
+
+		}
 	});
 
 	var app = new Vue({
@@ -80,14 +93,6 @@
 					done: false
 				});
 				console.log("addTodo");
-			},
-			removeTodo(index) {
-				store.commit('removeTodo', index);
-				console.log("removeTodo");
-			},
-			toggleDone(todo) {
-				todo.done = !todo.done;
-				console.log(todo.done);
 			}
 		}
 	});
