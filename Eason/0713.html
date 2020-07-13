@@ -1,0 +1,33 @@
+<html>
+<head>
+<title>
+</title>
+</head>
+<body>
+<div id="components-demo" class="demo">
+	<button>
+		<font style="vertical-align: inherit;">
+			<font style="vertical-align: inherit;">點擊一下</font>
+		</font>
+	</button>
+</div>
+<div style="border:5px #FFAC55 solid;">
+<span>{{count}}</span>
+</div>
+<script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+<script type="text/javascript">
+	var vm = new Vue({ 
+		el: 
+		'#components-demo' })
+
+Vue.component('button-counter', {
+  data: function () {
+    return {
+      count: 0
+    }
+  },
+
+})
+</script>
+</body>
+</html>
