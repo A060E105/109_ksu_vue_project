@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<head>
+	<meta charset='utf-8'>
+	<title>Vue slot</title>
+</head>
+<body>
+
+	<p><h1>Vue slot</h1></p>
+
+	<div id='app'>
+		<slot-demo>
+			hello
+			<div slot='title'>
+				world
+			</div>
+		</slot-demo>
+		<button-demo></button-demo>
+		<button-demo inputtype='password'>
+			<div slot='btn_1'>submit</div>
+			<span slot='btn_2'>reset</span>
+			<template slot='btn_3'>clean</template>
+		</button-demo>
+	</div>
+
+	<template id='slot-demo'>
+		<div>
+			<p><h1>vue slot test</h1></p>
+			<slot>default</slot>
+			<slot name='title'>default title</slot>
+		</div>
+	</template>
+
+	<template id='button-demo'>
+		<div>
+			<input :type='inputtype'><br/>
+			<input type='password'>
+			<button type='button'><slot name='btn_1'>button one</slot></button>
+			<button type='button'><slot name='btn_2'>button two</slot></button>
+			<button type='button'><slot name='btn_3'>button three</slot></button>
+		</div>
+	</template>
+
+	<script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+	<script>
+		Vue.component('button-demo', {
+			props: {
+				inputtype: ''
+			},
+			template: '#button-demo'
+		});
+
+		Vue.component('slot-demo', {
+			template: '#slot-demo'
+		});
+
+		var app = new Vue({
+			el: '#app'
+		});
+	</script>
+</body>
+</html>
