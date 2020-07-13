@@ -4,30 +4,47 @@
 </title>
 </head>
 <body>
-<div id="components-demo" class="demo">
-	<button>
-		<font style="vertical-align: inherit;">
-			<font style="vertical-align: inherit;">點擊一下</font>
-		</font>
+<div id="app">
+	<button @click="minus">
+			點擊一下-1
 	</button>
+	<button @click="plus">
+			點擊一下+1
+	</button>
+	<button @click="multiply">
+			點擊一下*2
+	</button>
+	<button @click="Dividedby">
+			點擊一下/2
+	</button>
+<span style="border:5px #FFAC55 solid;">{{count}}</span>
 </div>
-<div style="border:5px #FFAC55 solid;">
-<span>{{count}}</span>
-</div>
+
+
 <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
 <script type="text/javascript">
-	var vm = new Vue({ 
-		el: 
-		'#components-demo' })
+    var app = new Vue({
+        el: '#app',
 
-Vue.component('button-counter', {
-  data: function () {
-    return {
-      count: 0
-    }
-  },
-
-})
+        data:{
+            count:0
+        },
+        methods:{
+            minus(){
+                this.count--;
+            },
+            plus(){
+                this.count++;
+            },
+            multiply(){
+                this.count*=2;
+            },
+            Dividedby(){
+                this.count/=2;
+            }
+        }
+    })
+  
 </script>
 </body>
 </html>
