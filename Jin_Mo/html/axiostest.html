@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>axios test</title>
+</head>
+<body>
+
+    <div id="app">
+        <p>
+            <h1>axios test</h1>
+            <h1>get github api</h1>
+        </p>
+        <template v-for='branch in branchs'>
+            <input type="radio"
+                   :value='branch'
+                   v-model='currentBranch'>
+                {{ branch }}
+        </template>
+        <ul>
+            <li v-for='record in commits'>
+                {{ record.commit.message }}
+            </li>
+        </ul>
+    </div>
+    
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+
+        new Vue({
+            el: '#app',
+            data: {
+                commits: '',
+                branchs: ['master', 'front_end', 'back_end', 'exercise'],
+                currentBranch: 'exercise'
+            },
+            created: function() {
+                this.fetchData();
+                console.log('created');
+            },
+            watch: {
+                currentBranch: 'fetchData'
+            },
+            methods: {
+                fetchData() {
+                   axios.get('/commits', {
+                       baseURL: 'https://api.github.com/repos/A060E105/109_ksu_vue_project/',
+                       params: {
+                           per_page: 3,
+                           sha: this.currentBranch
+                       }
+                   })
+                   .then((response) => {
+                        console.log(response);
+                        this.commits = response.data;
+                   })
+                   .catch((err) => {
+                       console.log(err);
+                   })
+                }
+            }
+        });
+    </script>
+</body>
+</html>
