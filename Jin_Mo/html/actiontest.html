@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+</head>
+<body>
+
+    <div id="app">
+        <counter-demo></counter-demo>
+    </div>
+
+    <template id="counter-demo" count='$store.state.count'>
+        <div>
+            <button @click="incremen()">+</button>
+            <span>{{ count }}</span>
+            <button @click="decrease()">-</button>
+        </div>
+    </template>
+    
+<script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+<script src="https://unpkg.com/vuex@2.0.0"></script>
+<script>
+    const store = new Vuex.Store({
+    state: {
+        count: 0
+    },
+    actions: {
+        incremen({ commit }) {
+            commit('incremen');
+            console.log('action incremen');
+        },
+        decrease({ commit }) {
+            commit('decrease');
+            console.log('action decrease');
+        }
+    },
+    mutations: {
+        incremen(state) {
+            state.count++;
+            console.log('mutation incremen');
+        },
+        decrease(state) {
+            state.count--;
+            console.log('mutation decrease');
+        }
+    }
+});
+
+Vue.component('counter-demo', {
+    template: '#counter-demo',
+    computed: {
+        count() {
+            return store.state.count;
+        }
+    },
+    methods: {
+        incremen() {
+            store.dispatch('incremen');
+            console.log('component incremen');
+        },
+        decrease() {
+            store.dispatch('decrease');
+            console.log('component decrease');
+        }
+    }
+});
+
+new Vue({
+    el: '#app',
+    store: store,
+});
+</script>
+</body>
+</html>
