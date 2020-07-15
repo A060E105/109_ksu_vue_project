@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>local storage test</title>
+</head>
+<body>
+
+    <div id="app">
+        My name is {{ name }}
+        <div>
+            <input type="text" v-model="name">
+        </div>
+    </div>
+    
+<script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            name: ''
+        },
+        mounted() {
+            if (localStorage.name)
+                this.name = localStorage.name;
+        },
+        watch: {
+            name(newname) {
+                localStorage.name = newname;
+            }
+        }
+    });
+</script>
+</body>
+</html>

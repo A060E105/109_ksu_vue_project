@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue 測試例項 - vue實現列表增加和刪除</title>
+<script src="https://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+ <input v-model="newAddText" placeholder="請輸入要新增的內容" />
+    <button @click='addNewList'>新增</button>
+    <ul>
+        <li is='list-item' v-for='(list,index) in lists' v-bind:key='list.id'
+            v-bind:title='list.title' v-on:remove='lists.splice(index,1)'>
+        </li>
+    </ul>
+</div>
+  
+<script>
+    Vue.component('list-item', {
+ template: '\
+ <li>\
+ {{ title }}\
+ <button v-on:click="$emit(\'remove\')">刪除</button>\
+ </li>\
+ ',
+ props: ['title']
+})
+  
+var vm = new Vue({
+ el: '#app',
+ data: {
+ newAddText:'',
+     lists:[
+       
+     ],
+     nextTodoId: 4
+ },
+ methods:{
+     addNewList:function(){
+         this.lists.push({
+             id:this.nextTodoId++,
+             title:this.newAddText
+         })
+         this.newAddText=''
+     }
+ } 
+})
+  
+</script>
+</body>
+</html>
