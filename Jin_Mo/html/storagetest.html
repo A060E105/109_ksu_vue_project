@@ -6,29 +6,90 @@
 <body>
 
     <div id="app">
-        My name is {{ name }}
+        <input type="text" v-model="newtodo" @keyup.enter='addTodo'>
+        <button @click="addTodo">Add</button>
+        <hr>
         <div>
-            <input type="text" v-model="name">
+            <p> <h1>Vue instance</h1> </p>
+            <ul>
+                <li v-for='(todo, index) in todolist'>
+                    {{ todo.text }} -- {{ todo.done }}
+                </li>
+            </ul>
         </div>
+        <hr>
+        <todo-list :todos='todolist'></todo-list>
+        <hr>
+        <todo-list :todos='todolist'></todo-list>
+        <hr>
+        <todo-list :todos='todolist'></todo-list>
     </div>
+
+    <template id="todo-list">
+        <div>
+            <p> <h1>component</h1> </p>
+            <ul>
+                <li v-for='(todo, index) in todos'>
+                    {{ todo.text }} -- {{ todo.done }}
+                    <button @click="toggleDone(todo)">toggleDone</button>
+                    <button @click="removeTodo(index)">delete</button>
+                </li>
+            </ul>
+        </div>
+    </template>
     
 <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
 <script>
-    new Vue({
-        el: '#app',
-        data: {
-            name: ''
+    Vue.component('todo-list', {
+        props: {
+            todos: { 
+                default: [] 
+            }
         },
-        mounted() {
-            if (localStorage.name)
-                this.name = localStorage.name;
-        },
-        watch: {
-            name(newname) {
-                localStorage.name = newname;
+        template: '#todo-list',
+        methods: {
+            toggleDone(todo) {
+                todo.done = !todo.done;
+            },
+            removeTodo(index) {
+                this.todos.splice(index, 1);
             }
         }
     });
+
+    new Vue({
+        el: '#app',
+        data: {
+            todolist: [],
+            newtodo: ''
+        },
+        watch: {
+            todolist: 'save'
+        },
+        mounted() {
+            this.load();
+        },
+        methods: {
+            addTodo() {
+                if (this.newtodo != '') {
+                    this.todolist.push({
+                        text: this.newtodo,
+                        done: false
+                    });
+                }
+                this.newtodo = '';
+                console.log('addTodo()');
+            },
+            save() {
+                let data = JSON.stringify(this.todolist);
+                localStorage.todolist = data;
+            },
+            load() {
+                if(localStorage.todolist)
+                    this.todolist = JSON.parse(localStorage.todolist);
+            }
+        }
+    })
 </script>
 </body>
 </html>
