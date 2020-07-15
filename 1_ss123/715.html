@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuex"></script>
+<body>
+
+<div id="app">
+  <addition-subsraction></addition-subsraction>
+</div>
+
+<template id="addition-subsraction">
+    <ul>
+        <button v-on:click="add()">You clicked me {{store.state.count}} times.</button>
+        <button v-on:click="subs()">You clicked me {{store.state.count}} times.</button>
+    </ul>
+</template>
+
+<script>
+Vue.use(Vuex)
+
+const store = new Vuex.Store({
+    state:{
+        count: 0
+    },
+    mutations: {
+        addition (state) {
+            state.count++
+        },
+        subsraction (state) {
+            state.count--
+        }
+    }
+})
+
+Vue.component('addition-subsraction', {
+  template: '#addition-subsraction',
+  methods: {
+      add() {
+        store.commit('addition')
+        console.log(store.state.count)
+    },
+    subs() {
+        store.commit('subsraction')
+        console.log(store.state.count)
+    }
+    
+  }
+})
+
+new Vue({ 
+    el: '#app',
+    store: store,
+    })
+
+</script>
+
+</body>
+</html>
+
+
+
