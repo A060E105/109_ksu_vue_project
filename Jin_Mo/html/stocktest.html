@@ -30,7 +30,7 @@
             },
             mounted() {
                 // this.getStockDataXHR();
-                // this.getStockData();
+                this.getStockData();
             },
             methods: {
                 replaceData() {
@@ -47,7 +47,7 @@
                     console.log(this.jsonData.earn_values['0050']['2011']);
                 },
                 getStockData() {
-                    axios.get('http://trading.maxosoft.com/api/tw_stock_earn_values?stock_index_arys=[%220050%22,%222002%22]', {
+                    axios.get('https://cors-anywhere.herokuapp.com/http://trading.maxosoft.com/api/tw_stock_earn_values?stock_index_arys=[%220050%22,%222002%22]', {
                         // ...
                     })
                     .then((response) => {
