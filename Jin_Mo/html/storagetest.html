@@ -30,9 +30,11 @@
             <p> <h1>component</h1> </p>
             <ul>
                 <li v-for='(todo, index) in todos'>
-                    {{ todo.text }} -- {{ todo.done }}
+                    {{ todo.text }} -- {{ todo.done }} -- {{ myData }}
                     <button @click="toggleDone(todo)">toggleDone</button>
                     <button @click="removeTodo(index)">delete</button>
+                    <button @click="show()">show todos</button>
+                    <button @click="readData()">read data</button>
                 </li>
             </ul>
         </div>
@@ -46,13 +48,31 @@
                 default: [] 
             }
         },
+        data() {
+            return {
+                myData: null
+            }
+        },
         template: '#todo-list',
+        updated() {
+            this.readData();
+            // this 指向 VueComponent _componentTag: todo-list
+            console.log(this);
+        },
         methods: {
             toggleDone(todo) {
                 todo.done = !todo.done;
             },
             removeTodo(index) {
                 this.todos.splice(index, 1);
+            },
+            show() {
+                console.log('todolist', this.todos);
+                console.log('myData', myData);
+            },
+            readData() {
+                myData = JSON.parse(JSON.stringify(this.todos));
+                console.log('deep copy')
             }
         }
     });
@@ -87,6 +107,8 @@
             load() {
                 if(localStorage.todolist)
                     this.todolist = JSON.parse(localStorage.todolist);
+                    // this 指向 Vue instance
+                    console.log(this);
             }
         }
     })
