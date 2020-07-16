@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lifecycle test</title>
+</head>
+<body>
+
+    <div id="app">
+        {{ count }}
+        <button @click="add()">Add</button>
+        <lifecycle-component :my-count='count'></lifecycle-component>
+    </div>
+
+    <template id="lifecycle-component">
+        <div>
+            {{ myCount }}
+        </div>
+    </template>
+    
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        Vue.component('lifecycle-component', {
+            props: {
+                myCount: 0
+            },
+            template: '#lifecycle-component',
+            beforeCreate() {
+                console.log('component beforeCreate');
+            },
+            created() {
+                console.log('component created');
+            },
+            beforeMount() {
+                console.log('component beforeMount');
+            },
+            mounted() {
+                console.log('component mounted');
+            },
+            beforeUpdate() {
+                console.log('component beforeUpdate');
+            },
+            updated() {
+                console.log('component updated');
+            },
+            beforeDestroy() {
+                console.log('component beforeDestroy');
+            },
+            destroyed() {
+                console.log('component destroyed');
+            }
+        });
+
+        new Vue({
+            el: '#app',
+            data: {
+                count: 0
+            },
+            beforeCreate() {
+                console.log('instance beforeCreate');
+            },
+            created() {
+                console.log('instance created');
+            },
+            beforeMount() {
+                console.log('instance beforeMount');
+            },
+            mounted() {
+                console.log('instance mounted');
+            },
+            beforeUpdate() {
+                console.log('instance beforeUpdate');
+            },
+            updated() {
+                console.log('instance updated');
+            },
+            beforeDestroy() {
+                console.log('instance beforeDestroy');
+            },
+            destroyed() {
+                console.log('instance destroyed');
+            },
+            methods: {
+                add() {
+                    this.count++;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
