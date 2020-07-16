@@ -8,6 +8,26 @@
 
     <div id="app">
         {{ jsonData }}
+        <hr>
+        <p>
+            <h1>req</h1>
+        </p>
+        {{ req }}
+        <hr>
+        <p>
+            <h1>year</h1>
+        </p>
+        {{ years }}
+        <hr>
+        <p>
+            <h1>{{ req[0] }}</h1>
+        </p>
+        {{ jsonData.earn_values[req[0]] }}
+        <hr>
+        <p>
+            <h1>{{ req[1] }}</h1>
+        </p>
+        {{ jsonData.earn_values[req[1]] }}
     </div>
 
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
@@ -18,11 +38,32 @@
             el: '#app',
             data: {
                 jsonData: null,
+                req: null,
+                years: null
             },
             created() {
+                console.log('created');
                 this.getStockData();
             },
+            mounted() {
+                console.log('mounted');
+            },
+            watch: {
+                jsonData: function() {
+                    this.getReq();
+                    this.getYear();
+                }
+            },
             methods: {
+                getYear() {
+                    this.years = Object.keys(this.jsonData.earn_values[this.req[0]]);
+                    console.log('getYear', this.years);
+                },
+                getReq() {
+                    // this.req = this.jsonData.req['stock_index_arys'];
+                    this.req = Object.keys(this.jsonData.earn_values);
+                    console.log('getReq', this.req);
+                },
                 replaceData(data) {
                     data = JSON.stringify(data);
                     data = data.replace(/\:\"\[/, '\:\[');
