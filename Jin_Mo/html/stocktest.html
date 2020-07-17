@@ -11,17 +11,6 @@
         <button @click="setSearchYear(3)">3</button>
         <button @click="setSearchYear(5)">5</button>
         <hr>
-        {{ jsonData }}
-        <hr>
-        {{ req }}
-        <hr>
-        {{ years }}
-        <hr>
-        {{ searchYear }}
-        <hr>
-        <p>
-            <h1>component</h1>
-        </p>
         <stock-table 
             :earn_values='jsonData.earn_values'
             :req='req'
@@ -73,12 +62,30 @@
             template: '#stock-table-body',
             computed: {
                 cash() {
-                    console.log(this.earn_value[this.year[0]]['cash']);
-                    return this.earn_value[this.year[0]]['cash'];
+                    let len = this.year.length;
+                    let cash_avg = null;
+                    if (len <= 1) {
+                        return this.earn_value[this.year[0]]['cash'];
+                    } else {
+                        let sum = 0;
+                        for (i=0; i<len; i++) {
+                            sum += this.earn_value[this.year[i]]['cash'];
+                        }
+                        return (sum / len).toFixed(2);
+                    }
                 },
                 stock() {
-                    console.log(this.earn_value[this.year[0]]['stock']);
-                    return this.earn_value[this.year[0]]['stock'];
+                    let len = this.year.length;
+                    let stock_avg = null;
+                    if (len <= 1) {
+                        return this.earn_value[this.year[0]]['stock'];
+                    } else {
+                        let sum = 0;
+                        for (i=0; i<len; i++) {
+                            sum += this.earn_value[this.year[i]]['stock'];
+                        }
+                        return (sum / len).toFixed(2);
+                    }
                 }
             }
         });
