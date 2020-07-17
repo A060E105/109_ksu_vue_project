@@ -6,40 +6,109 @@
 </head>
 <body>
 
-    <div id="app">
+  <div id="app">
+        <button @click="setSearchYear(1)">1</button>
+        <button @click="setSearchYear(3)">3</button>
+        <button @click="setSearchYear(5)">5</button>
+        <hr>
         {{ jsonData }}
         <hr>
-        <p>
-            <h1>req</h1>
-        </p>
         {{ req }}
         <hr>
-        <p>
-            <h1>year</h1>
-        </p>
         {{ years }}
         <hr>
-        <p>
-            <h1>{{ req[0] }}</h1>
-        </p>
-        {{ jsonData.earn_values[req[0]] }}
+        {{ searchYear }}
         <hr>
         <p>
-            <h1>{{ req[1] }}</h1>
+            <h1>component</h1>
         </p>
-        {{ jsonData.earn_values[req[1]] }}
+        <stock-table 
+            :earn_values='jsonData.earn_values'
+            :req='req'
+            :years='searchYear'>
+        </stock-table>
     </div>
+
+    <template id="stock-table">
+        <div>
+            <table border="3">
+                <tr>
+                    <th colspan="4">{{ year }}</th>
+                </tr>
+                <tr>
+                    <td>名稱</td>
+                    <td>編號</td>
+                    <td>現金</td>
+                    <td>股票</td>
+                </tr>
+                <tr is='stock-table-body'
+                    v-for='(earn_value, index) in earn_values'
+                    :key='index'
+                    :earn_value='earn_value'
+                    :year='years'
+                    :req='index'>
+                </tr>
+            </table>
+        </div>
+    </template>
+
+    <template id="stock-table-body">
+        <tr>
+            <td>null</td>
+            <td>{{ req }}</td>
+            <td>{{ cash }}</td>
+            <td>{{ stock }}</td>
+        </tr>
+    </template>
 
     <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
+        Vue.component('stock-table-body', {
+            props: {
+                req: '',
+                year: {},
+                earn_value: {}
+            },
+            template: '#stock-table-body',
+            computed: {
+                cash() {
+                    console.log(this.earn_value[this.year[0]]['cash']);
+                    return this.earn_value[this.year[0]]['cash'];
+                },
+                stock() {
+                    console.log(this.earn_value[this.year[0]]['stock']);
+                    return this.earn_value[this.year[0]]['stock'];
+                }
+            }
+        });
 
+        Vue.component('stock-table', {
+            props: {
+                req: {},
+                years: {},
+                earn_values: {}
+            },
+            template: '#stock-table',
+            computed: {
+                year() {
+                    if (this.years.length <= 1) {
+                        return this.years[0];
+                    } else {
+                        let len = this.years.length;
+                        return this.years[0] + '~' + this.years[len - 1];
+                    }
+                }
+            }
+        });
+        
         new Vue({
             el: '#app',
             data: {
                 jsonData: null,
                 req: null,
-                years: null
+                years: null,
+                searchYear: []
             },
             created() {
                 console.log('created');
@@ -52,12 +121,26 @@
                 jsonData: function() {
                     this.getReq();
                     this.getYear();
+                    this.getSearchYear();
                 }
             },
             methods: {
+                setSearchYear(value) {
+                    console.log(value);
+                    this.searchYear = [];
+                    for (i = 0; i < value; i++) {
+                        this.searchYear.push(this.years[i]);
+                    }
+                    this.searchYear.reverse();
+                    console.log('searchYear', this.searchYear);
+                },
+                getSearchYear() {
+                    this.searchYear.push(this.years[0]);
+                },
                 getYear() {
                     this.years = Object.keys(this.jsonData.earn_values[this.req[0]]);
                     console.log('getYear', this.years);
+                    console.log('reverse year', this.years.reverse());
                 },
                 getReq() {
                     // this.req = this.jsonData.req['stock_index_arys'];
