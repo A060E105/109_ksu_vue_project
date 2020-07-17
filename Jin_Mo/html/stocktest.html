@@ -61,6 +61,7 @@
                 },
                 getReq() {
                     // this.req = this.jsonData.req['stock_index_arys'];
+                    // this.req = Object.values(this.jsonData.req.stock_index_arys);
                     this.req = Object.keys(this.jsonData.earn_values);
                     console.log('getReq', this.req);
                 },

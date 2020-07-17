@@ -8,6 +8,9 @@
 <body>
 
     <div id="app">
+        <p>
+            <h1>Vue instance</h1>
+        </p>
         {{ count }}
         <button @click="add()">Add</button>
         <lifecycle-component :my-count='count'></lifecycle-component>
@@ -15,7 +18,11 @@
 
     <template id="lifecycle-component">
         <div>
+            <p>
+                <h1>component</h1>
+            </p>
             {{ myCount }}
+            <button @click="addCount()">addCount</button>
         </div>
     </template>
     
@@ -49,6 +56,11 @@
             },
             destroyed() {
                 console.log('component destroyed');
+            },
+            methods: {
+                addCount() {
+                    this.myCount++;
+                }
             }
         });
 
