@@ -52,17 +52,18 @@
         	//background-color: #EDEFFB;
         	//border-radius:25px;
         }
-        text-decoration line-through*/P
-	</style>
+        text-decoration line-through*/
+</style>
 </head>
 <body>
-	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.js"></script>
        
 <div id="root">
         <input v-model="work" placeholder="輸入文字" @keyup.enter="handleSubmit"  >    </input>
         <button @click="handleSubmit" >新增</button>
         <button @click="handleDelete" >刪除</button>
-        <div></div>
+        
         <ul>
             <!-- 子組件 -->
             <todo-item v-for="(item,index) of list"
