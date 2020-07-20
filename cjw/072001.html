@@ -1,36 +1,36 @@
 <!DOCTYPE html> 
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
 	<title>test</title>
 	<style>
-	    body{
-			background-color:#F8F9F9;
-		}
-		#app input{
-			width:130px;
-				height:30px;
-				border: 1px;
-				background-image:  linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
-				border-radius: 10px;
-				text-align: center;
-				font-family:-apple-system,
-		}
-		#app button{
-			width:70px;
-				height:30px;
-				border: 1px;
-				background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-				border-radius: 10px;
-				font-family:-apple-system,
-		}
-		.line {
-			height: 1.5px;
-            border-width: 1px;
-            background-image: linear-gradient(to right, #eea2a2 0%, #bbc1bf 19%, #57c6e1 42%, #b49fda 79%, #7ac5d8 100%);
-}
-		</style>
+	body{
+		background-color:#F8F9F9;
+	}
+	#app input{
+		width:130px;
+		height:30px;
+		border: 1px;
+		background-image:  linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+		border-radius: 10px;
+		text-align: center;
+		font-family:-apple-system,
+	}
+	#app button{
+		width:70px;
+		height:30px;
+		border: 1px;
+		background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+		border-radius: 10px;
+		font-family:-apple-system,
+	}
+	.line {
+		height: 1.5px;
+		border-width: 1px;
+		background-image: linear-gradient(to right, #eea2a2 0%, #bbc1bf 19%, #57c6e1 42%, #b49fda 79%, #7ac5d8 100%);
+	}
+</style>
 </head>
 <body>
 
@@ -38,117 +38,144 @@
 		<input type='text' v-model='newtodo' @keyup.enter='addTodo()' placeholder="輸入文字">
 		<!-- 資料存放與 store.state 中 -->
 		<!-- 取用可以使用 this.store.state.todolist 或是 $store.state.todolist -->
+
+
 		<todo-list></todo-list>
 		<hr class="line">
-	
+
 	</div>
 
 
 	<template id="todo-list">
-		<ol>
-			<li v-for='(todo, index) in $store.state.todolist' :key='index'>
-				<span v-if='!todo.done'>
-					{{ todo.text }}
-					--
-					<button @click='toggleDone(todo)'>UnFinish</button>
-				</span>
-				<span v-else>
-					<del> {{ todo.text }} </del>
-					--
-					<button @click='toggleDone(todo)'>Finish</button>
-				</span>
-				<button @click=removeTodo(index)>Delete</button>
-			</li>
-		</ol>
+
+		<div>
+			目前一共有多少事件: {{$store.state.todolist.length}}
+			，未完成的事件有 {{countUnfinished}} 項
+			<ol>
+				<li v-for='(todo, index) in $store.state.todolist' :key='index'>
+					<span v-if='!todo.done'>
+						{{ todo.text }}
+						--
+						<button @click='toggleDone(todo)'>UnFinish</button>
+					</span>
+					<span v-else>
+						<del> {{ todo.text }} </del>
+						--
+						<button @click='toggleDone(todo)'>Finish</button>
+					</span>
+					<button @click=removeTodo(index)>Delete</button>
+				</li>
+			</ol>
+		</div>
 	</template>
 
-  
-<script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://unpkg.com/vuex@2.0.0"></script>
-<script>
-	 Vue.component('todo-item',{
+
+	<script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="https://unpkg.com/vuex@2.0.0"></script>
+	<script>
+		Vue.component('todo-item',{
             // 傳入參數
             props: ['content','index'],
             template: '<li @click="handleClick">{{content}}</li>',
             methods: {
-                handleClick: function() {
+            	handleClick: function() {
                     // 子組件自已，發射訊息給父組件
                     this.$emit('delete', this.index)
                 }
             }
         })
-        new Vue({
-            el: "#root",
-            data: {
-                 work: '',
+		new Vue({
+			el: "#root",
+			data: {
+				work: '',
                 //new JCheckBox: '',
                 list: [],
             },
-   
+
             methods: {
-                handleSubmit: function() {
-                     this.list.push(this.work)
-                     this.work = ''
-                },
-                handleDelete: function(index) {
-                    this.list.splice(index,1)
-                }
+            	handleSubmit: function() {
+            		this.list.push(this.work)
+            		this.work = ''
+            	},
+            	handleDelete: function(index) {
+            		this.list.splice(index,1)
+            	}
             }
         })
-	const store = new Vuex.Store({
-		state: {
-			todolist: [ 
-				
-			
-			
-				
-			]
-		},
-		mutations: {
-			addTodo(state, newtodo) {
-				state.todolist.push(newtodo);
+		const store = new Vuex.Store({
+			state: {
+				todolist: [ 
+								
+				]
 			},
-			removeTodo(state, index) {
-				state.todolist.splice(index, 1);
+			mutations: {
+				addTodo(state, newtodo) {
+					state.todolist.push(newtodo);
+				},
+				removeTodo(state, index) {
+					state.todolist.splice(index, 1);
+				}
 			}
-		}
-	});
+		});
 
-	Vue.component('todo-list', {
-		props: {
-			todo: Object
-		},
-		template: '#todo-list',
-		methods: {
-			removeTodo(index) {
-				store.commit('removeTodo', index);
-				console.log("component", "removeTodo");
+		Vue.component('todo-list', {
+			props: {
+				todo: Object
 			},
-			toggleDone(todo) {
-				todo.done = !todo.done;
-				console.log("component", todo.done);
-			}
+			template: '#todo-list',
 
-		}
-	});
+			computed:{
+				countUnfinished(){
+					// 算出未完成的事件
+					
+					let count1 = 3;
 
-	var app = new Vue({
-		el: '#app',
-		store: store,
-		data: {
-			newtodo: ''
-		},
-		methods: {
-			addTodo() {
-				store.commit('addTodo', {
-					text: this.newtodo,
-					done: false
-				});
-				console.log("addTodo");
+					// let count1 = this.todo.fillter(function(item,index,array){
+					// 	return item.done === false	
+					// })
+
+
+					// let count = store.state.todolist.fillter(function(item,index,array){
+					// 	return item.done === false	
+					// })
+
+
+
+					return count1
+					// $store.state.todolist.fillter()
+				}
+			},
+
+			methods: {
+				removeTodo(index) {
+					store.commit('removeTodo', index);
+					console.log("component", "removeTodo");
+				},
+				toggleDone(todo) {
+					todo.done = !todo.done;
+					console.log("component", todo.done);
+				}
+
 			}
-		}
-	});
-</script>
+		});
+
+		var app = new Vue({
+			el: '#app',
+			store: store,
+			data: {
+				newtodo: ''
+			},
+			methods: {
+				addTodo() {
+					store.commit('addTodo', {
+						text: this.newtodo,
+						done: false
+					});
+					console.log("addTodo");
+				}
+			}
+		});
+	</script>
 </body>
 </html>
