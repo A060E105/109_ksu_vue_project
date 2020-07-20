@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 7
 <html>
 <head>
   <meta charset="utf-8">
@@ -21,7 +21,7 @@
 
 	<template id="todo-list">
 		<ul>
-			<li v-for='(todo, index) in $store.state.todolist' :key='index' >
+			<li v-for='(todo, index) in $store.state.todolist' :key='index'>
 				<span v-if='!todo.done'>
 					{{ todo.text }}
 					--
@@ -39,8 +39,38 @@
 
   
 <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/vuex@2.0.0"></script>
 <script>
+	 Vue.component('todo-item',{
+            // 傳入參數
+            props: ['content','index'],
+            template: '<li @click="handleClick">{{content}}</li>',
+            methods: {
+                handleClick: function() {
+                    // 子組件自已，發射訊息給父組件
+                    this.$emit('delete', this.index)
+                }
+            }
+        })
+        new Vue({
+            el: "#root",
+            data: {
+                 work: '',
+                //new JCheckBox: '',
+                list: [],
+            },
+   
+            methods: {
+                handleSubmit: function() {
+                     this.list.push(this.work)
+                     this.work = ''
+                },
+                handleDelete: function(index) {
+                    this.list.splice(index,1)
+                }
+            }
+        })
 	const store = new Vuex.Store({
 		state: {
 			todolist: [ {
