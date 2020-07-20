@@ -1,0 +1,41 @@
+<HTML>
+　<HEAD>
+　　<TITLE></TITLE>
+　　<Meta>
+　</HEAD>
+　<BODY>
+	<h2 >TO DO list</h2>
+	<div class="app">
+
+  <input type="text" id="todo-input" placeholder="輸入事件">
+  <button onclick="addTodo()" class="addBtn">新增</button>
+  <todo-list></todo-list>
+		<hr/>
+</div>
+
+<script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+<script type="text/javascript">
+
+
+Vue.component('todo-list', {
+		props: {
+			todo: Object
+		},
+		template: '#todo-list',
+		methods: {
+			removeTodo(index) {
+				store.commit('removeTodo', index);
+				console.log("component", "removeTodo");
+			},
+			toggleDone(todo) {
+				todo.done = !todo.done;
+				console.log("component", todo.done);
+			}
+
+		}
+	});
+
+</script>
+
+　</BODY>
+</HTML>
