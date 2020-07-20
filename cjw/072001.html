@@ -1,40 +1,65 @@
-<!DOCTYPE html> 7
+<!DOCTYPE html> 
 <html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
 	<title>test</title>
+	<style>
+	    body{
+			background-color:#F8F9F9;
+		}
+		#app input{
+			width:130px;
+				height:30px;
+				border: 1px;
+				background-image:  linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+				border-radius: 10px;
+				text-align: center;
+				font-family:-apple-system,
+		}
+		#app button{
+			width:70px;
+				height:30px;
+				border: 1px;
+				background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+				border-radius: 10px;
+				font-family:-apple-system,
+		}
+		.line {
+			height: 1.5px;
+            border-width: 1px;
+            background-image: linear-gradient(to right, #eea2a2 0%, #bbc1bf 19%, #57c6e1 42%, #b49fda 79%, #7ac5d8 100%);
+}
+		</style>
 </head>
 <body>
 
 	<div id='app'>
-		<input type='text' v-model='newtodo' @keyup.enter='addTodo()'>
+		<input type='text' v-model='newtodo' @keyup.enter='addTodo()' placeholder="輸入文字">
 		<!-- 資料存放與 store.state 中 -->
 		<!-- 取用可以使用 this.store.state.todolist 或是 $store.state.todolist -->
 		<todo-list></todo-list>
-		<hr/>
-		<todo-list></todo-list>
-		<hr/>
-		<todo-list></todo-list>
+		<hr class="line">
+	
 	</div>
 
 
 	<template id="todo-list">
-		<ul>
+		<ol>
 			<li v-for='(todo, index) in $store.state.todolist' :key='index'>
 				<span v-if='!todo.done'>
 					{{ todo.text }}
 					--
-					<button @click='toggleDone(todo)'>done</button>
+					<button @click='toggleDone(todo)'>UnFinish</button>
 				</span>
 				<span v-else>
 					<del> {{ todo.text }} </del>
 					--
-					<button @click='toggleDone(todo)'>undone</button>
+					<button @click='toggleDone(todo)'>Finish</button>
 				</span>
-				<button @click=removeTodo(index)>delete</button>
+				<button @click=removeTodo(index)>Delete</button>
 			</li>
-		</ul>
+		</ol>
 	</template>
 
   
@@ -73,14 +98,12 @@
         })
 	const store = new Vuex.Store({
 		state: {
-			todolist: [ {
-				text: 'go to sleep',
-				done: true
-			},
-			{
-				text: 'go home',
-				done: false
-			}]
+			todolist: [ 
+				
+			
+			
+				
+			]
 		},
 		mutations: {
 			addTodo(state, newtodo) {

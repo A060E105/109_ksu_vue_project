@@ -1,21 +1,40 @@
-<!DOCTYPE html> 7
+<!DOCTYPE html> 
 <html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
 	<title>test</title>
+	<style>
+	
+	#app input{
+		width:130px;
+            height:30px;
+            border: 1px;
+            background-image:  linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+            border-radius: 10px;
+			text-align: center;
+            font-family:-apple-system,
+	}
+	#app button{
+		width:60px;
+            height:30px;
+            border: 1px;
+            background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 10px;
+            font-family:-apple-system,
+	}
+	
+	</style>
 </head>
 <body>
 
 	<div id='app'>
-		<input type='text' v-model='newtodo' @keyup.enter='addTodo()'>
+
+		<input type='text' v-model='newtodo' @keyup.enter='addTodo()' placeholder="輸入文字">
 		<!-- 資料存放與 store.state 中 -->
 		<!-- 取用可以使用 this.store.state.todolist 或是 $store.state.todolist -->
 		<todo-list></todo-list>
-		<hr/>
-		<todo-list></todo-list>
-		<hr/>
-		<todo-list></todo-list>
+
 	</div>
 
 
@@ -25,14 +44,14 @@
 				<span v-if='!todo.done'>
 					{{ todo.text }}
 					--
-					<button @click='toggleDone(todo)'>done</button>
-				</span>
+					<button @click='toggleDone(todo)'>未完成</button>
+				</span> 
 				<span v-else>
 					<del> {{ todo.text }} </del>
 					--
-					<button @click='toggleDone(todo)'>undone</button>
+					<button @click='toggleDone(todo)'>完成</button>
 				</span>
-				<button @click=removeTodo(index)>delete</button>
+				<button @click=removeTodo(index)>刪除</button>
 			</li>
 		</ul>
 	</template>
@@ -42,7 +61,8 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/vuex@2.0.0"></script>
 <script>
-	 Vue.component('todo-item',{
+		 
+	Vue.component('todo-item',{
             // 傳入參數
             props: ['content','index'],
             template: '<li @click="handleClick">{{content}}</li>',
@@ -80,8 +100,8 @@
 			{
 				text: 'go home',
 				done: false
-			}]
-		},
+			},   
+			]},
 		mutations: {
 			addTodo(state, newtodo) {
 				state.todolist.push(newtodo);
@@ -91,7 +111,6 @@
 			}
 		}
 	});
-
 	Vue.component('todo-list', {
 		props: {
 			todo: Object
@@ -99,17 +118,16 @@
 		template: '#todo-list',
 		methods: {
 			removeTodo(index) {
-				store.commit('removeTodo', index);
+				store.commit('removeTodo', index),
 				console.log("component", "removeTodo");
 			},
 			toggleDone(todo) {
-				todo.done = !todo.done;
+				todo.done = !todo.done,
 				console.log("component", todo.done);
 			}
 
 		}
 	});
-
 	var app = new Vue({
 		el: '#app',
 		store: store,
@@ -121,11 +139,12 @@
 				store.commit('addTodo', {
 					text: this.newtodo,
 					done: false
-				});
+				}),
 				console.log("addTodo");
-			}
+			},
+			
 		}
-	});
+	})
 </script>
 </body>
 </html>
