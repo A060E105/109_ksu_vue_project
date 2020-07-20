@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <input type='text' v-model='newtodo' @keyup.enter='addTodo()'>
+        <button @click="handleSubmit" >新增</button>
+        <button @click="handleDelete" >刪除</button>
+        <todo-list></todo-list>
+        <hr/>
+        <todo-list></todo-list>
+    </div>
+
+    <template id="todo-list">
+            <ul>
+                    <li v-for='(todo, index) in $store.state.todolist' :key='index'>
+                        <span v-if='!todo.done'>
+                            {{ todo.text }}
+                            --
+                            <button @click='toggleDone(todo)'>done</button>
+                        </span>
+                        <span v-else>
+                            <del> {{ todo.text }} </del>
+                            --
+                            <button @click='toggleDone(todo)'>undone</button>
+                        </span>
+                        <button @click=removeTodo(index)>delete</button>
+                    </li>
+                </ul>
+    </template>
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+<script src="https://unpkg.com/vuex@2.0.0"></script>
+<script>
+        const store = new Vuex.Store({
+            state: {
+                todolist: [ {
+                    text: 'go to sleep',
+                    done: true
+                },
+                {
+                    text: 'go home',
+                    done: false
+                }]
+            },
+            mutations: {
+                addTodo(state, newtodo) {
+                    state.todolist.push(newtodo);
+                },
+                removeTodo(state, index) {
+                    state.todolist.splice(index, 1);
+                }
+            }
+        });
+    
+        Vue.component('todo-list', {
+            props: {
+                todo: Object
+            },
+            template: '#todo-list',
+            methods: {
+                removeTodo(index) {
+                    store.commit('removeTodo', index);
+                    console.log("component", "removeTodo");
+                },
+                toggleDone(todo) {
+                    todo.done = !todo.done;
+                    console.log("component", todo.done);
+                }
+    
+            }
+        });
+    
+        var app = new Vue({
+            el: '#app',
+            store: store,
+            data: {
+                newtodo: ''
+            },
+            methods: {
+                addTodo() {
+                    store.commit('addTodo', {
+                        text: this.newtodo,
+                        done: false
+                    });
+                    console.log("addTodo");
+                }
+            }
+        });
+    </script>
+</body>
+</html>
