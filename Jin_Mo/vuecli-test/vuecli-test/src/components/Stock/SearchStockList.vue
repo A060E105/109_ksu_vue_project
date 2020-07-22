@@ -16,7 +16,7 @@
 export default {
     name: "SearchStockList",
     props: {
-        list: []
+        list: {}
     },
     methods: {
         remove(index) {

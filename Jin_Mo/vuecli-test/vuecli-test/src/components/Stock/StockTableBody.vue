@@ -25,6 +25,7 @@ export default {
                 return this.earn_value[this.year[0]]['cash'];
             } else {
                 let sum = 0;
+                let i = 0;
                 for (i=0; i < len; i++) {
                     sum += this.earn_value[this.year[i]]['cash'];
                 }
@@ -37,6 +38,7 @@ export default {
                 return this.earn_value[this.year[0]]['stock'];
             } else {
                 let sum = 0;
+                let i = 0;
                 for (i=0; i < len; i++) {
                     sum += this.earn_value[this.year[i]]['stock'];
                 }

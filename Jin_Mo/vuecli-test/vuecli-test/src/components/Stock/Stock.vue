@@ -7,7 +7,7 @@
         <hr>
         <stock-table 
             :years='years'
-            :earn_vaules='stockData.earn_values'>
+            :earn_values='stockData.earn_values'>
         </stock-table>
     </div>
 </template>
@@ -20,6 +20,7 @@ export default {
     name: 'Stock',
     data() {
         return {
+            Id: [],
             years: [],
             newstock: '',
             searchStockList: [],
@@ -59,17 +60,30 @@ export default {
         StockTable,
         SearchStockList
     },
+    created() {
+        this.getId();
+        this.getYears();
+    },
     methods: {
+        // component: SearchStockList
+        // description: add search stock list to searchStockList variable
         addlist() {
             this.searchStockList.push(this.newstock);
             console.log(this.searchStockList);
             this.newstock = '';
         },
+        // component: SearchTable
+        // description: get years and reverse year
         getYears() {
-            // ...
+            this.years = Object.keys(this.stockData['earn_values'][this.Id[0]]);
+            this.years.reverse();
+            console.log('years', this.years);
         },
+        // component: SearchTable
+        // description: get current search stock ID
         getId() {
-            // ...
+            this.Id = Object.keys(this.stockData['earn_values']);
+            console.log('Id', this.Id);
         }
     }
 };
