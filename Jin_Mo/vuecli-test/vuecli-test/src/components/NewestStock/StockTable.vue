@@ -41,19 +41,13 @@ export default {
     },
     methods: {
         getData() {
-            API.api.get('getStockInfo.jsp', {
-                params: {
-                    ex_ch: API.params(this.searchList)
-                }
-            })
-            .then(response => {
+            API.getData(this.searchList).then(response => {
                 this.jsonData = response.data;
                 console.log(response);
-                console.log(response.data);
             })
             .catch(err => {
                 console.log(err);
-            });
+            })
         }
     }
 }

@@ -18,7 +18,7 @@ api.interceptors.response.use(response => {
     }
 );
 
-var params = function (stocksList) {
+var setParams = function (stocksList) {
     let len = stocksList.length;
     let params = '';
     if (len <= 1) {
@@ -35,8 +35,14 @@ var params = function (stocksList) {
     return params;
 }
 
+var getData = function (data) {
+    return api.get('getStockInfo.jsp', {
+        params: {
+            ex_ch: setParams(data)
+        }
+    });
+}
 
 export default {
-    api,
-    params
+    getData
 }
