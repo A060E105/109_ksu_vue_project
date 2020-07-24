@@ -8,6 +8,18 @@
 	body{
 		background-color:#F8F9F9;
 	}
+	 #total{
+		width:130px;
+		height:30px;
+		text-align: center;
+		font-size: 30px;
+		position: absolute;
+		display: block;
+		border-radius: 10px;
+		top:8px;
+		left:150px;
+		font-family:-apple-system;
+	}
 	#app input{
 		width:130px;
 		height:30px;
@@ -39,7 +51,7 @@
 		<!-- 資料存放與 store.state 中 -->
 		<!-- 取用可以使用 this.store.state.todolist 或是 $store.state.todolist -->
 
-
+		<div id="total">Total: {{$store.state.todolist.length}}</div>
 		<todo-list></todo-list>
 		<hr class="line">
 
@@ -49,8 +61,8 @@
 	<template id="todo-list">
 
 		<div>
-			目前一共有多少事件: {{$store.state.todolist.length}}
-			，未完成的事件有 {{countUnfinished}} 項
+			
+
 			<ol>
 				<li v-for='(todo, index) in $store.state.todolist' :key='index'>
 					<span v-if='!todo.done'>
