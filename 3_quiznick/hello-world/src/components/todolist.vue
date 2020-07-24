@@ -4,20 +4,22 @@
     <textinput
     v-model="newtodotxt"
     placeholder="請輸入文字"
-    ＠keyup.enter="addtodo" 
     />
-    <ol v-if="todos.lists">
-      <todoitem
-      v-for="todp in todos "
+    <button     v-on:click="addtodo" >
+      新增
+      </button>
+    <ul v-if="todos.length">
+      <todoltem
+      v-for="todo in todos "
       :key="todo.id"
       :todo="todo"
       @remove="removetodo"
       />
-    </ol>
-
-      <p v-else>
-        請新增備忘錄
-        </p>
+    </ul>
+    <p v-else>
+      請建立備忘錄
+      </p>
+  
 
     </div>
 
@@ -25,30 +27,29 @@
 
   <script>
     import textinput from './textinput.vue'
-    import todoitem from './todoitem.vue'
+    import todoltem from './todoltem.vue'
 
     let nextid =1 
+
     export default{
       components:{
-        textinput,todoitem
+        textinput,todoltem
 
       },
       data(){
         return{
         newtodotxt:'',
         todos:[
+          
 
         ]
 
         }
-      }
+      },
 
-  
-    }
     methods:{
-      addtodo() 
-      {
-        const cutext=this.cutext.trim()
+      addtodo() {
+        const cutext=this.newtodotxt.trim()
         if (cutext){
           this.todos.push({
 
@@ -59,7 +60,7 @@
           this.newtodotxt=''
         }
 
-      }
+      },
       removetodo(idtoremove)
       {
        this.todos=this.todos.filter(todo =>{
@@ -69,6 +70,6 @@
       
 
     }
-
+  }
 
     </script>

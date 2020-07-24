@@ -1,23 +1,24 @@
 <template>
-<ol>
-
-  <button @click="$emit('remove',todo.id)">
-    刪除
+  <ol>
+    {{ todo.text }}
+    <button @click="$emit('remove', todo.id)">
+      刪除
     </button>
-  </ol>
+    <input type="checkbox">
 
+  </ol>
 </template>
 
 <script>
 export default {
-props:{
-  todo:{
-    type:Object,
-    required:true  
+  props: {
+    todo: {
+      type: Object,
+      required: true
+    }
   }
-
-}
-
-
 }
 </script>
+
+
+}
