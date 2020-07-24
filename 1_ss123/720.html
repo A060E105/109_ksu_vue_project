@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuex"></script>
+<body>
+    <div id=test>
+        <button  v-on:click="counter += 1">add</button>
+        <button  v-on:click="counter -= 1">sub</button>
+        <p>you click this {{counter}}</p>
+    </div>
+    <script>
+            var test = new Vue({
+                el: '#test',
+                data: {
+                    counter:2
+                }
+            })
+
+    </script>
+
+</body>
+</html>

@@ -1,5 +1,5 @@
 {
-  "name": "vuecli-test",
+  "name": "hello-world",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -15,7 +15,6 @@
     "@vue/cli-plugin-babel": "~4.4.0",
     "@vue/cli-plugin-eslint": "~4.4.0",
     "@vue/cli-service": "~4.4.0",
-    "axios": "^0.19.2",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
@@ -27,7 +26,8 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/essential"
+      "plugin:vue/essential",
+      "eslint:recommended"
     ],
     "parserOptions": {
       "parser": "babel-eslint"

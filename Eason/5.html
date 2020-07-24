@@ -1,16 +1,9 @@
 
 <HTML>
-　<HEAD>   
-　　<TITLE>網頁</TITLE>
-　　<Meta>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-　</HEAD>
-　<BODY>
-    <style type="text/css">
-h1 {                                            /*對應下面的h，會有所改變*/
-  color:red;
-}
-        </style>
+<HEAD>
+</HEAD>
+<BODY>
+
 <div id="app">
   <task-list :tasks="tasks"></task-list>
 </div>
@@ -145,16 +138,7 @@ Vue.component('task-item', {
 new Vue({
   el: '#app',
   data: {
-    tasks: [
-      {
-        title: 'Make todo list',
-        completed: true
-      },
-      {
-        title: 'Go skydiving',
-        completed: false
-      }
-    ]
+
   }
 });
 </script>

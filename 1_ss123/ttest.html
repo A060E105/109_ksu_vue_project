@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuex"></script>
+<body>
+    <div id="app">
+        <button @click="count++">You clicked me {{ count }} times.</button>
+      </div>
+      <div id="app2">
+        <button @click="click">You clicked metimes.</button>
+      </div>
+      <div id="app3">
+        <button-counter></button-counter>
+      </div>
+
+     
+<script>
+    var app = new Vue({
+    el: '#app',
+    data: {
+    count: 0 
+  }
+});
+var click =new Vue({
+    el:'#app2',
+    delimiters: ['${', '}'],
+    methods:{
+        click(){
+        alert("魚配賢");
+      }
+    }
+ });
+ Vue.component('button-counter',{
+   data:function(){
+     return {
+       count:1
+     };
+   },
+   template: '<button @click="count--">You clicked me {{ count }} times.</button>'
+ });
+  const vm = new Vue({
+    el: '#app3',
+  });
+</script>
+
+</body>
+</html>
+
+
+

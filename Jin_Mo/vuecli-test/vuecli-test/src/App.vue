@@ -1,18 +1,18 @@
 <template>
     <div id="app">
-        <stock></stock>
+        <newest-stock></newest-stock>
     </div>
 </template>
 
 
 
 <script>
-import Stock from './components/Stock/Stock';
+import NewestStock from './components/NewestStock/NewestStock';
 
 export default {
     name: 'App',
     components: {
-        Stock
+        NewestStock
     }
 };
 </script>
