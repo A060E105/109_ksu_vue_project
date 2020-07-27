@@ -1,7 +1,9 @@
 <template>
-  <FullCalendar 
-    :options="calendarOptions" 
-    locale='zh-cn' />
+    <div>
+        <FullCalendar 
+            :options="calendarOptions" 
+            locale='zh-cn' />
+    </div>
 </template>
 
 
