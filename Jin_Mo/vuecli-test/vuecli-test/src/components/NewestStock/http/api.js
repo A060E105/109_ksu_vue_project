@@ -16,17 +16,34 @@ const back = axios.create(config.back_end);
 // 為正確的JSON格式
 // =======================================
 back.interceptors.response.use(response => {
-    return replaceData(response.data);
+    response.data = replaceData(response.data);
+    response.data.stock = getHistoryStockData(response.data.data.watchStocks);
+    return response.data;
 })
 , error => {
     return Promise.reject(error);
 }
 
 /**
+ * 將關注的股票轉換為JSON格式，key值對應股票代碼，
+ * value為該股票歷史記錄
+ * 
+ * @param {JSON} data - 伺服器回傳的 watchStocks
+ * @return {JSON} JSON Object
+ */
+var getHistoryStockData = function (data) {
+    let watchStock = {};
+    data.forEach(item => {
+        watchStock[item.stock_serial] = item.earn_values;
+    });
+    return watchStock;
+}
+
+/**
  * 刪除字串的雙引號，讓格式符合JSON物件
  * 
- * @param data - 伺服器回傳的JSON物件
- * @return JSON Object
+ * @param {JSON} data - 伺服器回傳的JSON物件
+ * @return {JSON} JSON Object
  */
 var replaceData = function (data) {
     data = JSON.stringify(data);
@@ -41,8 +58,8 @@ var replaceData = function (data) {
 /**
  * 取得及時股價的 params 格式處理函式
  * 
- * @param stockList - 要查詢的股票代碼列表
- * @return {list} 處理過的 params
+ * @param {Array} stockList - 要查詢的股票代碼列表
+ * @return {string} 處理過的 params
  */
 var setParams = function (stocksList) {
     let len = stocksList.length;
