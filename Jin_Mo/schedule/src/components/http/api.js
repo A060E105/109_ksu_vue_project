@@ -3,18 +3,32 @@ import config from './config';
 
 const api = axios.create(config);
 
-axios.interceptors.request.use(function (config) {
+// request interceptors
+api.interceptors.request.use(function (config) {
     return config;
 },
 function (error) {
     return Promise.reject(error);
 });
 
+// response interceptors
+api.interceptors.response.use(function (response) {
+    return response;
+},
+function (error) {
+    return Promise.reject(error);
+});
+
+
 /**
  * 取得所有員工資訊
  */
 var getEmployees = function() {
-    return api.post('get_employees');
+    return api.get('get_employees', {
+        params: {
+            api_token: 1234
+        }
+    });
 }
 
 /**
@@ -37,6 +51,7 @@ var getDayInfo = () => {
 var getMonthInfo = () => {
     return api.post('');
 }
+
 
 export default {
     getEmployees,
