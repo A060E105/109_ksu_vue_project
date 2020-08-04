@@ -20,6 +20,7 @@
 
 <script>
 import {mapGetters, mapMutations} from 'vuex';
+import API from './http/api';
 
 export default {
     name: 'right',
@@ -35,6 +36,12 @@ export default {
     },
     mounted() {
         this.initCurrentDate();
+        API.getEmployees().then(response => {
+            console.log(response);
+        })
+        .catch(error => {
+            console.log(error);
+        });
     }
 }
 </script>

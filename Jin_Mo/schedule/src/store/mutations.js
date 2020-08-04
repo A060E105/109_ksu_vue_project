@@ -17,6 +17,8 @@ export const initCurrentDate = (state) => {
     state.currentDate = getDateStr(date);
 }
 
+
+
 /**
  * 返回當日的日期，格式為 YYYY-MM-DD
  * 
