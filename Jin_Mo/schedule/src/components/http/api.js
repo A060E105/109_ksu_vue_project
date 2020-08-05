@@ -13,21 +13,35 @@ function (error) {
 
 // response interceptors
 api.interceptors.response.use(function (response) {
-    return response;
+    response.data = replaceData(response.data);
+    return response.data;
 },
 function (error) {
     return Promise.reject(error);
 });
 
+/**
+ * 刪除字串的雙引號，讓格式符合JSON物件
+ *
+ * @param {JSON} data - 伺服器回傳的JSON物件
+ * @return {JSON} JSON Object
+ */
+var replaceData = function (data) {
+    data = JSON.stringify(data);
+    data = data.replace(/\"\[/g, '\[');
+    data = data.replace(/\"\]\"/g, '\"\]');
+    data = data.replace(/\:\"\{/g, '\:\{');
+    data = data.replace(/\}\}\"/g, '\}\}');
+    data = data.replace(/\\/g, '');
+    return JSON.parse(data);
+}
 
 /**
  * 取得所有員工資訊
  */
 var getEmployees = function() {
-    return api.get('get_employees', {
-        params: {
-            api_token: 1234
-        }
+    return api.post('get_employees', {
+        api_token: 1234
     });
 }
 
