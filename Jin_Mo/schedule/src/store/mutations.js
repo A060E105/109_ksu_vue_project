@@ -28,6 +28,11 @@ export const initilization = (state, data) => {
     state.defaultClass = myData.classData;
 }
 
+export const setHoliday = (state, data) => {
+    state.holiday = data;
+}
+
+
 /**
  * 將資料轉換成較方便使用的格式
  * 

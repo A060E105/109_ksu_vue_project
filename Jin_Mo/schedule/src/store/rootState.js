@@ -13,6 +13,9 @@ const state = {
     
     // 當前選擇日期的資訊
     dayInfo: {},
+
+    // 國定假日
+    holiday: []
 };
 
 export default state;

@@ -1,7 +1,8 @@
 import axios from 'axios';
 import config from './config';
 
-const api = axios.create(config);
+const api = axios.create(config.back);
+const holiday = axios.create(config.calendar);
 
 // request interceptors
 api.interceptors.request.use(function (config) {
@@ -20,6 +21,15 @@ function (error) {
     return Promise.reject(error);
 });
 
+// holiday response interceptors
+holiday.interceptors.response.use(function (response) {
+    return response.data;
+}),
+function (error) {
+    return Promise.reject(error);
+}
+
+
 /**
  * 刪除字串的雙引號，讓格式符合JSON物件
  *
@@ -34,6 +44,15 @@ var replaceData = function (data) {
     data = data.replace(/\}\}\"/g, '\}\}');
     data = data.replace(/\\/g, '');
     return JSON.parse(data);
+}
+
+var getHoliday = () => {
+    return holiday.get('json', {
+        params: {
+            page: 4,
+            size: 200
+        }
+    })
 }
 
 /**
@@ -71,5 +90,6 @@ export default {
     getEmployees,
     getEmpInfo,
     getDayInfo,
-    getMonthInfo
+    getMonthInfo,
+    getHoliday
 };

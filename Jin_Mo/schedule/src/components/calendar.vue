@@ -13,7 +13,7 @@ import FullCalendar from '@fullcalendar/vue';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import tw from '@fullcalendar/core/locales/zh-tw';
-import { mapMutations } from 'vuex';
+import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
 
 export default {
     name: 'calendar',
@@ -31,17 +31,23 @@ export default {
                 eventClick: this.eventClick,
                 fixedWeekCount: false,
                 events: [
-                    { id: '0', title: '早班', date: '2020-08-05' },
-                    { id: '1', title: '早班', date: '2020-08-06' },
-                    { id: '2', date: '2020-08-08', display: 'background', color: '#ff5555' },
-                    { id: '2', title: '休假', date: '2020-08-08',  color: '#ff5555' },
+                    // { id: '0', title: '早班', date: '2020-08-05' },
+                    // { id: '1', title: '早班', date: '2020-08-06', textColor: '#FF5555' },
+                    // { id: '2', date: '2020-08-08', display: 'background', color: '#ff5555' },
+                    // { id: '2', title: '休假', date: '2020-08-08',  color: '#ff5555' },
                 ],
             },
         }
     },
+    created() {
+        this.initHoliday();
+    },
     mounted() {
         this.calendarApi = this.$refs.calendar.getApi();
         console.log(this.calendarApi.getEvents());
+        setTimeout(() => {
+            this.setHoliday();
+        }, 5000);
     },
     methods: {
         handleDateClick: function(arg) {
@@ -60,10 +66,27 @@ export default {
             // event.event.remove();
             console.log(event.event.id);
             console.log(event.event.title);
-      },
-      ...mapMutations(
-          ['setCurrentDate']
-      )
+        },
+        setHoliday() {
+            this.getHoliday().forEach(element => {
+                this.calendarApi.addEvent({
+                    id: this.calendarApi.getEvents().length,
+                    title: element.name,
+                    date: element.date,
+                    display: 'list-item',
+                    color: '#FF5555'
+                });
+            });
+        },
+        ...mapMutations(
+            ['setCurrentDate']
+        ),
+        ... mapActions(
+            ['initHoliday']
+        ),
+        ...mapGetters(
+            ['getHoliday']
+        )
   }
 }
 </script>
