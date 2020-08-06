@@ -4,16 +4,15 @@ const state = {
 
     // 當前選擇的員工
     employee: 'ABC123',
+
+    // 預設的班別
+    defaultClass: {},
     
     // 所有員工基本資訊 -> 名稱、編號
-    employeeList: {},
+    employeesList: {},
     
     // 當前選擇日期的資訊
     dayInfo: {},
-    
-    // 當前員工的詳細資訊
-    employeeInfo: {}
-
 };
 
 export default state;

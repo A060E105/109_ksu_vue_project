@@ -31,9 +31,10 @@ export default {
                 eventClick: this.eventClick,
                 fixedWeekCount: false,
                 events: [
-                    // { id: '0', title: 'event 1', date: '2020-07-28' },
-                    // { id: '1', title: 'event 2', date: '2020-07-28' },
-                    // { id: '2', title: 'event 3', date: '2020-07-28' },
+                    { id: '0', title: '早班', date: '2020-08-05' },
+                    { id: '1', title: '早班', date: '2020-08-06' },
+                    { id: '2', date: '2020-08-08', display: 'background', color: '#ff5555' },
+                    { id: '2', title: '休假', date: '2020-08-08',  color: '#ff5555' },
                 ],
             },
         }
