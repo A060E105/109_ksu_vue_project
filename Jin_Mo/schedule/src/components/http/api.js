@@ -2,7 +2,7 @@ import axios from 'axios';
 import config from './config';
 
 const api = axios.create(config.back);
-const holiday = axios.create(config.calendar);
+const holiday = axios.create(config.holiday);
 
 // request interceptors
 api.interceptors.request.use(function (config) {

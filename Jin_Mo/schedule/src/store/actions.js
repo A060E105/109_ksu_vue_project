@@ -38,6 +38,7 @@ var filterData = (data) => {
         }
         element.date = date[0] + '-' + date[1] + '-' + date[2];
         
+        // 將彈性放假放至名稱的
         if (element.name == '') {
             element.name = element.holidayCategory;
         }
