@@ -1,10 +1,12 @@
 <template>
-  <li>
+  <ol>
     {{ todo.text }}
     <button @click="$emit('remove', todo.id)">
-      X
+      刪除
     </button>
-  </li>
+    <input type="checkbox">
+
+  </ol>
 </template>
 
 <script>
@@ -17,3 +19,6 @@ export default {
   }
 }
 </script>
+
+
+}
