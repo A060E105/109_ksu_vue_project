@@ -15,6 +15,7 @@ export const initCurrentDate = (state) => {
     let date = new Date();
 
     state.currentDate = getDateStr(date);
+    state.today = getDateStr(date);
 }
 
 /**

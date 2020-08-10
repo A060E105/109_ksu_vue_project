@@ -22,6 +22,7 @@ export default {
     },
     data() {
         return {
+            preDateInfo: null,
             calendarApi: null,
             calendarOptions: {
                 locale: tw,
@@ -31,10 +32,15 @@ export default {
                 eventClick: this.eventClick,
                 fixedWeekCount: false,
                 events: [
-                    // { id: '0', title: '早班', date: '2020-08-05' },
-                    // { id: '1', title: '早班', date: '2020-08-06', textColor: '#FF5555' },
+                    { id: '0', title: '早班', date: '2020-09-03' },
+                    { id: '1', title: '早班', date: '2020-08-06', textColor: '#FF5555' },
                     // { id: '2', date: '2020-08-08', display: 'background', color: '#ff5555' },
                     // { id: '2', title: '休假', date: '2020-08-08',  color: '#ff5555' },
+                    { title: '例假', date: '2020-08-08', display: 'list-item', color: '#FF0000'},
+                    { date: '2020-08-08', display: 'background', color: '#bbe9ff'},
+                    { date: '2020-08-15', display: 'background', color: '#bbe9ff'},
+                    { date: '2020-08-22', display: 'background', color: '#bbe9ff'},
+                    { date: '2020-08-29', display: 'background', color: '#bbe9ff'}
                 ],
             },
         }
@@ -50,16 +56,25 @@ export default {
         }, 5000);
     },
     methods: {
-        handleDateClick: function(arg) {
-            // alert('date click! ' + arg.dateStr);
-            console.log(arg.dateStr);
+        handleDateClick: function(info) {
+            // alert('date click! ' + info.dateStr);
+            console.log(info.dateStr);
             // let title = prompt('input');
             // this.calendarApi.addEvent({
             //     id: this.calendarApi.getEvents().length,
             //     title: title,
-            //     date: arg.dateStr
+            //     date: info.dateStr
             // });
-            this.setCurrentDate(arg.dateStr);
+            this.setCurrentDate(info.dateStr);
+            if (this.preDateInfo != null) {
+                console.log('today', this.getToday());
+                if (this.preDateInfo.dateStr == this.getToday())
+                    this.preDateInfo.dayEl.style.backgroundColor = '#f79d84';
+                else
+                    this.preDateInfo.dayEl.style.backgroundColor = 'white';
+            }
+            info.dayEl.style.backgroundColor = '#3fa7d6';
+            this.preDateInfo = info;
         },
         eventClick: function(event, jsEvent, pos) {
             console.log('eventClick', event, jsEvent, pos);
@@ -85,7 +100,7 @@ export default {
             ['initHoliday']
         ),
         ...mapGetters(
-            ['getHoliday']
+            ['getHoliday', 'getToday']
         )
   }
 }

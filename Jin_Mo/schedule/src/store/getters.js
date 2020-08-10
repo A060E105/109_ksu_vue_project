@@ -12,3 +12,5 @@ export const getDefaultClass = state => state.defaultClass;
 
 
 export const getHoliday = state => state.holiday;
+
+export const getToday = state => state.today;

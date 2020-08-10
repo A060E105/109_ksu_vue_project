@@ -15,7 +15,9 @@ const state = {
     dayInfo: {},
 
     // 國定假日
-    holiday: []
+    holiday: [],
+
+    today: ''
 };
 
 export default state;
