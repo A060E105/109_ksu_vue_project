@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="vue.js" type="text/javascript" charset="utf-8"></script>
+		
+</head>
+	<body>
+		
+		
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!--聲明式渲染 -->	
+<!--app.message-->
+		<div id="app">
+			{{message}} {{name}}
+		</div>
+		
+		<script type="text/javascript">
+		var app = new Vue ({
+			el: '#app',
+			data:{
+				message:'Hello Vue!',
+				name:'vue'
+			}
+			});
+		</script>
+
+		<div id="app-2">
+			<span v-bind:title="message">
+				滑鼠璇停幾秒鐘檢查看此觸動想綁定的提示信息!
+			</span>
+		</div>
+		<script type="text/javascript">
+		var app2 =new vue({
+			el: '#app-2',
+			data:{
+				message:'頁面加載於' + new Date().toLocaleString()
+			}
+		})
+		</script>
+<!--條件與循環  -->	
+	<!-- v-if-->
+		<div id="app-3">
+			<p v-if="seen">現在你看到我了</p>
+		</div>
+		<script type="text/javascript">
+		var app3 =new vue({
+			el:'#app-3',
+			data:{
+				seen:true
+			}
+		})
+		</script>
+<!-- v-for-->
+		<div id="app-4">
+			<ol>
+				<li v-for="todo in todos">
+					{{todo.text}}
+				</li>
+			</ol>
+		</div>
+		<script type="text/javascript">
+		var app4 =new Vue({
+			el:'#app-4',
+			data:{
+				todos:[
+					{text:'學習javascript'},
+					{text:'學習vue'},
+					{text:'學習整個項目'}
+			]}})
+		</script>
+<!--處理用戶輸入-->
+<!-- v-on -->
+		<div id="app-5">
+			<p>{{message}}</p>
+			<button v-on:click="reverseMessage">反轉訊息</button>
+		</div>
+		<script type="text/javascript">
+		var app5 =new Vue({
+			el:'#app-5',
+			data:{
+				message:'hello vue.js!'
+			},
+			methods:{
+				reverseMessage:function(){
+					this.message=this.message.split('').reverse().join('')
+				}
+			}
+		})
+		</script>
+<!-- vmodel-->
+		<div id="app-6">
+			<p>{{message}}</p>
+			<input v-model="message">
+		</div>
+		<script type="text/javascript">
+		var app6=new Vue({
+			el:'#app-6',
+			data:{
+				message:'hello vue!'
+			}
+		})
+		</script>
+
+<!--組件化應用構建-->		
+		<script type="text/javascript">
+		Vue.component('todo-item',{
+			template:'<li>這是個待為項</li>'
+		})
+		</script>
+
+		<div id="app-6-1">
+			<ol>
+			<todo-item></todo-item>
+			</ol>	
+		</div>
+		<script type="text/javascript">
+			Vue.component('todo-item',{
+				// todo-item 组件现在接受一个
+				// "prop"，类似于一个自定义 attribute。
+				// 这个 prop 名为 todo
+				props:['todo'],
+				template:'<li>{{todo.text}}</li>'
+			})
+			
+			new Vue ({
+				el:'#app-6-1'
+			})
+		
+		</script>
+			
+		<script type="text/javascript">
+		
+		</script>
+		<div id="app-7">
+			<ol>
+				<!--
+				现在我们为每个 todo-item 提供 todo 对象
+      			todo 对象是变量，即其内容可以是动态的。
+      			我们也需要为每个组件提供一个“key”，稍后再
+      			作详细解释。	
+				-->
+				<todo-item
+					v-for="item in groceryList"
+					v-bind:todo="item"
+					v-bind:key="item.id">
+				</todo-item>
+			</ol>
+		</div>
+		<script type="text/javascript">
+		Vue.component('todo-item',{
+			props:['todo'],
+			template:'<li>{{todo.text}}</li>'
+		})
+		</script>
+	
+		<script type="text/javascript">
+		var app7= new Vue({
+			el:'#app-7',
+			data:{
+				groceryList:[
+					{id:0,text:'蔬菜'},
+					{id:1,text:'奶酪'},
+					{id:2,text:'隨店其他甚麼人吃的東西'}
+				]
+			}
+		})
+		</script>
+		
+		
+		<script type="text/javascript">
+		var vm = new Vue({
+			//選項
+		})
+		</script>
+
+
+<!--
+	<script type="text/javascript">
+	var data ={a:1};
+	var vm =new Vue({
+		el:"#app-8",
+		data=data
+	});
+	data.a="hi...new..."
+	data.a ==vm.a
+	data.b ='hi'
+
+	data: {
+		newTodoText:'';
+		visitCount:0 ;
+		hideCompletedTodos:false;
+		todos:[];
+		error:null
+
+	}
+	</script>
+	<script type="text/javascript">
+	var obj ={
+		foo:'bar'
+	}
+	object.freeze(obj)
+
+	new Vue({
+		el:'#app-9',
+		data:obj
+	})
+	</script>
+	<div id="app-10">
+		<p>{{foo}}</p>
+		<button v-on:click="foo ='baz'">change it</button>
+	</div>
+	
+	<div id="app-11">
+		{{a}}
+	</div>
+
+	<script type="text/javascript">
+	var data={a:1};
+	var vm=new Vue({
+		data:data
+	})
+	//data.a="hi...new..."
+	vm.a;
+
+	vm.$data ===data;
+
+	var component=Vue.extend({
+		data:function(){
+			return{a:1}
+		}
+	})
+	</script>	
+-->	
+
+<!--Vue 實例-->
+<!--data-->
+	<div id="app-8">
+		{{a}}
+	</div>
+	<script type="text/javascript">
+		var data={a:1};
+		var vm=new Vue({
+			el:"#app-8",
+			data:data
+		})
+		vm.$data.a="test..."
+		
+		vm.$watch('a',function (newValue ,oldValue){
+			console.log(newVal,oidVal);
+			// 这个回调将在 `vm.a` 改变后调用
+		})
+		
+		vm.$data.a="test..."
+		</script>
+		
+<!--生命週期-->		
+	<div id="app-9">
+		{{b}}
+	</div>	
+	<script type="text/javascript">
+		var vm=new Vue({
+			el:"#app-9",
+			data:{
+				b:1,
+			},
+			created:function () {
+				console.log('b is:'+ this.b)
+			}
+		})
+	</script>
+	
+	<div id="app-10">
+		{{msg}}
+	</div>
+	<script type="text/javascript">
+		var vm =new Vue({
+			el:"#app-10",
+			data:{
+				msg:"hi Vue",
+			},
+			beforeCreate:function(){
+				console.log('beforeCreate');
+			},
+			created:function(){
+				console.log('created');
+			},
+			beforeMount:function(){
+				console.log('beforeMount');
+			},
+			mounted:function(){
+				console.log('mounted');
+			},
+			beforeUpdate:function(){
+				console.log('beforUpdate');
+			},
+			updated:function(){
+				console.log('updated');
+			},
+		});
+		
+setTimeout(function(){
+	vm.msg="changed ......";
+},3000);
+	</script><br>
+
+<!--模板語法  --->	
+<div id="app123" v-once>
+	<span> Message : {{msg}}</span>
+	<p>using mustaches:{{rawHtml}}</p>
+	<p v-html="rawHtml"></p>
+	<div v-bind:class="color">test ...</div>
+	<p>{{number+1}}</p>
+	<p>{{1==1? 'Yes':'No'}}</p>
+	<p>{{message.split('').reverse().join('')}}</p>
+	
+</div>
+<script type="text/javascript">
+var vm =new Vue({
+	el:"#app123",
+	data:{
+		msg:"hi Vue",
+		rawHtml:'<span style="color:red">this is should be red</span>',
+		color:'blue',
+		number:10,
+		ok:1,
+		message:"vue"
+			}
+	});	
+vm.msg= "hi...";	
+</script>
+<style type="text/css">
+.red{color:red;}
+.blue{color: blue;font-size: 50px;}
+</style>
+
+<!--指令、參數 -->
+<div id="app234">
+	<p v-if="seen">現在你看到我了</p>
+	<a v-bind:href="url">Vue.js</a>
+	<br>
+	<div @click="click1">
+		<div @click.stop="click2">
+			click me
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+var vm = new Vue({
+	el:"#app234",
+	data:{
+		seen: true,
+		url:"https://cn.vuejs.org/v2/guide/syntax.html"
+		},
+	methods:{
+		click1:function(){
+			console.log('click1....');
+		},
+		click2:function(){
+			console.log('click2....');
+		}
+	}	
+});
+</script>
+<!--條件渲染-->		
+<!--v-if-->
+		<div id='app-11'>
+			<h1 v-if="awesome">vue is awesome!</h1>
+			<h1 v-else> Oh ON</h1>
+			<template v-if="ok">
+				<h1>title</h1>
+				<p>Paragraph 1</p>
+				<p>Pargraph 2</p>
+				
+			</template>
+		</div>
+		<script type="text/javascript">
+				var vm =new Vue({
+					el:"#app-11"
+					
+					}
+		);
+			</script>
+<!--列表渲染-->			
+<!--v-for-->		
+		<div id="app-12">
+			<ul>
+				<li v-for="item in items" >
+					{{item.message}}
+				</li>
+			</ul>
+		</div>
+		
+		<script type="text/javascript">
+			var vm =new Vue({
+				el:"#app-12",
+				data:{
+					items:[
+						{message:'Foo'},
+						{message:'Bar'}
+					]
+				}
+	});
+		</script>
+<!--v-for-object-->		
+		<div id="app-13">
+				<ul>
+					<li v-for="(item,index) in items":key="index" >
+						{{ index }} - {{ item.message }}
+					</li>
+				</ul>
+				<ul id="v-for-object" class="demo">
+				  <li v-for="value in object">
+				    {{ value }}
+				  </li>
+				</ul>
+				<ul>
+				  <li v-for="value,key in object">
+				    {{ key }}:{{ value }}
+				  </li>
+				</ul>
+				<ul>
+					  <li v-for="value,name,index in object">
+					    {{index}}.{{ name }}:{{ value }}
+					  </li>
+					</ul>
+
+				</div>
+			
+			
+			
+			<script type="text/javascript">
+				var app13 = new Vue({
+					el:"#app-13",
+					data:{
+						parentMessage:'parent',
+						items:[
+							{message:'Foo'},
+							{message:'Bar'},
+						],
+					object:{
+						title:'How to do lists in Vue',
+						author:'Jane Doe',
+						publishedAt:'2016-04-10'
+					}	
+					}
+		});
+			</script>
+<!--todo-->	
+		<div id="todo-list-example">
+		  <form v-on:submit.prevent="addNewTodo">
+		    <label for="new-todo">Add a todo</label>
+		    <input
+		      v-model="newTodoText"
+		      id="new-todo"
+		      placeholder="E.g. Feed the cat"
+		    >
+		    <button>Add</button>
+		  </form>
+		  <ul>
+		    <li
+		      is="todo-item"
+		      v-for="(todo, index) in todos"
+		      v-bind:key="todo.id"
+		      v-bind:title="todo.title"
+		      v-on:remove="todos.splice(index, 1)"
+		    ></li>
+		  </ul>
+		</div>
+		
+		<script type="text/javascript">
+		Vue.component('todo-item', {
+		  template: '\
+		    <li>\
+		      {{ title }}\
+		      <button v-on:click="$emit(\'remove\')">Remove</button>\
+		    </li>\
+		  ',
+		  props: ['title']
+		})
+		
+		new Vue({
+		  el: '#todo-list-example',
+		  data: {
+		    newTodoText: '',
+		    todos: [
+		      {
+		        id: 1,
+		        title: 'Do the dishes',
+		      },
+		      {
+		        id: 2,
+		        title: 'Take out the trash',
+		      },
+		      {
+		        id: 3,
+		        title: 'Mow the lawn'
+		      }
+		    ],
+		    nextTodoId: 4
+		  },
+		  methods: {
+		    addNewTodo: function () {
+		      this.todos.push({
+		        id: this.nextTodoId++,
+		        title: this.newTodoText
+		      })
+		      this.newTodoText = ''
+		    }
+		  }
+		})
+		</script>
+<!--事件處理-->	
+	<!--監聽事件-->
+		<div id="example-1">
+			<button v-on:click="counter +=1">Add 1</button>
+			<p>The button above has been clicked{{counter}}times.</p>
+		</div>
+		<script type="text/javascript">
+			var example1=new Vue({
+				el:'#example-1',
+				data:{
+					counter:0
+				}
+			})
+		</script>
+<!--事件處理方法-->		
+		<div id="example-2">
+			<button v-on:click="greet ">Great</button>
+			
+		</div>
+		<script type="text/javascript">
+			var example2=new Vue({
+				el:'#example-2',
+				data:{
+					name:'Vue.js'
+				},
+				methods:{
+					greet:function(event){
+						alert('hello  '+this.name +'!')
+						if(event){
+							alert(event.target.tagName)
+						}
+					}
+				}
+			})
+			
+			example2.greet()
+		</script>
+<!--內聯處理器中的方法-->		
+		<div id="example-3">
+			<button v-on:click="say('hi')">Say hi</button>
+			<button v-on:click="say('what')">Say what</button>
+		</div>
+		<script type="text/javascript">
+			new Vue({
+				el:'#example-3',
+				methods:{
+					say:function(message){
+						alert(message)
+					}
+				}
+			})
+		</script>
+		<div id="example-4">
+			<button v-on:click="warn('Form cannot be submitted yet.',$event)">
+				Submit
+			</button>
+		</div>
+		<script type="text/javascript">
+			new Vue({
+				el:'#example-4',
+				methods:{
+					warn:function(message,event){
+						if(event){
+							event.preventDefault()
+						}
+						alert(message)
+					}
+				}
+				})
+		</script><br>
+
+<!--表單輸入綁定-->
+<!--文本-->			
+		<div id="example-5">
+			<input v-model="message"placeholder="edit me">
+			<p>Message is:{{message}}</p>
+		</div>
+		<script type="text/javascript">
+			new Vue({
+				el:'#example-5'
+			})
+		</script>
+<!--多行文本-->			
+		<div id="example-6">
+			<span>Multiline message is:</span>
+			<p style="white-space:pre-line;">{{message}}</p>
+			<br>
+			<textarea v-model="message"placeholder="add multiple lines">
+				
+			</textarea>
+			
+		</div>
+		<script type="text/javascript">
+			new Vue({
+				el:'#example-6'
+			})
+		</script>
+<!--單個複選框-->		
+	<div id="example-7">
+		<input type="checkbox" id="checkbox" v-model="checked">
+		<label for="checkedbox">{{checked}}</label>
+	</div>
+	<script type="text/javascript">
+		new Vue({
+			el:'#example-7'
+		})
+	</script>
+<!--多個複選框-->	
+	<div id="example-8">
+		<span>Checked names:{{checkedNames}}</span>
+		<br>
+		<input type="checkbox" id="jack"  value="Jack" v-model="checkedNames">
+		<label for="jack">Jack</label>
+        <br>
+		<input type="checkbox" id="john"  value="John" v-model="checkedNames">
+		<label for="jack">John</label>
+		<br>
+		<input type="checkbox" id="mike"  value="Mike" v-model="checkedNames">
+		<label for="jack">Mike</label>
+		<br>
+	</div>
+	<script type="text/javascript">
+		new Vue({
+			el:'#example-8',
+			data:{
+				checkedNames:''
+			}
+		})
+	</script><br>
+<!--單選按鈕-->	
+	<div id="example-9">
+	<span>Picked:{{picked}}</span>
+	<br>
+	<input type="radio" id="one"  value="One" v-model="picked">
+	<label for="one">One</label>
+	<br>
+	<input type="radio" id="two"  value="Two" v-model="picked">
+	<label for="two">Two</label>
+	
+	</div>
+	<script type="text/javascript">
+		new Vue({
+			el:'#example-9',
+			data:{
+				picked:''
+			}
+		})
+	</script><br>
+<!--單選擇框-->	
+	<div id="example-10">
+		<span>Selected:{{selected}}</span>
+		<br>
+		<select v-model="selected">
+			<option disabled value="">請選擇</option>
+			<option>A</option>
+			<option>B</option>
+			<option>C</option>
+		</select>
+	</div>
+		
+	<script type="text/javascript">
+		new Vue({
+			el:'#example-10',
+			data:{
+				selected:''
+			}
+		})
+	</script><br>
+	
+<!--多選擇框-->	
+	<div id="example-11">
+		<span>Selected:{{selected}}</span>
+		<br>
+		<select v-model="selected" multiple style="width: 50px;">
+			<option disabled value="">請選擇</option>
+			<option>A</option>
+			<option>B</option>
+			<option>C</option>
+		</select>
+	</div>
+		
+	<script type="text/javascript">
+		new Vue({
+			el:'#example-11',
+			data:{
+				selected:[]
+			}
+		})
+	</script><br>
+<!--動態選擇框-->	
+	<div id="example-12">
+		<span>Selected:{{selected}}</span>
+		<br>
+		<select v-model="selected">
+			<option v-for="option in options" v-bind:value="option.value">
+				{{option.text}}
+		</option>
+	</select>
+	</div>
+	
+	<script type="text/javascript">
+		new Vue({
+		  el: '#example-12',
+		  data: {
+		    selected: 'A',
+		    options: [
+		      { text: 'One', value: 'A' },
+		      { text: 'Two', value: 'B' },
+		      { text: 'Three', value: 'C' }
+		    ]
+		  }
+		})
+	</script><br>
+
+<!--複選框-->	
+	<div id="example-13">
+		<span>toggle:{{toggle}}</span>
+		<input
+		type="checkbox"
+		v-model="toggle"
+		true-value="yes"
+		false-value="no">
+		
+	</div>
+	<script type="text/javascript">
+	var vm=new Vue({
+		  el: '#example-13',
+		  toggle:[]
+		})	
+		
+	</script><br>
+<!--組件基礎-->	
+	<div id="app-14">
+		<button-counter title="title1:"@clicknow="clicknow">
+		<h2>hi...h2</h2>
+		</button-counter><br>
+		<button-counter title="title2:"@clicknow="clicknow"></button-counter><br>
+		<button-counter title="title3:"@clicknow="clicknow"></button-counter>
+	
+	</div>
+	<script type="text/javascript">
+	Vue.component('button-counter',{
+		props:['title'],
+		data:function(){
+			return{
+				count:0
+			}
+		},
+		template:'<div><h2>hi...</h2><button v-on:click="count++">{{title}}You clicked me {{count}} times.</button><slot></slot></div>',
+		methods:{
+			clickfun:function(){
+				this.count ++;
+				this.$emit('clicknow',this.count);
+			}
+		}
+	})
+	
+	var vm=new Vue({
+		el:"#app-14",
+		data:{
+			
+		},
+		methods:{
+			clicknow:function(e){
+				console.log(e);
+			}
+		}
+	});
+	</script><br>
+	
+	<div id="blog-post-demo1", v-html="content",class="blog-post"> 
+		<h3>{{ title }}</h3>
+		<blog-post
+		  v-for="post in posts"
+		  v-bind:key="post.id"
+		  v-bind:post="post"
+		></blog-post>
+	</div>
+	
+	<script type="text/template">
+	Vue.component('blog-post', {
+	  props: ['post'],
+	  template: `
+	    <div class="blog-post">
+	      <h3>{{ post.title }}</h3>
+	      <div v-html="post.content"></div>
+	    </div> `
+		}
+	
+	new Vue({
+	  el: '#blog-post-demo1',
+	  
+		
+		}
+		
+	})
+	</script>
+	
+	
+	
+	
+	
+	
+		
+		
+<style type="text /class"></style>
+</body>
+</html>
