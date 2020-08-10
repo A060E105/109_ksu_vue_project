@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div id='app'>
+		<row
+			v-for='message in messages'
+			:temps='message'
+		></row>
+    </div>
+    <template id='temp'>
+    	<p>{{ temps	 }}</p>
+    </template>
+    <script type="text/javascript">
+    	Vue.component('row',{
+    		props:['temps'],
+    		template:'#temp'
+    	})
+	    new Vue({
+	        el:'#app',
+	        data:{
+	           messages:[
+	           	{text:'hello world'}
+	           ]
+	        }
+	    })
+    </script>
+</body>
+</html>
