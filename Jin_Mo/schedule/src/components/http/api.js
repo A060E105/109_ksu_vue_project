@@ -82,7 +82,14 @@ var getDayInfo = () => {
  * 取得當月資訊
  */
 var getMonthInfo = () => {
-    return api.post('');
+    return api.get('schedule_api', {
+        params: {
+            action: 'monthInfo',
+            api_token: '1234',
+            year: '2020',
+            month: '9'
+        }
+    });
 }
 
 
