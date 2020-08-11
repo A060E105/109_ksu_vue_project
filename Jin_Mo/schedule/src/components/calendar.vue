@@ -54,6 +54,9 @@ export default {
         setTimeout(() => {
             this.setHoliday();
         }, 5000);
+
+        // test get calendar function
+        this.get_calendar('2020-08-01');
     },
     methods: {
         handleDateClick: function(info) {
@@ -92,6 +95,30 @@ export default {
                     color: '#FF5555'
                 });
             });
+        },
+        get_calendar(date) {
+            date = new Date(date);
+            let shift = date.getDay();
+            let calendar = [];
+            let day = 1;
+            let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+            for(let week_number = 0; week_number < 6; week_number++) {
+                let temp = [];
+                for(let week = 0; week < 7; week++) {
+                    if (shift) {
+                        temp.push(-1);
+                        shift--;
+                    } else {
+                        if (day <= lastDay) {
+                            temp.push(day++);
+                        } else {
+                            temp.push(-1);
+                        }
+                    }
+                }
+                calendar.push(temp);
+            }
+            console.log(calendar);
         },
         ...mapMutations(
             ['setCurrentDate']
