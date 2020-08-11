@@ -4,6 +4,8 @@
             :options="calendarOptions" 
             ref="calendar"
         />
+        <button @click="removeEvents('holiday')">remove holiday events</button>
+        <button @click="removeEvents('test')">remove test events</button>
     </div>
 </template>
 
@@ -32,15 +34,15 @@ export default {
                 eventClick: this.eventClick,
                 fixedWeekCount: false,
                 events: [
-                    { id: '0', title: '早班', date: '2020-09-03' },
-                    { id: '1', title: '早班', date: '2020-08-06', textColor: '#FF5555' },
-                    // { id: '2', date: '2020-08-08', display: 'background', color: '#ff5555' },
-                    // { id: '2', title: '休假', date: '2020-08-08',  color: '#ff5555' },
-                    { title: '例假', date: '2020-08-08', display: 'list-item', color: '#FF0000'},
-                    { date: '2020-08-08', display: 'background', color: '#bbe9ff'},
-                    { date: '2020-08-15', display: 'background', color: '#bbe9ff'},
-                    { date: '2020-08-22', display: 'background', color: '#bbe9ff'},
-                    { date: '2020-08-29', display: 'background', color: '#bbe9ff'}
+                    { id: 'test', title: '早班', date: '2020-09-03' },
+                    { id: 'test', title: '早班', date: '2020-08-06', textColor: '#FF5555' },
+                    // { id: 'test', date: '2020-08-08', display: 'background', color: '#ff5555' },
+                    // { id: 'test', title: '休假', date: '2020-08-08',  color: '#ff5555' },
+                    { id: 'test', title: '例假', date: '2020-08-08', display: 'list-item', color: '#FF0000'},
+                    { id: 'test', date: '2020-08-08', display: 'background', color: '#bbe9ff'},
+                    { id: 'test', date: '2020-08-15', display: 'background', color: '#bbe9ff'},
+                    { id: 'test', date: '2020-08-22', display: 'background', color: '#bbe9ff'},
+                    { id: 'test', date: '2020-08-29', display: 'background', color: '#bbe9ff'}
                 ],
             },
         }
@@ -88,7 +90,7 @@ export default {
         setHoliday() {
             this.getHoliday().forEach(element => {
                 this.calendarApi.addEvent({
-                    id: this.calendarApi.getEvents().length,
+                    id: 'holiday',
                     title: element.name,
                     date: element.date,
                     display: 'list-item',
@@ -119,6 +121,15 @@ export default {
                 calendar.push(temp);
             }
             console.log(calendar);
+        },
+        removeEvents(id) {
+            let temp = this.calendarApi.getEvents();
+            console.log(temp);
+            temp.forEach(event => {
+                console.log(event.id);
+                if (event.id === id)
+                    event.remove();
+            });
         },
         ...mapMutations(
             ['setCurrentDate']
