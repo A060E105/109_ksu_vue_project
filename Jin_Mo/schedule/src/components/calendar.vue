@@ -4,8 +4,8 @@
             :options="calendarOptions" 
             ref="calendar"
         />
-        <button @click="removeEvents('holiday')">remove holiday events</button>
-        <button @click="removeEvents('test')">remove test events</button>
+        <button @click="removeEvents('holiday')" :class="{...myClass}">remove holiday events</button>
+        <button @click="removeEvents('test')" :class="{...myClass}">remove test events</button>
     </div>
 </template>
 
@@ -25,6 +25,10 @@ export default {
     },
     data() {
         return {
+            myClass: {
+                btn: true,
+                'btn-primary': true
+            },
             preDateInfo: null,
             calendarApi: null,
             calendarOptions: {
