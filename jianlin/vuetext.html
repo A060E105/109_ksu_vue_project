@@ -8,57 +8,49 @@
 
 	<div id="app" >
 		<input v-model='message'>
-		<button v-if='message' @click='createtodo'>送出</button>
-		<button v-if='type'>修改</button>
-		<template id="sublimebtn">
-			<button v-if={{types}}>送出</button>
-		</template>
-		<sublime v-bind:type='type'></sublime>
-		<li v-for='list in lists'>
-			{{ list.text }}
-			<button  @click='deletetodo(list)'>新增</button>
-			<button  @click='updatetodoList(list)'>修改</button>
-		</li>
+			<button @click='createtodo'>送出</button>
+		<li v-for='list in firstName' style="list-style-type: none;">
+	    	<span >{{ list.text}}</span>
+    		<button @click='updatetodo(list)'>編輯</button>
+    		<button @click='deletetodo(list)'>移除</button>
+    	</li>
 	</div>
-	
 	<script type="text/javascript">
-		Vue.component('sublime', {
-		  props: ['types'],
-		  template: '#sublimebtn'
-		})
-		Vue.component('test',{
-			methods:{
-				sublime(){
-					console.log('hey')
-				}
-			},
-			props:['title'],
-			template:'#test'
-		})
 		new Vue({
 			el:'#app',
 			data:{
-				message:'Showcreate',
+				message:'',
 				lists:[],
-				type:'Showcreate',
 				Showcreate:'true',
 				Showupdate:'true',
 
 			},
 			methods:{
 				createtodo(){
-					this.lists.push({text:this.message})
+					this.lists.push({id:this.lists.length,text:this.message})
+					this.message=''
 				},
 				deletetodo(list){
-					this.lists.splice(this.lists.indexOf(list),1)
+					this.lists.splice(list.id,1)
 				},
-				updatetodoList(list)
-				{
-					this.message=list.text;	
-					this.type='Showupdate';	
-					console.log(this.type);
-				}
-			}
+				updatetodo(list){
+					Vue.set(this.lists,list.id,{
+						id:list.id,
+						text:this.message,
+					})
+					this.message=list.text
+					console.log(!this.updatetype)
+				}	
+			},
+			computed:{
+	           firstName: function(list) {
+	           	if (list.id==2)
+	           	{
+	           		console.log(list.id);
+	           	}
+			      	return this.list			   
+			    }
+	        }
 		})
 	</script>
 </body>
