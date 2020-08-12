@@ -29,10 +29,42 @@ export const initilization = (state, data) => {
     state.defaultClass = myData.classData;
 }
 
+/**
+ * 設定國定假日
+ * 
+ * @param {array} data 
+ */
 export const setHoliday = (state, data) => {
-    state.holiday = data;
+    state.holiday = filterData(data);
 }
 
+/**
+ * 將例假日過濾掉，並轉換日期格式
+ * 
+ * @param {Array} data 
+ */
+var filterData = (data) => {
+    let newData = data.filter(function(item, index, array) {
+        return item.holidayCategory != '星期六、星期日';
+    });
+
+    newData.forEach(element => {
+        let date = element.date.split('/');
+        for(let i=1; i<=2; i++) {
+            if (date[i].length == 1) {
+                date[i] = '0' + date[i];
+            }
+        }
+        element.date = date[0] + '-' + date[1] + '-' + date[2];
+        
+        // 將彈性放假放至名稱的
+        if (element.name == '') {
+            element.name = element.holidayCategory;
+        }
+    });
+
+    return newData;
+}
 
 /**
  * 將資料轉換成較方便使用的格式

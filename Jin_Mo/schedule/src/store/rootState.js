@@ -1,9 +1,9 @@
 const state = {
     // 當前選擇日期
-    currentDate: '2020-01-01',
+    currentDate: '',
 
     // 當前選擇的員工
-    employee: 'ABC123',
+    employee: '',
 
     // 預設的班別
     defaultClass: {},
@@ -17,6 +17,7 @@ const state = {
     // 國定假日
     holiday: [],
 
+    // 當天日期
     today: ''
 };
 

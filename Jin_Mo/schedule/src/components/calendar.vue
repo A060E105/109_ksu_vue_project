@@ -15,6 +15,7 @@ import FullCalendar from '@fullcalendar/vue';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import tw from '@fullcalendar/core/locales/zh-tw';
+import API from './http/api';
 import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
 
 export default {
@@ -53,9 +54,6 @@ export default {
     mounted() {
         this.calendarApi = this.$refs.calendar.getApi();
         console.log(this.calendarApi.getEvents());
-        setTimeout(() => {
-            this.setHoliday();
-        }, 5000);
 
         // test get calendar function
         this.get_calendar('2020-08-01');
@@ -87,15 +85,25 @@ export default {
             console.log(event.event.id);
             console.log(event.event.title);
         },
-        setHoliday() {
-            this.getHoliday().forEach(element => {
-                this.calendarApi.addEvent({
-                    id: 'holiday',
-                    title: element.name,
-                    date: element.date,
-                    display: 'list-item',
-                    color: '#FF5555'
+        initHoliday() {
+            // get origin holiday data
+            API.getHoliday().then(response => {
+                // set store.state.holiday
+                this.setHoliday(response);
+
+                // get store.state.holiday
+                this.getHoliday().forEach(element => {
+                    this.calendarApi.addEvent({
+                        id: 'holiday',
+                        title: element.name,
+                        date: element.date,
+                        display: 'list-item',
+                        color: '#FF5555'
+                    });
                 });
+            })
+            .catch(error => {
+                console.log(error);
             });
         },
         get_calendar(date) {
@@ -132,10 +140,7 @@ export default {
             });
         },
         ...mapMutations(
-            ['setCurrentDate']
-        ),
-        ... mapActions(
-            ['initHoliday']
+            ['setCurrentDate', 'setHoliday']
         ),
         ...mapGetters(
             ['getHoliday', 'getToday']
