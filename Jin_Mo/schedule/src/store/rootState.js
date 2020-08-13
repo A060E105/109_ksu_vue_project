@@ -21,6 +21,30 @@ const state = {
         5: {
             name: 'Jin',
             id: '5'
+        },
+        7: {
+            name: 'test1',
+            id: '7'
+        },
+        8: {
+            name: 'test2',
+            id: '8'
+        },
+        9: {
+            name: 'test3',
+            id: '9'
+        },
+        10: {
+            name: 'test4',
+            id: '10'
+        },
+        11: {
+            name: 'test5',
+            id: '11'
+        },
+        12: {
+            name: 'test6',
+            id: '12'
         }
     },
     
