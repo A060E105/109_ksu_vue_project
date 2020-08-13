@@ -3,13 +3,26 @@ const state = {
     currentDate: '',
 
     // 當前選擇的員工
-    employee: '',
+    currentEmployee: '',
 
     // 預設的班別
     defaultClass: {},
     
     // 所有員工基本資訊 -> 名稱、編號
-    employeesList: {},
+    employeesList: {
+        4: {
+            name: 'ted',
+            id: '4'
+        },
+        6: {
+            name: 'connor',
+            id: '6'
+        },
+        5: {
+            name: 'Jin',
+            id: '5'
+        }
+    },
     
     // 當前選擇日期的資訊
     dayInfo: {},

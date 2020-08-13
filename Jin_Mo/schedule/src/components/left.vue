@@ -3,25 +3,11 @@
         <div class="container h-50 my-1 p-0" style="overflow-y: scroll">
             <div class="row h-100">
                 <div class="col">
-                        <button type="button" class="list-group-item list-group-item-action active">Dapibus ac facilisis in</button>
-                        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-                        <button type="button" class="list-group-item list-group-item-action active">Dapibus ac facilisis in</button>
-                        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-                        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-                        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-                        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-                        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-                        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-                        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-                        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-                        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-                        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-                        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-                        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-                        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-                        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-                        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-                        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
+                        <employeesList 
+                            v-for='(employee, index) in this.getEmployeesList()'
+                            :employee='employee'
+                            :key='index'
+                        ></employeesList>
                 </div>
             </div>
         </div>
@@ -45,7 +31,18 @@
 
 
 <script>
+import { mapGetters } from 'vuex';
+import employeesList from './employeesList';
+
 export default {
-    name: 'left'
+    name: 'left',
+    components: {
+        employeesList
+    },
+    methods: {
+        ...mapGetters(
+            ['getEmployeesList']
+        )
+    }
 }
 </script>

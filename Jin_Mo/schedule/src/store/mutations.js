@@ -30,6 +30,15 @@ export const initilization = (state, data) => {
 }
 
 /**
+ * 設定當前員工編號
+ * 
+ * @param {string} employee 
+ */
+export const setEmployee = (state, employee) => {
+    state.currentEmployee = employee;
+}
+
+/**
  * 設定國定假日
  * 
  * @param {array} data 
