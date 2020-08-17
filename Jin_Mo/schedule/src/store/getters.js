@@ -4,6 +4,10 @@
  */
 export const getCurrentDate = state => state.currentDate;
 
+/**
+ * 取得當前員工資訊
+ */
+export const getEmployeeInfo = state => state.employeeInfo;
 
 /**
  * 取得預設班別 

@@ -6,6 +6,7 @@
         />
         <button @click="removeEvents('holiday')" :class="{...myClass}">remove holiday events</button>
         <button @click="removeEvents('test')" :class="{...myClass}">remove test events</button>
+        <button @click="addEmployeeEvents()" :class="{...myClass}">addEmployeeEvents</button>
     </div>
 </template>
 
@@ -134,6 +135,28 @@ export default {
             }
             console.log(calendar);
         },
+        addEmployeeEvents() {
+            this.removeEvents('employees');
+            let work = this.getEmployeeInfo()['work'];
+            let index = Object.keys(work);
+            index.forEach(date => {
+                this.calendarApi.addEvent({
+                    id: 'employees',
+                    title: this.getDefaultClass()[work[date]],
+                    date: date
+                });
+            });
+
+            let off = this.getEmployeeInfo()['off'];
+            off.forEach(date => {
+                this.calendarApi.addEvent({
+                    id: 'employees',
+                    title: 'off',
+                    date: date,
+                    color: '#ff5555'
+                });
+            });
+        },
         removeEvents(id) {
             let temp = this.calendarApi.getEvents();
             console.log(temp);
@@ -146,9 +169,12 @@ export default {
         ...mapMutations(
             ['setCurrentDate', 'setHoliday']
         ),
-        ...mapGetters(
-            ['getHoliday', 'getToday']
-        )
+        ...mapGetters([
+            'getHoliday',
+            'getToday',
+            'getDefaultClass',
+            'getEmployeeInfo'
+        ])
   }
 }
 </script>
