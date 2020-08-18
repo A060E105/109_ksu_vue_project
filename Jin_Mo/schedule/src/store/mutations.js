@@ -26,7 +26,8 @@ export const initCurrentDate = (state) => {
 export const initilization = (state, data) => {
     let myData = formatData(data);
     console.log('myData', myData);
-    // state.defaultClass = myData.classData;
+    state.defaultClass = myData.classData;
+    state.employeesList = myData.employeesData;
 }
 
 /**

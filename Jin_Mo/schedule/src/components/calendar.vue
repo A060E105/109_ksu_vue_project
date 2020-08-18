@@ -142,7 +142,7 @@ export default {
             index.forEach(date => {
                 this.calendarApi.addEvent({
                     id: 'employees',
-                    title: this.getDefaultClass()[work[date]],
+                    title: this.getDefaultClass()[work[date]]['shift_name'],
                     date: date
                 });
             });

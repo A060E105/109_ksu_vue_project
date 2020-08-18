@@ -22,7 +22,7 @@ export default {
     },
     computed: {
         name() {
-            return this.employee.name;
+            return this.employee.e_name;
         },
         ...mapState(['currentEmployee'])
     },
