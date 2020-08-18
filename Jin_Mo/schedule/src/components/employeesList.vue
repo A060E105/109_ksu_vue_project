@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button type="button" :class="{...myClass, active: (employee.id == currentEmployee)?true:false}" @click="setStoreEmployee">{{ name }}</button>
+        <button type="button" :class="{...myClass, active: (employee.e_id == currentEmployee)?true:false}" @click="setStoreEmployee">{{ name }}</button>
     </div>
 </template>
 
@@ -32,7 +32,7 @@ export default {
         ),
         setStoreEmployee() {
             // set store.state.employee
-            this.setEmployee(this.employee.id);
+            this.setEmployee(this.employee.e_id);
         }
     }
 }
