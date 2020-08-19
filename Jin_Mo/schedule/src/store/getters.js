@@ -32,4 +32,9 @@ export const getEmployee = state => state.currentEmployee;
 /**
  * 取得所有員工資料
  */
-export const getEmployeesList = state => state.employeesList
+export const getEmployeesList = state => state.employeesList;
+
+/**
+ * 取得當日資料
+ */
+export const getDayInfo = state => state.dayInfo;

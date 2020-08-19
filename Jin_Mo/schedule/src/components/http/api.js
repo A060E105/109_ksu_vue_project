@@ -14,7 +14,7 @@ function (error) {
 
 // response interceptors
 api.interceptors.response.use(function (response) {
-    response.data = replaceData(response.data);
+    // response.data = replaceData(response.data);
     return response.data;
 },
 function (error) {
