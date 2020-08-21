@@ -1,10 +1,13 @@
 import axios from 'axios'
-import VueAxios from 'vue-axios'
+import config from "./config";
 const cors='https://cors-anywhere.herokuapp.com/';
 
-const hlidayRequest=axios.create({
-    baseURL:`${cors}http://admin_ecover.maxosoft.com/index.php/api/HRMClinic/v1/vue_api`
-})
+const hliday=axios.create(config)
 
-export const apiHlidayList = () => hlidayRequest.get('/holiday_api?action=list&api_token=1234');
-export const apiHlidayadd = data => hlidayRequest.post('/holiday_api?action=set&api_token=1234',data);
+const apiHlidayList = () => hliday.get('/holiday_api?action=list&api_token=1234');
+const apiHlidayadd = data => hliday.post('/holiday_api?action=set&api_token=1234',data);
+
+export default {
+    apiHlidayadd,
+    apiHlidayList
+}
