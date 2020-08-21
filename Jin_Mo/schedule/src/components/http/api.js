@@ -67,8 +67,17 @@ var getEmployees = function() {
 /**
  * 取得當前員工資訊
  */
-var getEmpInfo = () => {
-    return api.post('');
+var getEmpInfo = (date, e_id) => {
+    let {year, month} = getDateValue(date);
+    return api.get('schedule_api', {
+        params: {
+            api_token: '1234',
+            action: 'empInfo',
+            year: year,
+            month: month,
+            emp_id: e_id
+        }
+    });
 }
 
 /**
@@ -92,6 +101,35 @@ var getMonthInfo = () => {
     });
 }
 
+/**
+ * 取得當日資訊
+ *
+ * @param {string} date current date
+ */
+var getDayInfo = (date) => {
+    return api.get('schedule_api', {
+        params: {
+            action: 'dayInfo',
+            api_token: '1234',
+            work_date: date
+        }
+    });
+}
+
+/**
+ * 拆解日期字串
+ * 
+ * @param {string} date 日期字串
+ * @returns \{ year, month, day }
+ */
+var getDateValue = date => {
+    let str = date.split('-');
+    let year = str[0];
+    let month = str[1];
+    let day = str[2];
+
+    return {year,month,day};
+}
 
 export default {
     getEmployees,

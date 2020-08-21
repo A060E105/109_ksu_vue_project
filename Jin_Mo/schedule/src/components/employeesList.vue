@@ -6,7 +6,9 @@
 
 
 <script>
-import { mapMutations, mapState } from 'vuex';
+import { mapMutations, mapState, mapGetters } from 'vuex';
+import API from './http/api';
+
 export default {
     name: 'employeesList',
     props: {
@@ -30,9 +32,18 @@ export default {
         ...mapMutations(
             ['setEmployee']
         ),
+        ...mapGetters(
+            ['getCurrentDate']
+        ),
         setStoreEmployee() {
             // set store.state.employee
             this.setEmployee(this.employee.e_id);
+            API.getEmpInfo(this.getCurrentDate(), this.employee.e_id).then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+            });
         }
     }
 }

@@ -74,6 +74,12 @@ export default {
             //     date: info.dateStr
             // });
             this.setCurrentDate(info.dateStr);
+            API.getDayInfo(info.dateStr).then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+            });
             if (this.preDateInfo != null) {
                 console.log('today', this.getToday());
                 if (this.preDateInfo.dateStr == this.getToday())
