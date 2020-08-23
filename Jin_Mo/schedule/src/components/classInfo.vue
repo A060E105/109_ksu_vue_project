@@ -10,6 +10,7 @@
         <div v-for="(id, index) in employeesId"
             :key="index">
             <button
+                v-if='employeesId != undefined || employeesId != null'
                 @click="show(id)"
                 :class="{...myClass, 'disabled': (statusFlag==false)?true:false}">
                 {{ getEmployeesList()[id]['e_name'] }}

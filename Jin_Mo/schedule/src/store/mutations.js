@@ -40,6 +40,24 @@ export const setEmployee = (state, employee) => {
 }
 
 /**
+ * 設定當天資訊
+ * 
+ * @param {object} dayInfo
+ */
+export const setDayInfo = (state, dayInfo) => {
+    state.dayInfo = dayInfo;
+}
+
+/**
+ * 設定當前員工資訊
+ * 
+ * @param {object} employeeInfo 
+ */
+export const setEmployeeInfo = (state, employeeInfo) => {
+    state.employeeInfo = employeeInfo;
+}
+
+/**
  * 設定國定假日
  * 
  * @param {array} data 

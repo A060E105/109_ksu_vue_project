@@ -30,7 +30,7 @@ export default {
     },
     methods: {
         ...mapMutations(
-            ['setEmployee']
+            ['setEmployee', 'setEmployeeInfo']
         ),
         ...mapGetters(
             ['getCurrentDate']
@@ -40,6 +40,8 @@ export default {
             this.setEmployee(this.employee.e_id);
             API.getEmpInfo(this.getCurrentDate(), this.employee.e_id).then(response => {
                 console.log(response);
+                // set store.state.employeeInfo
+                this.setEmployeeInfo(response.data);
             })
             .catch(error => {
                 console.log(error);
