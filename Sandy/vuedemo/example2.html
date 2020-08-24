@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>点击改变按钮文字</title>
+<meta http-equiv="content-Type" content="text/html;charset=gb2312">
+</head>
+<body>
+
+<div>
+<form name="form1" method="post" action="">
+<input name="ok" type="button" id="ok" value="休假" onClick="hao();">
+</form>
+<form name="form2" method="post2" action="">
+<input name="ok2" type="button" id="ok2" value="休假" onClick="hao();">
+</form>	
+</div>	
+
+<script language="JavaScript">
+function hao() {
+   if (document.form1.ok.value=="休假")
+   {
+     document.form1.ok.value="例假";
+   }
+   else
+   {
+     document.form1.ok.value="休假";
+   }
+}
+</script>
+
+
+</body>
+</html>

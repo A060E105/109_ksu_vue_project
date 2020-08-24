@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+		.button {
+		    color: black;
+		    background-color: deepskyblue ;
+		    border-color: deepskyblue;
+		}
+		table, th, td {
+		  border: 1px solid black;
+		  border-collapse: collapse;	
+
+		}
+		</style>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+	</head>
+<body>
+<div id="web-1">
+		<div class="btn-group">
+		<form name="form" method="post" action="">
+		<input name="ok" type="button" id="ok" value="休假" onClick="hao();">
+		</form>
+		<form name="form1" method="post" action="">
+		<input name="ok1" type="button" id="ok" value="例假" onClick="hao1();">
+		</form>
+		
+		
+		
+		<br>
+</div>
+	<br>
+
+	<table align="center",	width="500" ,height="80">
+	<thead>
+	<tr>
+	<th>周/星期</th>	
+	<th>星期日</th>
+	<th>星期一</th>
+	<th>星期二</th>
+	<th>星期三</th>
+	<th>星期四</th>
+	<th>星期五</th>
+	<th>星期六</th>
+	
+	</tr>
+	
+	<tr>
+	<th>1</th>
+	<th> 
+	<form name="form3" method="post" action="">
+	<input name="ok1" type="button" id="ok" value="          " onClick="hao();">
+	</form></th>
+	<th><form name="form4" method="post" action="">
+	<input name="ok4" type="button" id="ok" value="          " onClick="hao2();">
+	</form></th>
+	<th><button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button> </th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>
+	</tr>
+	
+	<tr>
+	<th>2</th>
+	<th><button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button> </th>
+	<th><button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button> </th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>	
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>	
+	</tr>
+	
+	<tr>
+	<th>3</th>
+	<th><button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button> </th>
+	<th><button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button> </th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>	
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>	
+	</tr>
+
+	<tr>
+	<th>4</th>
+	<th><button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button> </th>
+	<th><button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button> </th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>	
+	</tr>
+	
+	<tr>
+	<th>5</th>
+	<th><button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button> </th>
+	<th><button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button> </th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>	
+	</tr>
+	
+	<tr>
+	<th>6</th>
+	<th><button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button> </th>
+	<th><button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button> </th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>
+	<th> <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">{{button}}</button></th>	
+	</tr>
+		
+	</thead>
+	</table>
+	</div>
+	</div>
+		
+
+<script type="text/javascript">
+
+var vm = new Vue({
+	el:"#web-1"
+});
+	
+</script>
+<script language="JavaScript">
+function hao() {
+   if (document.form3.ok1.value=="休假")
+   {
+     document.form3.ok1.value="休假";
+   }
+   else
+   {
+     document.form3.ok1.value="休假";
+   } 
+}
+
+function hao1() {
+   if (document.form3.ok1.value=="例假")
+   {
+     document.form3.ok1.value="例假";
+   }
+   else
+   {
+     document.form3.ok1.value="例假";
+   }
+}
+
+function hao2() {
+   if (document.form4.ok4.value=="休假")
+   {
+     document.form4.ok4.value="休假";
+   }
+   else
+   {
+     document.form4.ok4.value="休假";
+   }
+}
+
+</script>
+
+</body>
+</html>

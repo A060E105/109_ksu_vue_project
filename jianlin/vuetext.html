@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<div id="app" >
+		<input v-model='message'>
+			<button @click='createtodo'>送出</button>
+		<li v-for='list in firstName' style="list-style-type: none;">
+	    	<span >{{ list.text}}</span>
+    		<button @click='updatetodo(list)'>編輯</button>
+    		<button @click='deletetodo(list)'>移除</button>
+    	</li>
+	</div>
+	<script type="text/javascript">
+		new Vue({
+			el:'#app',
+			data:{
+				message:'',
+				lists:[],
+				Showcreate:'true',
+				Showupdate:'true',
+
+			},
+			methods:{
+				createtodo(){
+					this.lists.push({id:this.lists.length,text:this.message})
+					this.message=''
+				},
+				deletetodo(list){
+					this.lists.splice(list.id,1)
+				},
+				updatetodo(list){
+					Vue.set(this.lists,list.id,{
+						id:list.id,
+						text:this.message,
+					})
+					this.message=list.text
+					console.log(!this.updatetype)
+				}	
+			},
+			computed:{
+	           firstName: function(list) {
+	           	if (list.id==2)
+	           	{
+	           		console.log(list.id);
+	           	}
+			      	return this.list			   
+			    }
+	        }
+		})
+	</script>
+</body>
+</html>

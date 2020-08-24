@@ -1,21 +1,44 @@
 <template>
-    <div class='container bg-dark h-100 w-100 p-2 text-white'>
-        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-        <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
+    <div class='container bg-dark text-white h-100'>
+        <div class="row py-2 mx-1 my-height overflow-auto">
+            <div class="col p-0  border">
+                    <employeesList 
+                        v-for='(employee, index) in this.getEmployeesList()'
+                        :employee='employee'
+                        :key='index'
+                    ></employeesList>
+            </div>
+        </div>
+        <div class="row py-2 mx-1 my-height overflow-auto">
+            <div class="col p-2 border">
+                <employeeInfo></employeeInfo>
+            </div>
+        </div>
     </div>
 </template>
 
 
 <script>
+import { mapGetters } from 'vuex';
+import employeesList from './employeesList';
+import employeeInfo from './employeeInfo';
+
 export default {
-    name: 'left'
+    name: 'left',
+    components: {
+        employeesList,
+        employeeInfo
+    },
+    methods: {
+        ...mapGetters(
+            ['getEmployeesList']
+        )
+    }
 }
 </script>
+
+<style>
+.my-height {
+    height: 375px;
+}
+</style>

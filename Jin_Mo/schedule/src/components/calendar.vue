@@ -1,9 +1,12 @@
 <template>
-    <div class="container">
+    <div class="container h-100">
         <FullCalendar 
             :options="calendarOptions" 
             ref="calendar"
         />
+        <button @click="removeEvents('holiday')" :class="{...myClass}">remove holiday events</button>
+        <button @click="removeEvents('test')" :class="{...myClass}">remove test events</button>
+        <button @click="addEmployeeEvents()" :class="{...myClass}">addEmployeeEvents</button>
     </div>
 </template>
 
@@ -13,7 +16,8 @@ import FullCalendar from '@fullcalendar/vue';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import tw from '@fullcalendar/core/locales/zh-tw';
-import { mapMutations } from 'vuex';
+import API from './http/api';
+import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
 
 export default {
     name: 'calendar',
@@ -22,6 +26,11 @@ export default {
     },
     data() {
         return {
+            myClass: {
+                btn: true,
+                'btn-primary': true
+            },
+            preDateInfo: null,
             calendarApi: null,
             calendarOptions: {
                 locale: tw,
@@ -31,38 +40,168 @@ export default {
                 eventClick: this.eventClick,
                 fixedWeekCount: false,
                 events: [
-                    // { id: '0', title: 'event 1', date: '2020-07-28' },
-                    // { id: '1', title: 'event 2', date: '2020-07-28' },
-                    // { id: '2', title: 'event 3', date: '2020-07-28' },
+                    { id: 'test', title: '早班', date: '2020-09-03' },
+                    { id: 'test', title: '早班', date: '2020-08-06', textColor: '#FF5555' },
+                    // { id: 'test', date: '2020-08-08', display: 'background', color: '#ff5555' },
+                    // { id: 'test', title: '休假', date: '2020-08-08',  color: '#ff5555' },
+                    { id: 'test', title: '例假', date: '2020-08-08', display: 'list-item', color: '#FF0000'},
+                    { id: 'test', date: '2020-08-08', display: 'background', color: '#bbe9ff'},
+                    { id: 'test', date: '2020-08-15', display: 'background', color: '#bbe9ff'},
+                    { id: 'test', date: '2020-08-22', display: 'background', color: '#bbe9ff'},
+                    { id: 'test', date: '2020-08-29', display: 'background', color: '#bbe9ff'}
                 ],
             },
         }
     },
+    created() {
+        this.initHoliday();
+    },
     mounted() {
         this.calendarApi = this.$refs.calendar.getApi();
         console.log(this.calendarApi.getEvents());
+
+        // test get calendar function
+        this.get_calendar('2020-08-01');
+    },
+    computed: {
+        // store.state.employeeInfo
+        ...mapState(['employeeInfo']),
+    },
+    watch: {
+        // watch store.state.employeeInfo
+        employeeInfo() {
+            this.addEmployeeEvents();
+        }
     },
     methods: {
-        handleDateClick: function(arg) {
-            // alert('date click! ' + arg.dateStr);
-            console.log(arg.dateStr);
+        handleDateClick: function(info) {
+            // alert('date click! ' + info.dateStr);
+            console.log(info.dateStr);
             // let title = prompt('input');
             // this.calendarApi.addEvent({
             //     id: this.calendarApi.getEvents().length,
             //     title: title,
-            //     date: arg.dateStr
+            //     date: info.dateStr
             // });
-            this.setCurrentDate(arg.dateStr);
+            this.setCurrentDate(info.dateStr);
+            API.getDayInfo(info.dateStr).then(response => {
+                console.log(response);
+                // because response data struct, so need to get object keys
+                let index = Object.keys(response.data.dayInfo);
+                let dayInfo = response.data.dayInfo[index];
+                // set store.state.dayInfo
+                this.setDayInfo(dayInfo);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+            if (this.preDateInfo != null) {
+                console.log('today', this.getToday());
+                if (this.preDateInfo.dateStr == this.getToday())
+                    this.preDateInfo.dayEl.style.backgroundColor = '#f79d84';
+                else
+                    this.preDateInfo.dayEl.style.backgroundColor = 'white';
+            }
+            info.dayEl.style.backgroundColor = '#3fa7d6';
+            this.preDateInfo = info;
         },
         eventClick: function(event, jsEvent, pos) {
             console.log('eventClick', event, jsEvent, pos);
             // event.event.remove();
             console.log(event.event.id);
             console.log(event.event.title);
-      },
-      ...mapMutations(
-          ['setCurrentDate']
-      )
+        },
+        initHoliday() {
+            // get origin holiday data
+            API.getHoliday().then(response => {
+                // set store.state.holiday
+                this.setHoliday(response);
+
+                // get store.state.holiday
+                this.getHoliday().forEach(element => {
+                    this.calendarApi.addEvent({
+                        id: 'holiday',
+                        title: element.name,
+                        date: element.date,
+                        display: 'list-item',
+                        color: '#FF5555'
+                    });
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        },
+        get_calendar(date) {
+            date = new Date(date);
+            let shift = date.getDay();
+            let calendar = [];
+            let day = 1;
+            let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+            for(let week_number = 0; week_number < 6; week_number++) {
+                let temp = [];
+                for(let week = 0; week < 7; week++) {
+                    if (shift) {
+                        temp.push(-1);
+                        shift--;
+                    } else {
+                        if (day <= lastDay) {
+                            temp.push(day++);
+                        } else {
+                            temp.push(-1);
+                        }
+                    }
+                }
+                calendar.push(temp);
+            }
+            console.log(calendar);
+        },
+        addEmployeeEvents() {
+            this.removeEvents('employees');
+            let work = this.getEmployeeInfo()['workday'];
+            if (work.length != 0) {
+                let index = Object.keys(work);
+                index.forEach(date => {
+                    this.calendarApi.addEvent({
+                        id: 'employees',
+                        title: this.getDefaultClass()[work[date]]['shift_name'],
+                        date: date
+                    });
+                });
+            }
+
+            let off = this.getEmployeeInfo()['pre_off'];
+            if (off != null) {
+                off.forEach(date => {
+                    this.calendarApi.addEvent({
+                        id: 'employees',
+                        title: 'off',
+                        date: date,
+                        color: '#ff5555'
+                    });
+                });
+            }
+        },
+        removeEvents(id) {
+            let temp = this.calendarApi.getEvents();
+            console.log(temp);
+            temp.forEach(event => {
+                console.log(event.id);
+                if (event.id === id)
+                    event.remove();
+            });
+        },
+        ...mapMutations([
+            'setCurrentDate',
+            'setHoliday',
+            'setDayInfo'
+        ]),
+        ...mapGetters([
+            'getHoliday',
+            'getToday',
+            'getDefaultClass',
+            'getEmployeeInfo'
+        ])
   }
 }
 </script>
