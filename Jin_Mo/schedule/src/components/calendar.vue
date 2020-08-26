@@ -63,6 +63,16 @@ export default {
         // test get calendar function
         this.get_calendar('2020-08-01');
     },
+    computed: {
+        // store.state.employeeInfo
+        ...mapState(['employeeInfo']),
+    },
+    watch: {
+        // watch store.state.employeeInfo
+        employeeInfo() {
+            this.addEmployeeEvents();
+        }
+    },
     methods: {
         handleDateClick: function(info) {
             // alert('date click! ' + info.dateStr);
@@ -76,6 +86,11 @@ export default {
             this.setCurrentDate(info.dateStr);
             API.getDayInfo(info.dateStr).then(response => {
                 console.log(response);
+                // because response data struct, so need to get object keys
+                let index = Object.keys(response.data.dayInfo);
+                let dayInfo = response.data.dayInfo[index];
+                // set store.state.dayInfo
+                this.setDayInfo(dayInfo);
             })
             .catch(error => {
                 console.log(error);
@@ -143,25 +158,29 @@ export default {
         },
         addEmployeeEvents() {
             this.removeEvents('employees');
-            let work = this.getEmployeeInfo()['work'];
-            let index = Object.keys(work);
-            index.forEach(date => {
-                this.calendarApi.addEvent({
-                    id: 'employees',
-                    title: this.getDefaultClass()[work[date]]['shift_name'],
-                    date: date
+            let work = this.getEmployeeInfo()['workday'];
+            if (work.length != 0) {
+                let index = Object.keys(work);
+                index.forEach(date => {
+                    this.calendarApi.addEvent({
+                        id: 'employees',
+                        title: this.getDefaultClass()[work[date]]['shift_name'],
+                        date: date
+                    });
                 });
-            });
+            }
 
-            let off = this.getEmployeeInfo()['off'];
-            off.forEach(date => {
-                this.calendarApi.addEvent({
-                    id: 'employees',
-                    title: 'off',
-                    date: date,
-                    color: '#ff5555'
+            let off = this.getEmployeeInfo()['pre_off'];
+            if (off != null) {
+                off.forEach(date => {
+                    this.calendarApi.addEvent({
+                        id: 'employees',
+                        title: 'off',
+                        date: date,
+                        color: '#ff5555'
+                    });
                 });
-            });
+            }
         },
         removeEvents(id) {
             let temp = this.calendarApi.getEvents();
@@ -172,9 +191,11 @@ export default {
                     event.remove();
             });
         },
-        ...mapMutations(
-            ['setCurrentDate', 'setHoliday']
-        ),
+        ...mapMutations([
+            'setCurrentDate',
+            'setHoliday',
+            'setDayInfo'
+        ]),
         ...mapGetters([
             'getHoliday',
             'getToday',

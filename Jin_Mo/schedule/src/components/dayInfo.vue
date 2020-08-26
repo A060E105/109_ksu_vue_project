@@ -20,11 +20,23 @@ export default {
     },
     computed: {
         dayInfo() {
-            return this.getDayInfo();
+            let dayinfo = this.getDayInfo();
+            if (dayinfo == undefined) {
+                return {};
+            } else {
+                let index = Object.keys(dayinfo);
+                index.forEach(element => {
+                    // 判斷是否為物件，若不是則將資料轉成陣列
+                    if (typeof(dayinfo[element]) != 'object') {
+                        let e_id = dayinfo[element];
+                        dayinfo[element] = [];
+                        dayinfo[element].push(e_id);
+                    }
+                });
+                console.log(this.getDayInfo());
+                return this.getDayInfo();
+            }
         }
-    },
-    mounted() {
-        console.log(this.getDayInfo()[4]);
     },
     methods: {
         ...mapGetters(
