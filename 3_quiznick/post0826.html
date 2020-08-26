@@ -1,64 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
- </head>
-    <body>
-        <div id="app">
-           <template>
-               <input type="text"
-                              v-model="content_todo"
-                              placeholder="請輸入文字"
-               >
-               <button v-on:click='postdata'>新增</button>
-               ${ content_todo }
-           </template>
-        </div>
-        <ol>
-          <li v-for='(lists,index) in lists' v-bind:key='content_id'>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <div id="app">
+   <template>
+     <input type="text"
+     v-model="content_todo"
+     placeholder="請輸入文字"
+     >
+     <button v-on:click='postdata'>新增</button>
+     ${ content_todo }
+   </template>
+   <ol>
+  <li v-for='(item,index) in lists' v-bind:key='item.id'>
+    ${ item.content }
+  </li>
+</ol>
+ </div>
+ 
+<script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+  new Vue({
+    el: '#app',
+    delimiters: ['${', '}'],
+    data: {
+      content_todo: 'Hello World!',
+      lists:[],
+      content_id:0
+    },
+    mounted(){
+      this.getData();
+    },
+    methods:{
+      postdata(){
+          let myUrl="https://cors-anywhere.herokuapp.com/https://admin_ecover.maxosoft.com/index.php/api/HRMClinic/v1/vue_api/post_todo_list"
+        axios.post(myUrl,{
+          "todo_content":this.content_todo,"action":"add"
+        })
+        .then((post)=>{
+          console.log(post);
+          this.getData();
+         //  this.lists.push({
+         //   id:this.content_id++,
+         //   title:this.content_todo
+         // })
+        })        
+        .catch((err)=>{
+         console.log(err);
+       })
+      },
+      getData(){
+        let myUrl="https://cors-anywhere.herokuapp.com/https://admin_ecover.maxosoft.com/index.php/api/HRMClinic/v1/vue_api/get_todo_list"
+        axios.get(myUrl).then((resp)=>{
+          this.lists=resp.data.data.todo_list
 
-          </li>
-        </ol>
-        <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-       <script>
-        new Vue({
-        el: '#app',
-        delimiters: ['${', '}'],
-        data: {
-          content_todo: 'Hello World!',
-          lists:[],
-          content_id:0
-        },
-        methods:{
-          postdata(){
-            axios.post('/post_todo_list',{
-              baseURL:'https://cors-anywhere.herokuapp.com/https://admin_ecover.maxosoft.com/index.php/api/HRMClinic/v1/vue_api',
-            })
-            .then((post)=>{
-              this.lists.push({
-             id:this.content_id++,
-             title:this.content_todo
-         })
-            },
-         this.content_todo=''
-         .catch((err)=>{
-           console.log(err);
-         })
+          console.log(resp);
+        })
+      }
+    }
+  });
 
-            
-            
 
-            
-            )
-          }
+</script>
 
-        }
-      });
-     
 
-       </script>
-               
-
-    </body>
+</body>
 </html>
