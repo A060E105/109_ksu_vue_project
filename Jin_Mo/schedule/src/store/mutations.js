@@ -5,6 +5,7 @@
  */
 export const setCurrentDate = (state, currentDate) => {
     state.currentDate = currentDate;
+    state.currentMonth = splitDate(currentDate).month;
 };
 
 /**
@@ -13,9 +14,11 @@ export const setCurrentDate = (state, currentDate) => {
  */
 export const initCurrentDate = (state) => {
     let date = new Date();
+    let month = date.getMonth() + 1;
 
     state.currentDate = getDateStr(date);
     state.today = getDateStr(date);
+    state.currentMonth = (month <= 9) ? '0'+month : month;
 }
 
 /**
@@ -28,6 +31,8 @@ export const initilization = (state, data) => {
     console.log('myData', myData);
     state.defaultClass = myData.classData;
     state.employeesList = myData.employeesData;
+    state.restDays = myData.restDays;
+    state.offDays = myData.offDays;
 }
 
 /**
@@ -103,72 +108,45 @@ var filterData = (data) => {
 const formatData = (data) => {
     let mydata = {};
 
-    mydata.offData = formatEmployeesOffData(data.employee_workday_pre_offs);
-    mydata.classData = formatClassData(data.shifts);
-    mydata.workData = formatWorkDayData(data.workday_detail);
-    mydata.employeesData = formatEmployeesData(data.employees);
+    mydata.classData = formatDataKeys(data.shifts, 'id');
+    mydata.employeesData = formatDataKeys(data.employees, 'e_id');
+    mydata.offDays = formatObjectKeyBits(data.offDays);
+    mydata.restDays = formatObjectKeyBits(data.restDays);
 
     return mydata;
 }
 
 /**
- * 將預設班別資料轉換成以ID為Key值的資料格式
+ * format object key to two number
  * 
- * @param {object} data 
- * @return {object} 預設班別
+ * @param {object} data
  */
-const formatClassData = (data) => {
-    let classData = {};
-    data.forEach(element => {
-        classData[element.id] = element;
-    });
+const formatObjectKeyBits = (data) => {
+    let temp = {};
+    let indexes = Object.keys(data);
+    indexes.forEach((element, index) => {
+        if (element <= 9) {
+            element = '0' + element;
+        }
+        temp[element] = data[indexes[index]];
+    })
 
-    return classData;
+    return temp;
 }
 
 /**
- * 將員工資料轉換成以員工ID為Key值的資料格式
+ * 將物件中的資料指定為新的key值
  * 
  * @param {object} data 
- * @return {object} 員工資料
+ * @param {string} key
  */
-const formatEmployeesData = (data) => {
-    let employeesData = {};
+const formatDataKeys = (data, key) => {
+    let temp = {};
     data.forEach(element => {
-        employeesData[element.e_id] = element;
+        temp[element[key]] = element;
     });
 
-    return employeesData;
-}
-
-/**
- * 將員工休假資料轉換成以員工ID為Key的資料格式
- * 
- * @param {object} data 
- * @return {object} 休假資料
- */
-const formatEmployeesOffData = (data) => {
-    let offData = {};
-    data.forEach(element => {
-        offData[element.e_id] = element;
-    });
-
-    return offData;
-}
-
-/**
- * 將員工工作日期轉換成以ID為Key值的資料格式
- * 
- * @param {object} data 
- * @return {object} 員工工作資訊
- */
-const formatWorkDayData = (data) => {
-    let workDayData = {};
-    data.forEach(element => {
-        workDayData[element.e_id] = element;
-    });
-
-    return workDayData;
+    return temp;
 }
 
 /**
@@ -191,4 +169,20 @@ const getDateStr = (date) => {
     }
 
     return dateStr;
+}
+
+/**
+ * 將日期"YYYY-MM-DD"，拆分為，年、月、日
+ *
+ * @param {string} date
+ */
+const splitDate = date => {
+    let year, month, day = '';
+    let value = date.split('-');
+
+    year = value[0];
+    month = value[1];
+    day = value[2];
+
+    return {year, month, day};
 }

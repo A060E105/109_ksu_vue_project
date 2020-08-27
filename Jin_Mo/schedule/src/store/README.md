@@ -14,6 +14,9 @@
 #### currentDate
 > 當前選擇日期
 
+#### currentMonth
+> 當前月份
+
 #### currentEmployee
 > 當前選擇的員工
 
@@ -35,6 +38,12 @@
 #### today
 > 當天日期，這是為了讓日曆上的當天日期顏色不會被改變
 
+#### restDays
+> 休假日
+
+#### offDays
+> 例假日
+
 
 
 ## mutations
@@ -43,18 +52,18 @@
 
 #### `initCurrentDate()`
 > ### `說明:`
-> 初始化當前日期與當天日期，預設為當天日期
+> 初始化當前日期、當前月份與當天日期，預設為當天日期
 
 #### `initilization(data)`
 > ### `說明:`
-> 初始化state中的資料，員工列表與預設班別，並將資料轉換為較容易使用的格式
+> 初始化state中的員工列表、預設班別、休假日與例假日，並將資料轉換為較容易使用的格式
 > ### `參數:`
 > #### `data`
 > 員工列表的API取得的資料
 
 #### `setCurrentDate(currentDate)`
 > ### `說明:`
-> 設定當前日期
+> 設定當前日期與當前月份
 > ### `參數:`
 > #### `currentDate`
 > 傳入當前日期的字串，格式為"YYYY-MM-DD"
@@ -105,37 +114,23 @@
 > #### `data`
 > 傳入員工列表與預設班別API取得的所有資料，type is object
 > ### `return:`
-> type is object，裡面有`employeeData`員工列表，`classData`預設班別
+> type is object，裡面有`employeeData`員工列表，`classData`預設班別，`offDays`例假日，`restDays`休假日
 
-#### `formatClassData(data)`
-> ### `descirption:`
-> 將預設班別資料轉換成以ID為Key值的資料格式
+#### `formatObjectKeyBits(data)`
+> ### `description:`
+> 將數字的key值，格式化為兩個位數，小於10的則在前面補0
 > ### `parameters:`
 > #### `data`
-> 傳入員工列表與預設班別API取得的`shifts`資料
-> ### `return:`
-> type is object，預設班別資料
+> 傳入key值為數字的物件
 
-#### `formatEmployeesData(data)`
-> ### `descirption:`
-> 將員工資料轉換成以員工ID為Key值的資料格式
+#### `formatDataKeys(data, key)`
+> ### `description:`
+> 將物件中的資料設為物件的key值
 > ### `parameters:`
 > #### `data`
-> 傳入員工列表與預設班別API取得的`employees`資料
-> ### `return:`
-> type is object，員工列表
-
-#### `formatEmployeesOffData(data)`
-> ### `descirption:`
-> 將員工休假資料轉換成以員工ID為Key的資料格式
-> ### `parameters:`
-> #### `data`
-
-#### `formatWorkDayData(data)`
-> ### `descirption:`
-> 將員工工作日期轉換成以ID為Key值的資料格式
-> ### `parameters:`
-> #### `data`
+> 傳入要設定的物件，type is object
+> #### `key`
+> 指定物件中要使用那個資料為新的key值，type is string
 
 #### `getDateStr(date)`
 > ### `descirption:`
@@ -146,43 +141,91 @@
 > ### `return:`
 > type is string，日期格式為"YYYY-MM-DD"
 
+#### `splitDate(date)`
+> ### `descirption:`
+> 將日期"YYYY-MM-DD"，拆分為，年、月、日
+> ### `parameters:`
+> #### `date`
+> type is string，格式為"YYYY-MM-DD"
+> ### `return:`
+> type is object，回傳的物件包含`year`年、`month`月、`day`日
 
 ## actions
 
 #### `getAllInfo()`
 > ### `descirption:`
-> using API.getEmployees()，並將結果傳入mutations中的`initilization`方法
+> using API.getEmployees()，將結果傳入mutations中的`initilization`方法，並呼叫mutations中的`initCurrentDate`方法，初始化當前時間與當前月份
 
 ## getters
 
 #### `getCurrentDate()`
 > ### `descirption:`
 > 取得當前日期
+> ### `return:`
+> type is string
 
 #### `getEmployeeInfo()`
 > ### `descirption:`
 > 取得當前員工資訊
+> ### `return:`
+> type is object
 
 #### `getDefaultClass()`
 > ### `descirption:`
 > 取得預設班別
+> ### `return:`
+> type is object
 
 #### `getHoliday()`
 > ### `descirption:`
 > 取得國定假日
+> ### `return:`
+> type is object
 
 #### `getToday()`
 > ### `descirption:`
 > 取得當天日期
+> ### `return:`
+> type is string
 
 #### `getEmployee()`
 > ### `descirption:`
 > 取得當前選擇的員工編號
+> ### `return:`
+> type is string or number
 
 #### `getEmployeesList()`
 > ### `descirption:`
 > 取得所有員工資料
+> ### `return:`
+> type is object
 
 #### `getDayInfo()`
 > ### `descirption:`
 > 取得當日資料
+> ### `return:`
+> type is object
+
+#### `getCurrentMonth()`
+> ### `descirption:`
+> 取得當前月份
+> ### `return:`
+> type is string or number
+
+#### `getRestDays()(month)`
+> ### `descirption:`
+> 取得月份的休假日，回傳一個函式，並透過回傳的函式來取得資料
+> ### `parameters:`
+> #### `month`
+> 要查詢的月份
+> ### `return:`
+> type is function
+
+#### `getOffDays()(month)`
+> ### `descirption:`
+> 取得月份的例假日，回傳一個函式，並透過回傳的函式來取得資料
+> ### `parameters:`
+> #### `month`
+> 要查詢的月份
+> ### `return:`
+> type is function

@@ -38,3 +38,22 @@ export const getEmployeesList = state => state.employeesList;
  * 取得當日資料
  */
 export const getDayInfo = state => state.dayInfo;
+
+/**
+ * 取得當前月份
+ */
+export const getCurrentMonth = state => state.currentMonth;
+
+/**
+ * 取得月份的休假日
+ *
+ * @param {string} month
+ */
+export const getRestDays = (state) => (month) => state.restDays[month];
+
+/**
+ * 取得月份的例假日
+ *
+ * @param {string} month
+ */
+export const getOffDays = (state) => (month) => state.offDays[month];

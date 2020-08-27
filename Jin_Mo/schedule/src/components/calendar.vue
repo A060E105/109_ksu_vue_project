@@ -65,12 +65,17 @@ export default {
     },
     computed: {
         // store.state.employeeInfo
-        ...mapState(['employeeInfo']),
+        ...mapState(['employeeInfo', 'currentMonth']),
+        ...mapGetters(['getRestDays', 'getOffDays'])
     },
     watch: {
         // watch store.state.employeeInfo
         employeeInfo() {
             this.addEmployeeEvents();
+        },
+        currentMonth() {
+            this.addRestDaysEvent();
+            this.addOffDaysEvent();
         }
     },
     methods: {
@@ -98,11 +103,11 @@ export default {
             if (this.preDateInfo != null) {
                 console.log('today', this.getToday());
                 if (this.preDateInfo.dateStr == this.getToday())
-                    this.preDateInfo.dayEl.style.backgroundColor = '#f79d84';
+                    this.preDateInfo.dayEl.style.backgroundColor = '#FFDDAA';
                 else
                     this.preDateInfo.dayEl.style.backgroundColor = 'white';
             }
-            info.dayEl.style.backgroundColor = '#3fa7d6';
+            info.dayEl.style.backgroundColor = '#BBFF66';
             this.preDateInfo = info;
         },
         eventClick: function(event, jsEvent, pos) {
@@ -156,6 +161,39 @@ export default {
             }
             console.log(calendar);
         },
+        addRestDaysEvent() {
+            this.removeEvents('restDays');
+            console.log('addRestDaysEvent');
+            if (this.getRestDays(this.currentMonth) != undefined) {
+                console.log(this.getRestDays(this.currentMonth));
+                let restDays = this.getRestDays(this.currentMonth);
+                restDays.forEach(date => {
+                    this.calendarApi.addEvent({
+                        id: 'restDays',
+                        title: '休假日',
+                        display: 'background',
+                        color: '#33CCFF',
+                        date: date
+                    })
+                });
+            }
+        },
+        addOffDaysEvent() {
+            this.removeEvents('offDays');
+            console.log('addOffDaysEvent');
+            if (this.getOffDays(this.currentMonth) != undefined) {
+                let offDays = this.getOffDays(this.currentMonth);
+                offDays.forEach(date => {
+                    this.calendarApi.addEvent({
+                        id: 'offDays',
+                        title: '例假日',
+                        display: 'background',
+                        color: '#FFB7DD',
+                        date: date
+                    })
+                })
+            }
+        },
         addEmployeeEvents() {
             this.removeEvents('employees');
             let work = this.getEmployeeInfo()['workday'];
@@ -184,7 +222,7 @@ export default {
         },
         removeEvents(id) {
             let temp = this.calendarApi.getEvents();
-            console.log(temp);
+            // console.log(temp);
             temp.forEach(event => {
                 console.log(event.id);
                 if (event.id === id)

@@ -2,6 +2,9 @@ const state = {
     // 當前選擇日期
     currentDate: '',
 
+    // 當前月份
+    currentMonth: '',
+
     // 當前選擇的員工
     currentEmployee: '',
 
@@ -21,7 +24,13 @@ const state = {
     holiday: [],
 
     // 當天日期
-    today: ''
+    today: '',
+
+    // 例假日
+    restDays: {},
+
+    // 休假日
+    offDays: {}
 };
 
 export default state;

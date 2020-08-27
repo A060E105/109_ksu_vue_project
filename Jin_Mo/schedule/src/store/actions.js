@@ -6,5 +6,6 @@ import API from "../components/http/api";
 export const getAllInfo = ({ commit }) => {
     API.getEmployees().then(response => {
         commit('initilization', response.data);
+        commit('initCurrentDate');
     })
 }

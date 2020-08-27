@@ -24,15 +24,11 @@ export default {
         )
     },
     methods: {
-        ...mapMutations(
-            ['initCurrentDate']
-        ),
         ...mapActions(
             ['getAllInfo']
         )
     },
     mounted() {
-        this.initCurrentDate();
         this.getAllInfo();
         API.getEmployees().then(response => {
             console.log(response);
