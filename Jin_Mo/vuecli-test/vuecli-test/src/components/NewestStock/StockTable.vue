@@ -1,10 +1,18 @@
 <template>
     <div>
-        <div>
+        <div class="container-fluid">
+            <div>
             <button @click="setTitleYears(1)">1</button>
             <button @click="setTitleYears(3)">3</button>
             <button @click="setTitleYears(5)">5</button>
         </div>
+        <div>
+            <button @click="setRatioType(1)">現金</button>
+            <button @click="setRatioType(2)">股利</button>
+            <button @click="setRatioType(3)">全部</button>
+        </div>
+        </div>
+        
         <table border="3">
             <tr>
                 <th colspan="4">{{ current_year }}</th>
@@ -17,10 +25,12 @@
                 <th>最高價</th>
                 <th>股利</th>
                 <th>現金</th>
+                <th>投報率</th>
             </tr>
             <tr is='StockTableBody'
                 v-for='(value, index) in newestStockData.msgArray'
                 :stock_value='value'
+                :ratioType='ratioType'
                 :years='title_years'
                 :watchStock='watchStockData'
                 :key="index">
@@ -51,7 +61,8 @@ export default {
             postBody: {
                 "_action": "list",
                 "member_id": 3
-            }
+            },
+            ratioType:1                // 1:以現金計算2:以股票計算3:以全部計算
         }
     },
     watch: {
@@ -90,6 +101,10 @@ export default {
                 }
                 this.title_years.reverse();
             }
+        },
+        // 設定要計算投報率的樣式
+        setRatioType(value) {
+            this.ratioType=value
         },
         // 取得及時股價
         getData() {

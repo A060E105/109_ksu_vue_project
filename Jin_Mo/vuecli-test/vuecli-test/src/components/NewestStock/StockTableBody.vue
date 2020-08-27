@@ -6,6 +6,7 @@
         <td>{{ stock_high }}</td>
         <td>{{ stock_earn }}</td>
         <td>{{ cash_earn }}</td>
+        <td>{{ earn_ratio }}%</td>
     </tr>
 </template>
 
@@ -16,7 +17,8 @@ export default {
     props: {
         stock_value: {},    // 及時股價
         watchStock: {},     // 關注的所有股票與歷年資料
-        years: {}           // 要查詢的年份
+        years: {},           // 要查詢的年份
+        ratioType: Number
     },
     computed: {
         // 回傳股票代碼
@@ -74,6 +76,32 @@ export default {
                     return (cash / len).toFixed(2);
                 }
             }
+        },
+        // 回傳歷年現金平均
+        earn_ratio() {
+
+            let myRatioType= this.ratioType
+
+            let ratioValueResult=0.0;
+            console.log('myRatioType:',myRatioType)
+            switch (myRatioType){
+                case 1:
+                    let num1=Number(this.cash_earn)
+                    let num2=Number(this.stock_open)
+                    ratioValueResult=(num1/num2)*100.0
+                break;
+                case 2:
+//                    let num1=Number(this.cash_earn)
+  //                  let num2=Number(this.stock_open)
+   //                 ratioValueResult=(num1/num2)*100.0
+                    
+                break;
+                case 3:
+                    ratioValueResult=(cash_earn/stock_open*100)
+                    
+                break;
+            }    
+            return ratioValueResult.toFixed(2)        
         }
     }
 }
