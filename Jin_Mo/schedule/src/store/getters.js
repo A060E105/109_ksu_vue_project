@@ -57,3 +57,8 @@ export const getRestDays = (state) => (month) => state.restDays[month];
  * @param {string} month
  */
 export const getOffDays = (state) => (month) => state.offDays[month];
+
+/**
+ * 取得當前日期是否被修改的旗標
+ */
+export const getChangeFlag = state => state.changeFlag;

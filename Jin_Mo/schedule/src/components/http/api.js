@@ -116,6 +116,17 @@ var getDayInfo = (date) => {
     });
 }
 
+var setDayInfo = (date, dayInfo) => {
+    let data = {
+        api_token: '1234',
+        action: 'post_dayInfo',
+        work_date: date,
+    };
+    data[date] = dayInfo;
+    console.log(data);
+    return api.post('schedule_api', data);
+}
+
 /**
  * 拆解日期字串
  * 
@@ -136,5 +147,6 @@ export default {
     getEmpInfo,
     getDayInfo,
     getMonthInfo,
-    getHoliday
+    getHoliday,
+    setDayInfo
 };

@@ -2,10 +2,6 @@
     <div>
         <div class='border p-3 font-weight-bold '>
             {{ className }}
-            <button :class="{...modBtnClass, 'btn-danger': (statusFlag)?true:false}"
-                @click="changeStatus()">
-                {{ status }}
-            </button>
         </div>
         <div v-for="(id, index) in employeesId"
             :key="index">
@@ -20,7 +16,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
+import Swal from 'sweetalert2';
 
 export default {
     name: 'classInfo',
@@ -30,7 +27,7 @@ export default {
     },
     data() {
         return {
-            statusFlag: false,
+            statusFlag: true,
             modBtnClass: {
                 'float-right': true,
                 'btn': true,
@@ -40,8 +37,8 @@ export default {
             },
             myClass: {
                 "list-group-item": true,
-                'list-group-item-action': true,
-                'disabled': true
+                'list-group-item-action': true
+                // 'disabled': true
             }
         }
     },
@@ -57,19 +54,40 @@ export default {
                 // 修改完成按鈕顯示的文字
                 return '修改';
             }
-        }
+        },
+        ...mapGetters([
+            'getCurrentDate',
+            'getDayInfo'
+        ])
     },
     methods: {
         changeStatus() {
             this.statusFlag = !this.statusFlag;
         },
         show(id) {
-            let temp = confirm( '是否刪除 ' + this.getEmployeesList()[id]['e_name'] );
-            console.log('confirm', temp);
-            console.log('employee id', id);
+            Swal.fire({
+                title: '是否刪除' + this.getEmployeesList()[id]['e_name'] + '?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '確定',
+                cancelButtonText: '取消'
+            }).then(result => {
+                if (result.value) {
+                    this.setDayInfo_remove({
+                        'classID': this.classID,
+                        'e_id': id
+                    });
+                    console.log('get day info', this.getDayInfo);
+                }
+            });
         },
         ...mapGetters(
             ['getEmployeesList', 'getDefaultClass']
+        ),
+        ...mapMutations(
+            ['setDayInfo_remove']
         )
     }
 }

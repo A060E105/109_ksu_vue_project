@@ -1,5 +1,6 @@
 <template>
     <div>
+        <button :class="{...myclass, 'btn-danger': this.getChangeFlag ? true: false}" @click="sendDayInfo()">save</button>
         <classInfo 
             v-for="(data, id) in this.getDefaultClass()"
             :classID='id'
@@ -10,15 +11,27 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 import classInfo from './classInfo';
+import API from './http/api';
+import Swal from 'sweetalert2';
 
 export default {
     name: 'dayInfo',
     components: {
         classInfo
     },
+    data() {
+        return {
+            myclass: {
+                'btn': true,
+                'btn-outline-light': true
+                // 'btn-danger': true
+            }
+        }
+    },
     computed: {
+        ...mapGetters(['getChangeFlag']),
         dayInfo() {
             let dayinfo = this.getDayInfo();
             if (dayinfo == undefined) {
@@ -39,9 +52,27 @@ export default {
         }
     },
     methods: {
-        ...mapGetters(
-            ['getDefaultClass', 'getDayInfo']
-        )
+        ...mapGetters([
+            'getDefaultClass',
+            'getDayInfo',
+            'getCurrentDate'
+        ]),
+        ...mapMutations(['setChangeFlag']),
+        sendDayInfo() {
+            API.setDayInfo(this.getCurrentDate(), this.getDayInfo()).then(response => {
+                console.log(response);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'save success',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                this.setChangeFlag();
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        }
     }
 }
 </script>

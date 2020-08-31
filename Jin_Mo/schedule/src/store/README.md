@@ -44,6 +44,8 @@
 #### offDays
 > 例假日
 
+#### changeFlag
+> day info change flag, default is false
 
 
 ## mutations
@@ -77,10 +79,24 @@
 
 #### `setDayInfo(dayInfo)`
 > ### `說明:`
-> 設定當天資訊
+> 設定當前日期的班別資訊，若傳入的資料為`undefined`則將資料射為空物件，並將修改旗標設定為false
 > ### `參數:`
 > #### `dayInfo`
 > 傳入當日資訊，type is object
+
+#### `setDayInfo_add(payload)`
+> ### `說明:`
+> 設定當前日期的班別資訊，新增員工至指定的班別，並將修改的旗標設為true
+> ### `參數:`
+> #### `payload`
+> type is object，`classID`為指定的班別ID，`e_id`為員工ID
+
+#### `setDayInfo_remove(payload)`
+> ### `說明:`
+> 設定當前日期的班別資訊，刪除指定班別中的員工，並將修改的旗標設為true
+> ### `參數:`
+> #### `payload`
+> type is object，`classID`為指定的班別ID，`e_id`為員工ID
 
 #### `setEmployeeInfo(employeeInfo)`
 > ### `說明:`
@@ -95,6 +111,10 @@
 > ### `參數:`
 > #### `data`
 > 傳入API取得的國定假日，type is object
+
+#### `setChangeFlag()`
+> ### `說明:`
+> 將修改的旗標設置為false
 
 ### private
 
@@ -229,3 +249,7 @@
 > 要查詢的月份
 > ### `return:`
 > type is function
+
+#### `getChangeFlag()`
+> ### `descirption:`
+> 取得當前日期是否被修改的旗標

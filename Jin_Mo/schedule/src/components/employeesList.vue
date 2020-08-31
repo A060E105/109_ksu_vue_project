@@ -8,6 +8,7 @@
 <script>
 import { mapMutations, mapState, mapGetters } from 'vuex';
 import API from './http/api';
+import Swal from 'sweetalert2';
 
 export default {
     name: 'employeesList',
@@ -26,12 +27,15 @@ export default {
         name() {
             return this.employee.e_name;
         },
-        ...mapState(['currentEmployee'])
+        ...mapState(['currentEmployee']),
+        ...mapGetters(['getDefaultClass'])
     },
     methods: {
-        ...mapMutations(
-            ['setEmployee', 'setEmployeeInfo']
-        ),
+        ...mapMutations([
+            'setEmployee',
+            'setEmployeeInfo',
+            'setDayInfo_add'
+        ]),
         ...mapGetters(
             ['getCurrentDate']
         ),
@@ -45,6 +49,34 @@ export default {
             })
             .catch(error => {
                 console.log(error);
+            });
+
+            let inputOptions = {};
+            let classId = Object.keys(this.getDefaultClass);
+            classId.forEach(index => {
+                console.log('index', index);
+                console.log('name', this.getDefaultClass[index]['shift_name']);
+                inputOptions[index] = this.getDefaultClass[index]['shift_name'];
+            });
+
+            Swal.fire({
+                title: '選擇班別',
+                input: 'radio',
+                inputOptions: inputOptions,
+                inputValidator: (value) => {
+                    console.log(value);
+                    if (!value) {
+                        return 'You need to choose something!'
+                    } else {
+                        console.log('select class id is', value);
+                        console.log('e_id', this.employee.e_id);
+                        console.log('name', this.name);
+                        this.setDayInfo_add({
+                            'classID': value,
+                            'e_id': this.employee.e_id
+                        });
+                    }
+                }
             });
         }
     }

@@ -31,6 +31,15 @@
 > ### `description:`
 > 取得國定假期
 
+### `setDayInfo(date, dayInfo)`
+> ### `description:`
+> 設定當前日期的資訊，將資訊上傳至伺服器
+> ### `parameter:`
+> #### `date`
+> 要設定的當前日期，格式為`YYYY-MM-DD`，type is string
+> #### `dayInfo`
+> 傳入要設定的當前日期的班別資訊
+
 
 ## private methods
 

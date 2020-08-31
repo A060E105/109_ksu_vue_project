@@ -1,3 +1,5 @@
+import Vue from 'vue';
+
 /**
  * 設定當前日期
  * 
@@ -50,7 +52,12 @@ export const setEmployee = (state, employee) => {
  * @param {object} dayInfo
  */
 export const setDayInfo = (state, dayInfo) => {
-    state.dayInfo = dayInfo;
+    if (dayInfo != undefined) {
+        state.dayInfo = dayInfo;
+    } else {
+        state.dayInfo = {};
+    }
+    state.changeFlag = false;
 }
 
 /**
@@ -69,6 +76,43 @@ export const setEmployeeInfo = (state, employeeInfo) => {
  */
 export const setHoliday = (state, data) => {
     state.holiday = filterData(data);
+}
+
+/**
+ * 設定當前日期的班別資訊，新增員工至指定的班別
+ * 
+ * @param {object} payload classID,e_id
+ */
+export const setDayInfo_add = (state, payload) => {
+    console.log(state.dayInfo);
+    console.log('mutations class', payload.classID);
+    console.log('mutations id', payload.e_id);
+    // console.log('is undefined', (state.dayInfo[payload.classID] == undefined));
+    if (state.dayInfo[payload.classID] == undefined) {
+        // state.dayInfo[payload.classID] = [];
+        Vue.set(state.dayInfo, payload.classID, []);
+    }
+    console.log(state.dayInfo);
+    state.dayInfo[payload.classID].push(payload.e_id);
+    console.log(state.dayInfo);
+    state.changeFlag = true;
+}
+
+/**
+ * 設定當前日期的班別資訊，刪除指定班別中的員工
+ * 
+ * @param {object} payload classID,e_id
+ */
+export const setDayInfo_remove = (state, payload) => {
+    state.dayInfo[payload.classID].splice(state.dayInfo[payload.classID].indexOf(payload.e_id), 1);
+    state.changeFlag = true;
+}
+
+/**
+ * 將修改的旗標設置為false
+ */
+export const setChangeFlag = state => {
+    state.changeFlag = false;
 }
 
 /**

@@ -30,7 +30,10 @@ const state = {
     restDays: {},
 
     // 休假日
-    offDays: {}
+    offDays: {},
+
+    // day info change flag
+    changeFlag: false
 };
 
 export default state;

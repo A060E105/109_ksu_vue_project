@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "sweetalert2": "^9.17.1",
     "vue": "^2.6.11"
   },
   "devDependencies": {
