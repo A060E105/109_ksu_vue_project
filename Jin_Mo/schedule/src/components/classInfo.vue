@@ -66,7 +66,7 @@ export default {
             }
         },
         remove(id) {
-            API.setDayInfo_remove(this.getCurrentDate, this.employeesId).then(response => {
+            API.setDayInfo_remove(this.getCurrentDate, id).then(response => {
                 console.log(response);
                 this.setDayInfo_remove({
                     classID: this.getEmpWorkClassID(id),
