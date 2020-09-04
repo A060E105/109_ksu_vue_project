@@ -44,8 +44,11 @@
 #### offDays
 > 例假日
 
-#### changeFlag
-> day info change flag, default is false
+#### currentClassID
+> 當前選擇的班別ID
+
+#### workday_pre_off
+> 當前月份員工預排休假日
 
 
 ## mutations
@@ -112,9 +115,12 @@
 > #### `data`
 > 傳入API取得的國定假日，type is object
 
-#### `setChangeFlag()`
+#### `setWorkDayPreOff(pre_off)`
 > ### `說明:`
-> 將修改的旗標設置為false
+> 設定當前月份員工預排休假日
+> ### `參數:`
+> ### `pre_off`
+> 從伺服器取得的當前月份員工預排休假日
 
 ### private
 
@@ -174,7 +180,7 @@
 
 #### `getAllInfo()`
 > ### `descirption:`
-> using API.getEmployees()，將結果傳入mutations中的`initilization`方法，並呼叫mutations中的`initCurrentDate`方法，初始化當前時間與當前月份
+> using API.getEmployees()，將結果傳入mutations中的`initilization`方法，並呼叫mutations中的`initCurrentDate`方法，初始化當前時間與當前月份，透過當前時間抓取當天的班別資訊與當前月份員工預排休假日
 
 ## getters
 
@@ -250,6 +256,44 @@
 > ### `return:`
 > type is function
 
-#### `getChangeFlag()`
+#### `getDayWorkFlag()(e_id)`
 > ### `descirption:`
-> 取得當前日期是否被修改的旗標
+> 查詢員工在當前日期有沒有上班
+> ### `parameters:`
+> #### `e_id`
+> 要查詢的員工ID
+> ### `return:`
+> true or false
+
+#### `getEmpClassName()(e_id)`
+> ### `descirption:`
+> 取得員工所在的班別簡稱
+> ### `parameters:`
+> #### `e_id`
+> 要查詢的員工ID
+> ### `return:`
+> 班別簡稱
+
+#### `getEmpWorkClassID()(e_id)`
+> ### `descirption:`
+> 取得員工所在的班別ID
+> ### `parameters:`
+> #### `e_id`
+> 要查詢的員工ID
+> ### `return:`
+> 班別ID
+
+#### `getCurrentClassID()`
+> ### `descirption:`
+> 取得當前班別ID
+> ### `return:`
+> type is string or number
+
+#### `get_isPreOff()(e_id)`
+> ### `descirption:`
+> 查詢員工在當前日期是否有預排休假
+> ### `parameters:`
+> #### `e_id`
+> 要查詢的員工ID
+> ### `return:`
+> true or false

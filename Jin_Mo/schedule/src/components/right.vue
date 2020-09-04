@@ -26,6 +26,9 @@ export default {
     methods: {
         ...mapActions(
             ['getAllInfo']
+        ),
+        ...mapMutations(
+            ['setCurrentClassID']
         )
     },
     mounted() {
@@ -36,11 +39,17 @@ export default {
         .catch(error => {
             console.log(error);
         });
-        API.getMonthInfo().then(response => {
-            console.log(response);
-        })
-        .catch(error => {
-            console.log(error);
+
+        window.addEventListener('keydown', e => {
+            if (e.code == 'Digit1') {
+                this.setCurrentClassID('4');
+            } else if (e.code == 'Digit2') {
+                this.setCurrentClassID('5');
+            } else if (e.code == 'Digit3') {
+                this.setCurrentClassID('6');
+            } else if (e.code == 'Space' || e.code == 'Escape') {
+                this.setCurrentClassID('');
+            }
         });
     }
 }

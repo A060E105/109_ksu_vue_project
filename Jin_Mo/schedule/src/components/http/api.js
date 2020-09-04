@@ -46,6 +46,9 @@ var replaceData = function (data) {
     return JSON.parse(data);
 }
 
+/**
+ * 取得國定假日
+ */
 var getHoliday = () => {
     return holiday.get('json', {
         params: {
@@ -80,23 +83,18 @@ var getEmpInfo = (date, e_id) => {
     });
 }
 
-/**
- * 取得當天資訊
- */
-var getDayInfo = () => {
-    return api.post('');
-}
 
 /**
  * 取得當月資訊
  */
-var getMonthInfo = () => {
+var getMonthInfo = (date) => {
+    let {year, month} = getDateValue(date);
     return api.get('schedule_api', {
         params: {
             action: 'monthInfo',
             api_token: '1234',
-            year: '2020',
-            month: '9'
+            year: year,
+            month: month
         }
     });
 }
@@ -116,14 +114,42 @@ var getDayInfo = (date) => {
     });
 }
 
-var setDayInfo = (date, dayInfo) => {
+/**
+ * 設定當前日期的資訊，新增員工至指定的班別
+ *
+ * @param {string} date 要設定的當前日期
+ * @param {string} e_id 員工ID
+ * @param {string} classID 班別ID
+ */
+const setDayInfo_add = (date, e_id, classID) => {
+    let {year, month} = getDateValue(date);
     let data = {
-        api_token: '1234',
-        action: 'post_dayInfo',
-        work_date: date,
+        "api_token": "1234",
+        "action": "add_workday_shift",
+        "work_date": date,
+        "e_id": e_id,
+        "year": year,
+        "month": month,
+        "hrmc_shift_id": classID
     };
-    data[date] = dayInfo;
-    console.log(data);
+    return api.post('schedule_api', data);
+}
+
+/**
+ * 設定當前日期的資訊，刪除員工
+ *
+ * @param {string} date 要設定的當前日期
+ * @param {string} e_id 員工ID
+ * @param {string} classID 班別ID
+ */
+const setDayInfo_remove = (date, e_id) => {
+    let data = {
+        "api_token": "1234",
+        "action": "delete_workday_shift",
+        "work_date": date,
+        "e_id": e_id
+    };
+
     return api.post('schedule_api', data);
 }
 
@@ -148,5 +174,6 @@ export default {
     getDayInfo,
     getMonthInfo,
     getHoliday,
-    setDayInfo
+    setDayInfo_add,
+    setDayInfo_remove
 };

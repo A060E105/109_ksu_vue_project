@@ -4,9 +4,6 @@
             :options="calendarOptions" 
             ref="calendar"
         />
-        <button @click="removeEvents('holiday')" :class="{...myClass}">remove holiday events</button>
-        <button @click="removeEvents('test')" :class="{...myClass}">remove test events</button>
-        <button @click="addEmployeeEvents()" :class="{...myClass}">addEmployeeEvents</button>
     </div>
 </template>
 
@@ -40,15 +37,15 @@ export default {
                 eventClick: this.eventClick,
                 fixedWeekCount: false,
                 events: [
-                    { id: 'test', title: '早班', date: '2020-09-03' },
-                    { id: 'test', title: '早班', date: '2020-08-06', textColor: '#FF5555' },
+                    // { id: 'test', title: '早班', date: '2020-09-03' },
+                    // { id: 'test', title: '早班', date: '2020-08-06', textColor: '#FF5555' },
                     // { id: 'test', date: '2020-08-08', display: 'background', color: '#ff5555' },
                     // { id: 'test', title: '休假', date: '2020-08-08',  color: '#ff5555' },
-                    { id: 'test', title: '例假', date: '2020-08-08', display: 'list-item', color: '#FF0000'},
-                    { id: 'test', date: '2020-08-08', display: 'background', color: '#bbe9ff'},
-                    { id: 'test', date: '2020-08-15', display: 'background', color: '#bbe9ff'},
-                    { id: 'test', date: '2020-08-22', display: 'background', color: '#bbe9ff'},
-                    { id: 'test', date: '2020-08-29', display: 'background', color: '#bbe9ff'}
+                    // { id: 'test', title: '例假', date: '2020-08-08', display: 'list-item', color: '#FF0000'},
+                    // { id: 'test', date: '2020-08-08', display: 'background', color: '#bbe9ff'},
+                    // { id: 'test', date: '2020-08-15', display: 'background', color: '#bbe9ff'},
+                    // { id: 'test', date: '2020-08-22', display: 'background', color: '#bbe9ff'},
+                    // { id: 'test', date: '2020-08-29', display: 'background', color: '#bbe9ff'}
                 ],
             },
         }
@@ -66,7 +63,14 @@ export default {
     computed: {
         // store.state.employeeInfo
         ...mapState(['employeeInfo', 'currentMonth']),
-        ...mapGetters(['getRestDays', 'getOffDays'])
+        ...mapGetters([
+            'getRestDays',
+            'getOffDays',
+            'getHoliday',
+            'getToday',
+            'getDefaultClass',
+            'getEmployeeInfo'
+        ])
     },
     watch: {
         // watch store.state.employeeInfo
@@ -101,8 +105,8 @@ export default {
                 console.log(error);
             });
             if (this.preDateInfo != null) {
-                console.log('today', this.getToday());
-                if (this.preDateInfo.dateStr == this.getToday())
+                console.log('today', this.getToday);
+                if (this.preDateInfo.dateStr == this.getToday)
                     this.preDateInfo.dayEl.style.backgroundColor = '#FFDDAA';
                 else
                     this.preDateInfo.dayEl.style.backgroundColor = 'white';
@@ -123,7 +127,7 @@ export default {
                 this.setHoliday(response);
 
                 // get store.state.holiday
-                this.getHoliday().forEach(element => {
+                this.getHoliday.forEach(element => {
                     this.calendarApi.addEvent({
                         id: 'holiday',
                         title: element.name,
@@ -196,19 +200,19 @@ export default {
         },
         addEmployeeEvents() {
             this.removeEvents('employees');
-            let work = this.getEmployeeInfo()['workday'];
+            let work = this.getEmployeeInfo['workday'];
             if (work.length != 0) {
                 let index = Object.keys(work);
                 index.forEach(date => {
                     this.calendarApi.addEvent({
                         id: 'employees',
-                        title: this.getDefaultClass()[work[date]]['shift_name'],
+                        title: this.getDefaultClass[work[date]]['shift_name'],
                         date: date
                     });
                 });
             }
 
-            let off = this.getEmployeeInfo()['pre_off'];
+            let off = this.getEmployeeInfo['pre_off'];
             if (off != null) {
                 off.forEach(date => {
                     this.calendarApi.addEvent({
@@ -233,12 +237,6 @@ export default {
             'setCurrentDate',
             'setHoliday',
             'setDayInfo'
-        ]),
-        ...mapGetters([
-            'getHoliday',
-            'getToday',
-            'getDefaultClass',
-            'getEmployeeInfo'
         ])
   }
 }

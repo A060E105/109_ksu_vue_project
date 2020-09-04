@@ -32,8 +32,11 @@ const state = {
     // 休假日
     offDays: {},
 
-    // day info change flag
-    changeFlag: false
+    // 當前選擇的班別ID
+    currentClassID: '',
+
+    // 當前月份員工預排休假日
+    workday_pre_off: {}
 };
 
 export default state;

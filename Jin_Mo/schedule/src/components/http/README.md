@@ -40,6 +40,25 @@
 > #### `dayInfo`
 > 傳入要設定的當前日期的班別資訊
 
+### `setDayInfo_add(date, e_id, classID)`
+> ### `description:`
+> 設定當前日期的資訊，新增員工至指定的班別
+> ### `parameter:`
+> #### `date`
+> 要設定的當前日期，格式為`YYYY-MM-DD`，type is string
+> #### `e_id`
+> 員工ID
+> #### `classID`
+> 班別ID
+
+### `setDayInfo_remove(date, e_id)`
+> ### `description:`
+> 設定當前日期的資訊，刪除員工
+> ### `parameter:`
+> #### `date`
+> 要設定的當前日期，格式為`YYYY-MM-DD`，type is string
+> #### `e_id`
+> 員工ID
 
 ## private methods
 

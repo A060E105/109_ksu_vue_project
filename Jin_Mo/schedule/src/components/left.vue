@@ -3,7 +3,7 @@
         <div class="row py-2 mx-1 my-height overflow-auto">
             <div class="col p-0  border">
                     <employeesList 
-                        v-for='(employee, index) in this.getEmployeesList()'
+                        v-for='(employee, index) in this.getEmployeesList'
                         :employee='employee'
                         :key='index'
                     ></employeesList>
@@ -29,7 +29,7 @@ export default {
         employeesList,
         employeeInfo
     },
-    methods: {
+    computed: {
         ...mapGetters(
             ['getEmployeesList']
         )

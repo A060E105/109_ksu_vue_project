@@ -59,6 +59,85 @@ export const getRestDays = (state) => (month) => state.restDays[month];
 export const getOffDays = (state) => (month) => state.offDays[month];
 
 /**
- * 取得當前日期是否被修改的旗標
+ * 查詢員工在當前日期有沒有上班
+ *
+ * @param {string} e_id 員工ID
+ * @return {boolean} true or false
  */
-export const getChangeFlag = state => state.changeFlag;
+export const getDayWorkFlag = state => (e_id) => {
+    let temp = [];
+    let index = Object.keys(state.dayInfo);
+    index.forEach(element => {
+        temp.push(...state.dayInfo[element]);
+    });
+
+    let result = temp.some((item) => {
+        return item == e_id;
+    });
+
+    return result;
+}
+
+/**
+ * 取得員工所在的班別簡稱
+ *
+ * @param {string} e_id 員工ID
+ * @return {string} 班別簡稱
+ */
+export const getEmpClassName = state => (e_id) => {
+    let classID = '';
+    let index = Object.keys(state.dayInfo);
+    index.forEach(element => {
+        let flag = false;
+        flag = state.dayInfo[element].some(item => {
+            return item == e_id;
+        });
+        if (flag) {
+            classID = element;
+        }
+    });
+    return state.defaultClass[classID]['nick_name'];
+}
+
+/**
+ * 取得員工所在的班別ID
+ *
+ * @param {string} e_id 員工ID
+ * @return {string} 班別ID
+ */
+export const getEmpWorkClassID = state => (e_id) => {
+    let classID = '';
+    let index = Object.keys(state.dayInfo);
+    index.forEach(element => {
+        let flag = false;
+        flag = state.dayInfo[element].some(item => {
+            return item == e_id;
+        });
+        if (flag) {
+            classID = element;
+        }
+    });
+
+    return classID;
+}
+
+/**
+ * 取得當前班別ID
+ */
+export const getCurrentClassID = state => state.currentClassID;
+
+/**
+ * 查詢員工在當前日期是否有預排休假
+ *
+ * @param {string} e_id 員工ID
+ * @return {boolean} true or false
+ */
+export const get_isPreOff = state => (e_id) => {
+    if (state.workday_pre_off[e_id] == undefined) {
+        return false;
+    } else {
+        return state.workday_pre_off[e_id]["off_days"].some(item => {
+            return item == state.currentDate;
+        });
+    }
+}

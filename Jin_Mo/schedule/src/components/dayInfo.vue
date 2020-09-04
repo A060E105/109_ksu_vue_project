@@ -1,8 +1,7 @@
 <template>
     <div>
-        <button :class="{...myclass, 'btn-danger': this.getChangeFlag ? true: false}" @click="sendDayInfo()">save</button>
         <classInfo 
-            v-for="(data, id) in this.getDefaultClass()"
+            v-for="(data, id) in this.getDefaultClass"
             :classID='id'
             :employeesId="dayInfo[id]"
             :key='id'>
@@ -11,7 +10,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters } from 'vuex';
 import classInfo from './classInfo';
 import API from './http/api';
 import Swal from 'sweetalert2';
@@ -23,17 +22,16 @@ export default {
     },
     data() {
         return {
-            myclass: {
-                'btn': true,
-                'btn-outline-light': true
-                // 'btn-danger': true
-            }
+            // ...
         }
     },
     computed: {
-        ...mapGetters(['getChangeFlag']),
+        ...mapGetters([
+            'getDefaultClass',
+            'getDayInfo'
+        ]),
         dayInfo() {
-            let dayinfo = this.getDayInfo();
+            let dayinfo = this.getDayInfo;
             if (dayinfo == undefined) {
                 return {};
             } else {
@@ -46,32 +44,9 @@ export default {
                         dayinfo[element].push(e_id);
                     }
                 });
-                console.log(this.getDayInfo());
-                return this.getDayInfo();
+                console.log(this.getDayInfo);
+                return this.getDayInfo;
             }
-        }
-    },
-    methods: {
-        ...mapGetters([
-            'getDefaultClass',
-            'getDayInfo',
-            'getCurrentDate'
-        ]),
-        ...mapMutations(['setChangeFlag']),
-        sendDayInfo() {
-            API.setDayInfo(this.getCurrentDate(), this.getDayInfo()).then(response => {
-                console.log(response);
-                Swal.fire({
-                    icon: 'success',
-                    title: 'save success',
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-                this.setChangeFlag();
-            })
-            .catch(error => {
-                console.log(error);
-            })
         }
     }
 }

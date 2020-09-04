@@ -95,7 +95,6 @@ export const setDayInfo_add = (state, payload) => {
     console.log(state.dayInfo);
     state.dayInfo[payload.classID].push(payload.e_id);
     console.log(state.dayInfo);
-    state.changeFlag = true;
 }
 
 /**
@@ -105,22 +104,39 @@ export const setDayInfo_add = (state, payload) => {
  */
 export const setDayInfo_remove = (state, payload) => {
     state.dayInfo[payload.classID].splice(state.dayInfo[payload.classID].indexOf(payload.e_id), 1);
-    state.changeFlag = true;
 }
 
 /**
- * 將修改的旗標設置為false
+ * 設定當前班別ID
+ *
+ * @param {string} classID 班別ID
  */
-export const setChangeFlag = state => {
-    state.changeFlag = false;
+export const setCurrentClassID = (state, classID) => {
+    state.currentClassID = classID;
 }
+
+/**
+ * 設定當前月份員工預排休假日
+ *
+ * @param {object} pre_off 從伺服器取得的當前月份員工預排休假日
+ */
+export const setWorkDayPreOff = (state, pre_off) => {
+    state.workday_pre_off = formatDataKeys(pre_off, 'e_id');
+}
+
+
+/**
+ * ================================================================
+ *                      private methods
+ * ================================================================
+ */
 
 /**
  * 將例假日過濾掉，並轉換日期格式
  * 
  * @param {Array} data 
  */
-var filterData = (data) => {
+const filterData = (data) => {
     let newData = data.filter(function(item, index, array) {
         return item.holidayCategory != '星期六、星期日';
     });
