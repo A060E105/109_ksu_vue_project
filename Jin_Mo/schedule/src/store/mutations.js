@@ -124,6 +124,13 @@ export const setWorkDayPreOff = (state, pre_off) => {
     state.workday_pre_off = formatDataKeys(pre_off, 'e_id');
 }
 
+/**
+ * 設定當前月份資訊
+ * @param {object} monthInfo 從伺服器取得的當前月份資訊
+ */
+export const setMonthInfo = (state, monthInfo) => {
+    state.monthInfo = monthInfo;
+}
 
 /**
  * ================================================================

@@ -14,7 +14,18 @@ export const getAllInfo = ({ state, commit }) => {
         });
         API.getMonthInfo(state.currentDate).then(response => {
             commit('setWorkDayPreOff', response.data.workday_pre_off);
+            commit('setMonthInfo', response.data.monthInfo);
         });
     });
+}
 
+/**
+ * 更新當前月份資訊
+ */
+export const updateMonthInfo = ({ state, commit }) => {
+    API.getMonthInfo(state.currentDate).then(response => {
+        commit('setWorkDayPreOff', response.data.workday_pre_off);
+        commit('setMonthInfo', response.data.monthInfo);
+        console.log('update month info success');
+    });
 }

@@ -50,6 +50,9 @@
 #### workday_pre_off
 > 當前月份員工預排休假日
 
+#### monthInfo
+> 當月排班資訊
+
 
 ## mutations
 
@@ -119,8 +122,15 @@
 > ### `說明:`
 > 設定當前月份員工預排休假日
 > ### `參數:`
-> ### `pre_off`
+> #### `pre_off`
 > 從伺服器取得的當前月份員工預排休假日
+
+#### `setMonthInfo(monthInfo)`
+> ### `說明:`
+> 設定當前月份資訊
+> ### `參數:`
+> #### `monthInfo`
+> 從伺服器取得的當前月份資訊
 
 ### private
 
@@ -181,6 +191,10 @@
 #### `getAllInfo()`
 > ### `descirption:`
 > using API.getEmployees()，將結果傳入mutations中的`initilization`方法，並呼叫mutations中的`initCurrentDate`方法，初始化當前時間與當前月份，透過當前時間抓取當天的班別資訊與當前月份員工預排休假日
+
+#### `updateMonthInfo()`
+> ### `descirption:`
+> 更新當前月份資訊
 
 ## getters
 
@@ -297,3 +311,16 @@
 > 要查詢的員工ID
 > ### `return:`
 > true or false
+
+#### `getMonthInfo()(action, date)`
+> ### `descirption:`
+> 取得當前月份資訊，透過指令來取得不同的值
+> ### `parameters:`
+> #### `action`
+> 設為空值將回傳所有資訊，`keys`回傳當前月份有排班的日期陣列，`info`則回傳查詢日期的班別資訊
+> #### `date`
+> 當`action`設為`info`，傳入要查詢的日期
+> ### `return:`
+> `action`為空，回傳當前月份所有資訊，type is object
+> `action`為`keys`，回傳當前月份有排班的日期陣列，type is array
+> `action`為`info`，回傳查詢日期的班別資訊，type is array

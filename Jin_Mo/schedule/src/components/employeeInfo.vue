@@ -1,8 +1,14 @@
 <template>
     <div>
-        上班： {{ workday }}
+        <span class="font-weight-bold" style="font-size:20px">
+            <span>{{ e_name }}</span>
+            員工資訊
+        </span>
         <br>
-        休假： {{ offday }}
+        <hr class="bg-white">
+        上班天數： {{ workday }} 天
+        <br>
+        休假天數： {{ offday }}  天
     </div>
 </template>
 
@@ -17,9 +23,18 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(
-            ['getEmployeeInfo']
-        ),
+        ...mapGetters([
+            'getEmployeeInfo',
+            'getEmployeesList',
+            'getEmployee'
+        ]),
+        e_name() {
+            let name = '';
+            if (this.getEmployee != '') {
+                return this.getEmployeesList[this.getEmployee]['e_name'];
+            }
+            return name;
+        },
         workday() {
             let work = this.getEmployeeInfo['workday'];
             // check variable is not undefined or null

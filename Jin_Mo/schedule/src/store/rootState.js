@@ -36,7 +36,10 @@ const state = {
     currentClassID: '',
 
     // 當前月份員工預排休假日
-    workday_pre_off: {}
+    workday_pre_off: {},
+
+    // 當月排班資訊
+    monthInfo: {}
 };
 
 export default state;

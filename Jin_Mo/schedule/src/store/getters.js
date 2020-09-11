@@ -141,3 +141,34 @@ export const get_isPreOff = state => (e_id) => {
         });
     }
 }
+
+/**
+ * 取得當前月份資訊，透過指令來取得不同的值，`keys`取得當前月份有排班的日期陣列，
+ * `info`取得日期的班別人數資訊，若指令為空則回傳當前月份所有資訊
+ * 
+ * @param {string} action `keys`、`info`
+ * @param {string} date 當`action`為`info`時，需要傳入要查詢的日期
+ */
+export const getMonthInfo = state => (action, date) => {
+    switch (action) {
+        case 'keys':
+            let _keys = Object.keys(state.monthInfo);
+            return _keys;
+        case 'info':
+            let info = [];
+            let str = '';
+            let classID = Object.keys(state.monthInfo[date]);
+            classID.sort();
+            classID.forEach((element, index) => {
+                str = (index + 1) + '.';
+                str += state.defaultClass[element]['shift_name'];
+                str += ' (';
+                str += state.monthInfo[date][element].length;
+                str += ')';
+                info.push(str);
+            });
+            return info;
+        default:
+            return state.monthInfo;
+    }
+}

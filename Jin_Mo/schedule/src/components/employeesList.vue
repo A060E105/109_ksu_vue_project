@@ -4,8 +4,8 @@
             :class="{...myClass, active: (employee.e_id == currentEmployee) ? true : false}"
             @click="setStoreEmployee">
                 {{ name }}
-                <span class="badge badge-danger badge-pill">{{ off }}</span>
-                <span class='badge' style="background-color:#00CACA;">{{ work }}</span>
+                <span class="badge badge-danger badge-pill float-right">{{ off }}</span>
+                <span class='badge float-right' style="background-color:#00CACA;">{{ work }}</span>
         </button>
     </div>
 </template>

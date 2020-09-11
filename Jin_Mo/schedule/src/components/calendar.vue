@@ -1,5 +1,15 @@
 <template>
     <div class="container h-100">
+        <div class="border border-info my-1">
+        <b-form-group class="h3" label="顯示的資訊">
+        <b-form-checkbox-group
+            v-model="showSelected"
+            :options="options"
+            size="lg"
+            switches
+        ></b-form-checkbox-group>
+        </b-form-group>
+        </div>
         <FullCalendar 
             :options="calendarOptions" 
             ref="calendar"
@@ -23,6 +33,13 @@ export default {
     },
     data() {
         return {
+            showMonthInfoFlag: false,
+            showEmployeeInfoFlag: true,
+            showSelected: ['employee'],
+            options: [
+                { text: '整月資訊', value: 'month'},
+                { text: '員工資訊', value: 'employee'}
+            ],
             myClass: {
                 btn: true,
                 'btn-primary': true
@@ -69,8 +86,12 @@ export default {
             'getHoliday',
             'getToday',
             'getDefaultClass',
-            'getEmployeeInfo'
-        ])
+            'getEmployeeInfo',
+            'getMonthInfo'
+        ]),
+        MonthInfo() {
+            return this.getMonthInfo();
+        }
     },
     watch: {
         // watch store.state.employeeInfo
@@ -80,6 +101,34 @@ export default {
         currentMonth() {
             this.addRestDaysEvent();
             this.addOffDaysEvent();
+            this.updateMonthInfo();
+        },
+        MonthInfo() {
+            if (this.showMonthInfoFlag == true) {
+                this.addMonthInfoEvents();
+            }
+        },
+        showMonthInfoFlag() {
+            if (this.showMonthInfoFlag == true) {
+                this.addMonthInfoEvents();
+            } else {
+                this.removeEvents('monthInfo');
+            }
+        },
+        showEmployeeInfoFlag() {
+            if (this.showEmployeeInfoFlag == true) {
+                this.addEmployeeEvents();
+            } else {
+                this.removeEvents('employees');
+            }
+        },
+        showSelected() {
+            this.showMonthInfoFlag = this.showSelected.some(item => {
+                return item == 'month';
+            });
+            this.showEmployeeInfoFlag = this.showSelected.some(item => {
+                return item == 'employee';
+            });
         }
     },
     methods: {
@@ -224,11 +273,27 @@ export default {
                 });
             }
         },
+        addMonthInfoEvents() {
+            this.removeEvents('monthInfo');
+            let keys = this.getMonthInfo('keys');
+            keys.forEach(date => {
+                let info = this.getMonthInfo('info', date);
+                info.forEach(message => {
+                    this.calendarApi.addEvent({
+                        id: 'monthInfo',
+                        title: message,
+                        date: date,
+                        textColor: '#000',
+                        color: '#6FB7B7'
+                    });
+                });
+            });
+        },
         removeEvents(id) {
             let temp = this.calendarApi.getEvents();
             // console.log(temp);
             temp.forEach(event => {
-                console.log(event.id);
+                // console.log(event.id);
                 if (event.id === id)
                     event.remove();
             });
@@ -237,7 +302,8 @@ export default {
             'setCurrentDate',
             'setHoliday',
             'setDayInfo'
-        ])
+        ]),
+        ...mapActions(['updateMonthInfo'])
   }
 }
 </script>
