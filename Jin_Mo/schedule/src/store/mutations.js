@@ -84,17 +84,15 @@ export const setHoliday = (state, data) => {
  * @param {object} payload classID,e_id
  */
 export const setDayInfo_add = (state, payload) => {
-    console.log(state.dayInfo);
-    console.log('mutations class', payload.classID);
-    console.log('mutations id', payload.e_id);
+    // console.log('mutations class', payload.classID);
+    // console.log('mutations id', payload.e_id);
     // console.log('is undefined', (state.dayInfo[payload.classID] == undefined));
-    if (state.dayInfo[payload.classID] == undefined) {
+    if (state.monthInfo[state.currentDate][payload.classID] == undefined) {
         // state.dayInfo[payload.classID] = [];
-        Vue.set(state.dayInfo, payload.classID, []);
+        Vue.set(state.monthInfo[state.currentDate], payload.classID, []);
     }
-    console.log(state.dayInfo);
-    state.dayInfo[payload.classID].push(payload.e_id);
-    console.log(state.dayInfo);
+    state.monthInfo[state.currentDate][payload.classID].push(payload.e_id);
+    // console.log(state.monthInfo[state.currentDate]);
 }
 
 /**
@@ -103,7 +101,7 @@ export const setDayInfo_add = (state, payload) => {
  * @param {object} payload classID,e_id
  */
 export const setDayInfo_remove = (state, payload) => {
-    state.dayInfo[payload.classID].splice(state.dayInfo[payload.classID].indexOf(payload.e_id), 1);
+    state.monthInfo[state.currentDate][payload.classID].splice(state.monthInfo[state.currentDate][payload.classID].indexOf(payload.e_id), 1);
 }
 
 /**
@@ -131,6 +129,20 @@ export const setWorkDayPreOff = (state, pre_off) => {
 export const setMonthInfo = (state, monthInfo) => {
     state.monthInfo = monthInfo;
 }
+
+/**
+ * ===============================================================
+ *                  test public methods
+ * ===============================================================
+ */
+
+ export const test_setAddWorkDayInfo = (state, dayInfo) => {
+     // ...
+ }
+
+ export const test_setRemoveWork = (state, dayInfo) => {
+     // ...
+ }
 
 /**
  * ================================================================
@@ -224,7 +236,7 @@ const formatDataKeys = (data, key) => {
  */
 const getDateStr = (date) => {
     let dateStr = date.getFullYear();
-    if (date.getMonth() <= 9) {
+    if ((date.getMonth() + 1) <= 9) {
         dateStr += '-0' + (date.getMonth() + 1);
     } else {
         dateStr += '-' + (date.getMonth() + 1);

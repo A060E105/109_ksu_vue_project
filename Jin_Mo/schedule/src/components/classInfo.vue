@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
 import Swal from 'sweetalert2';
 import API from './http/api';
 
@@ -46,7 +46,6 @@ export default {
         },
         ...mapGetters([
             'getCurrentDate',
-            'getDayInfo',
             'getCurrentClassID',
             'getEmployeesList',
             'getDefaultClass',
@@ -55,7 +54,9 @@ export default {
     },
     methods: {
         ...mapMutations([
-            'setCurrentClassID',
+            'setCurrentClassID'
+        ]),
+        ...mapActions([
             'setDayInfo_remove'
         ]),
         touch() {
@@ -66,13 +67,10 @@ export default {
             }
         },
         remove(id) {
-            API.setDayInfo_remove(this.getCurrentDate, id).then(response => {
-                console.log(response);
-                this.setDayInfo_remove({
-                    classID: this.getEmpWorkClassID(id),
-                    e_id: id
-                });
-            })
+            this.setDayInfo_remove({
+                classID: this.getEmpWorkClassID(id),
+                e_id: id
+            });
         }
     }
 }

@@ -72,6 +72,7 @@ export default {
     },
     mounted() {
         this.calendarApi = this.$refs.calendar.getApi();
+        console.log('calendar api', this.calendarApi);
         console.log(this.calendarApi.getEvents());
 
         // test get calendar function
@@ -79,7 +80,7 @@ export default {
     },
     computed: {
         // store.state.employeeInfo
-        ...mapState(['employeeInfo', 'currentMonth']),
+        ...mapState(['currentEmployee', 'currentMonth']),
         ...mapGetters([
             'getRestDays',
             'getOffDays',
@@ -95,13 +96,14 @@ export default {
     },
     watch: {
         // watch store.state.employeeInfo
-        employeeInfo() {
+        currentEmployee() {
             this.addEmployeeEvents();
         },
         currentMonth() {
             this.addRestDaysEvent();
             this.addOffDaysEvent();
             this.updateMonthInfo();
+            // this.addEmployeeEvents();
         },
         MonthInfo() {
             if (this.showMonthInfoFlag == true) {
@@ -142,17 +144,17 @@ export default {
             //     date: info.dateStr
             // });
             this.setCurrentDate(info.dateStr);
-            API.getDayInfo(info.dateStr).then(response => {
-                console.log(response);
-                // because response data struct, so need to get object keys
-                let index = Object.keys(response.data.dayInfo);
-                let dayInfo = response.data.dayInfo[index];
-                // set store.state.dayInfo
-                this.setDayInfo(dayInfo);
-            })
-            .catch(error => {
-                console.log(error);
-            });
+            // API.getDayInfo(info.dateStr).then(response => {
+            //     console.log(response);
+            //     // because response data struct, so need to get object keys
+            //     let index = Object.keys(response.data.dayInfo);
+            //     let dayInfo = response.data.dayInfo[index];
+            //     // set store.state.dayInfo
+            //     this.setDayInfo(dayInfo);
+            // })
+            // .catch(error => {
+            //     console.log(error);
+            // });
             if (this.preDateInfo != null) {
                 console.log('today', this.getToday);
                 if (this.preDateInfo.dateStr == this.getToday)
@@ -168,6 +170,7 @@ export default {
             // event.event.remove();
             console.log(event.event.id);
             console.log(event.event.title);
+            this.setCurrentDate(event.event.startStr);
         },
         initHoliday() {
             // get origin holiday data

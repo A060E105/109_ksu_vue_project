@@ -3,6 +3,9 @@
         <div class="text-center">
             <h1>{{ getCurrentDate }}</h1>
         </div>
+        <div class="text-center">
+            <h1>當日資訊</h1>
+        </div>
         <hr class="bg-white">
         <dayInfo></dayInfo>
     </div>
@@ -25,14 +28,14 @@ export default {
     },
     methods: {
         ...mapActions(
-            ['getAllInfo']
+            ['initInfo']
         ),
         ...mapMutations(
             ['setCurrentClassID']
         )
     },
     mounted() {
-        this.getAllInfo();
+        this.initInfo();
         API.getEmployees().then(response => {
             console.log(response);
         })

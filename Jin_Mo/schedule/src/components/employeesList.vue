@@ -3,18 +3,22 @@
         <button type="button" 
             :class="{...myClass, active: (employee.e_id == currentEmployee) ? true : false}"
             @click="setStoreEmployee">
+                <!-- <span v-if="off == ''">
                 {{ name }}
-                <span class="badge badge-danger badge-pill float-right">{{ off }}</span>
+                </span> -->
+                <span :class="{ted1: (off) ? true : false}">
+                </span>
+                {{ name }}
                 <span class='badge float-right' style="background-color:#00CACA;">{{ work }}</span>
+                <!-- <span class="badge badge-danger badge-pill float-right">{{ off }}</span> -->
         </button>
     </div>
 </template>
 
 
 <script>
-import { mapMutations, mapState, mapGetters } from 'vuex';
+import { mapMutations, mapState, mapGetters, mapActions } from 'vuex';
 import API from './http/api';
-import Swal from 'sweetalert2';
 
 export default {
     name: 'employeesList',
@@ -23,6 +27,10 @@ export default {
     },
     data() {
         return {
+            offClass: {
+                'badge': true,
+                'badge-danger': true
+            },
             myClass: {
                 'list-group-item': true,
                 'list-group-item-action': true,
@@ -30,6 +38,16 @@ export default {
         }
     },
     computed: {
+        ...mapState(['currentEmployee']),
+        ...mapGetters([
+            'getDefaultClass',
+            'getDayWorkFlag',
+            'getEmpClassName',
+            'getCurrentDate',
+            'getCurrentClassID',
+            'getEmpWorkClassID',
+            'get_isPreOff'
+        ]),
         work() {
             let str = '';
             if (this.getDayWorkFlag(this.employee.e_id)) {
@@ -40,71 +58,49 @@ export default {
         off() {
             let str = '';
             if (this.get_isPreOff(this.employee.e_id)) {
-                str = 'off';
+                str = '預休';
             }
             // let str = 'off';
             return str;
         },
         name() {
             return this.employee.e_name;
-        },
-        ...mapState(['currentEmployee']),
-        ...mapGetters([
-            'getDefaultClass',
-            'getDayWorkFlag',
-            'getEmpClassName',
-            'getCurrentDate',
-            'getCurrentClassID',
-            'getEmpWorkClassID',
-            'get_isPreOff'
-        ])
+        }
     },
     methods: {
         ...mapMutations([
             'setEmployee',
-            'setEmployeeInfo',
+            'setEmployeeInfo'
+        ]),
+        ...mapActions([
             'setDayInfo_add',
             'setDayInfo_remove'
         ]),
         setStoreEmployee() {
             // set store.state.employee
             this.setEmployee(this.employee.e_id);
-            API.getEmpInfo(this.getCurrentDate, this.employee.e_id).then(response => {
-                console.log(response);
-                // set store.state.employeeInfo
-                this.setEmployeeInfo(response.data);
-            })
-            .catch(error => {
-                console.log(error);
-            });
 
             if (this.getCurrentClassID != '') {
                 if (this.getDayWorkFlag(this.employee.e_id)) {
-                    API.setDayInfo_remove(this.getCurrentDate, this.employee.e_id).then(response => {
-                        console.log(response);
-                        this.setDayInfo_remove({
-                            classID: this.getEmpWorkClassID(this.employee.e_id),
-                            e_id: this.employee.e_id
-                        });
-                    })
-                    .catch(error => {
-                        console.log(error);
+                    this.setDayInfo_remove({
+                        classID: this.getEmpWorkClassID(this.employee.e_id),
+                        e_id: this.employee.e_id
                     });
                 } else {
-                    API.setDayInfo_add(this.getCurrentDate, this.employee.e_id, this.getCurrentClassID)
-                    .then(response => {
-                        console.log(response);
-                        this.setDayInfo_add({
-                            classID: this.getCurrentClassID,
-                            e_id: this.employee.e_id
-                        });
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
+                    this.setDayInfo_add();
                 }
             }
         }
     }
 }
 </script>
+
+<style>
+.ted1 {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 10px 0 0;
+    border-color: #ff0000 transparent transparent transparent;
+}
+</style>

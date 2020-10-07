@@ -1,5 +1,8 @@
 <template>
     <div class='container bg-dark text-white h-100'>
+        <div class="">
+            <h1>員工列表</h1>
+        </div>
         <div class="row py-2 mx-1 my-height overflow-auto">
             <div class="col p-0  border">
                     <employeesList 

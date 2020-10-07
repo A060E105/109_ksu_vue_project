@@ -7,7 +7,33 @@ export const getCurrentDate = state => state.currentDate;
 /**
  * 取得當前員工資訊
  */
-export const getEmployeeInfo = state => state.employeeInfo;
+export const getEmployeeInfo = state => {
+    let result = {};
+    result['workday'] = {};
+    result['pre_off'] = [];
+    
+    if (state.currentEmployee != '') {
+        let index = Object.keys(state.monthInfo);
+        index.forEach(date => {
+            let classID = Object.keys(state.monthInfo[date]);
+            classID.forEach(c_id => {
+                let isWork = state.monthInfo[date][c_id].some(item => {
+                    return item == state.currentEmployee;
+                });
+                if (isWork) {
+                    result['workday'][date] = c_id;
+                }
+            });
+        });
+
+        if (state.workday_pre_off[state.currentEmployee] != undefined) {
+            result['pre_off'] = state.workday_pre_off[state.currentEmployee]['off_days'];
+        }
+        return result;
+    }
+
+    return result;
+}
 
 /**
  * 取得預設班別 
@@ -37,7 +63,9 @@ export const getEmployeesList = state => state.employeesList;
 /**
  * 取得當日資料
  */
-export const getDayInfo = state => state.dayInfo;
+export const getDayInfo = state => (date) => {
+    return state.monthInfo[date];
+}
 
 /**
  * 取得當前月份
@@ -66,9 +94,9 @@ export const getOffDays = (state) => (month) => state.offDays[month];
  */
 export const getDayWorkFlag = state => (e_id) => {
     let temp = [];
-    let index = Object.keys(state.dayInfo);
+    let index = Object.keys(state.monthInfo[state.currentDate]);
     index.forEach(element => {
-        temp.push(...state.dayInfo[element]);
+        temp.push(...state.monthInfo[state.currentDate][element]);
     });
 
     let result = temp.some((item) => {
@@ -86,10 +114,10 @@ export const getDayWorkFlag = state => (e_id) => {
  */
 export const getEmpClassName = state => (e_id) => {
     let classID = '';
-    let index = Object.keys(state.dayInfo);
+    let index = Object.keys(state.monthInfo[state.currentDate]);
     index.forEach(element => {
         let flag = false;
-        flag = state.dayInfo[element].some(item => {
+        flag = state.monthInfo[state.currentDate][element].some(item => {
             return item == e_id;
         });
         if (flag) {
@@ -107,10 +135,10 @@ export const getEmpClassName = state => (e_id) => {
  */
 export const getEmpWorkClassID = state => (e_id) => {
     let classID = '';
-    let index = Object.keys(state.dayInfo);
+    let index = Object.keys(state.monthInfo[state.currentDate]);
     index.forEach(element => {
         let flag = false;
-        flag = state.dayInfo[element].some(item => {
+        flag = state.monthInfo[state.currentDate][element].some(item => {
             return item == e_id;
         });
         if (flag) {
