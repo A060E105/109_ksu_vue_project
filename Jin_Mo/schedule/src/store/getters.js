@@ -94,6 +94,10 @@ export const getOffDays = (state) => (month) => state.offDays[month];
  */
 export const getDayWorkFlag = state => (e_id) => {
     let temp = [];
+    if (state.monthInfo[state.currentDate] == undefined) {
+        return false
+    }
+
     let index = Object.keys(state.monthInfo[state.currentDate]);
     index.forEach(element => {
         temp.push(...state.monthInfo[state.currentDate][element]);
